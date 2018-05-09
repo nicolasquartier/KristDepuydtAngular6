@@ -3,6 +3,7 @@
 # compiled output
 /dist
 /tmp
+/.tmp
 /out-tsc
 
 # dependencies
@@ -10,6 +11,7 @@
 
 # IDEs and editors
 /.idea
+**/*.iml
 .project
 .classpath
 .c9/

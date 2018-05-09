@@ -1,0 +1,39 @@
+nav {
+  text-align: left;
+  font-size: 22px;
+  position: relative;
+  top: 0px;
+  font-weight: 100;
+  height: 70px;
+}
+
+nav .container {
+  padding-left: 5px;
+}
+
+nav ul {
+  padding: 10px 0 0 0;
+  margin: 0 auto;
+  max-width: 980px;
+}
+
+nav ul li {
+  text-transform: uppercase;
+  list-item: none;
+  display: inline;
+  margin: 5px;
+  padding: 10px 15px;
+}
+
+nav ul li.active a {
+  color: #989898;
+}
+
+nav ul li.active a:hover {
+  text-decoration: none;
+}
+
+nav ul li a:hover {
+  color: #989898;
+  cursor: pointer;
+}
