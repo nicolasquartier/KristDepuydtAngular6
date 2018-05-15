@@ -1,0 +1,110 @@
+[
+  {
+    "year": "2017",
+    "name": "Manna Kunsthuis",
+    "description": "Heilige-Geeststraat 3, Brugge",
+    "hasPhotos": true
+  },
+  {
+    "year": "2017",
+    "name": "Kunst in het drop ART = TIC 5",
+    "description": "oc Ter Loo, Bellingen",
+    "hasPhotos": false
+  },
+  {
+    "year": "2017",
+    "name": "Vanuit de stilte",
+    "description": "Oude Kerk, Vichte",
+    "hasPhotos": true
+  },
+  {
+    "year": "2017",
+    "name": "Midwinterbeelden",
+    "description": "Galerij MHK sculpture-art, De Haan",
+    "hasPhotos": true
+  },
+
+
+
+  {
+    "year": "2016",
+    "name": "Klein Sculptuur",
+    "description": "cc Zwaneberg, Heist-op-den-berg",
+    "hasPhotos": false
+  },
+  {
+    "year": "2016",
+    "name": "Knoflook",
+    "description": "Kunst-wandeling, Heule",
+    "hasPhotos": false
+  },
+  {
+    "year": "2016",
+    "name": "Atelier Privé",
+    "description": "Ieper",
+    "hasPhotos": false
+  },
+  {
+    "year": "2016",
+    "name": "Kunstroute",
+    "description": "Kortemark",
+    "hasPhotos": false
+  },
+  {
+    "year": "2016",
+    "name": "Galerij Sabine Van Paemel",
+    "description": "",
+    "hasPhotos": false
+  },
+
+
+
+  {
+    "year": "2015",
+    "name": "Kunstroute",
+    "description": "Kortemark",
+    "hasPhotos": false
+  },
+
+
+
+  {
+    "year": "2014",
+    "name": "Groepstentoonstelling",
+    "description": "Garemijnzaal, Brugge",
+    "hasPhotos": false
+  },
+  {
+    "year": "2014",
+    "name": "Kunstroute",
+    "description": "Kortemark",
+    "hasPhotos": false
+  },
+
+
+
+  {
+    "year": "2013",
+    "name": "Kunstroute",
+    "description": "Kortemark",
+    "hasPhotos": false
+  },
+
+
+
+  {
+    "year": "2012",
+    "name": "PAND 33",
+    "description": "Rotselaar",
+    "hasPhotos": false
+  },
+
+
+
+  {
+    "year": "2011",
+    "name": "Kunstroute",
+    "description": "Kortemark",
+    "hasPhotos": false
+  }
+]
