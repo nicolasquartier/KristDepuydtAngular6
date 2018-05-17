@@ -2,3 +2,11 @@
   sculptuur works!
   {{ photos }}
 </p>
+  <table>
+  <tr>
+    <td>name</td>
+  </tr>
+  <tr *ngFor="let photoset of photoSets">
+    {{ photoset.title._content }}
+  </tr>
+</table>
