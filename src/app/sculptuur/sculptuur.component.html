@@ -1,12 +1,26 @@
-<p class="container">
-  sculptuur works!
-  {{ photos }}
-</p>
-  <table>
+<div class="container">
+
+  <ul>
+    <li class="image" *ngFor="let photoset of sculptuurPhotosets">
+      <a href="{{photoset.photos[0]}}" data-lightbox="{{photoset.name}}" data-title="{{photoset.name}}">
+        <img src="{{photoset.photos[0]}}"/>
+      </a>
+      <p class="SculptuurSummary"><b>{{photoset.title}}</b> - {{photoset.description}}</p>
+      <div class="extraBeelden">
+        <div class="beeld" ng-repeat="photo in photoset.photos" ng-if="$index > 0">
+          <a href="{{photo}}" data-lightbox="{{photoset.name}}" data-title="{{photoset.name}}">
+            <img src="{{photo}}"/>
+          </a>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+<table>
   <tr>
     <td>name</td>
   </tr>
-  <tr *ngFor="let photoset of photoSets">
-    {{ photoset.title._content }}
+  <tr *ngFor="let sculptuurPhotoset of sculptuurPhotosets">
+    {{ sculptuurPhotoset.title._content }}
   </tr>
 </table>
