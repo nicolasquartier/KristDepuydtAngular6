@@ -1,3 +1,9 @@
-<p>
-  projecten works!
-</p>
+<section id="photosKeramiek" class="photos">
+  <div class="container">
+    <ul>
+      <li class="image" *ngFor="let photo of projectenPhotos; let i = index">
+        <img [src]="photo.src" (click)="open(i)" alt="Keramiek">
+      </li>
+    </ul>
+  </div>
+</section>

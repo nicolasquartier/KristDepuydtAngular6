@@ -1,0 +1,8 @@
+#photosKeramiek.photos ul li.image {
+  float: left;
+  height: 150px;
+  list-style: outside none none;
+  margin-right: 10px;
+  padding: 0;
+  width: 200px;
+}
