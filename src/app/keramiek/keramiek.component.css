@@ -1,0 +1,82 @@
+#photosKeramiek.photos ul li.image {
+  float: left;
+  height: 150px;
+  list-style: outside none none;
+  margin-right: 10px;
+  padding: 0;
+  width: 200px;
+}
+
+.photos {
+
+}
+
+.photos ul li {
+}
+
+.photos ul {
+
+}
+
+.photos ul li.image {
+  /*float: left;*/
+  list-style: none;
+  /*margin-bottom: 40px;*/
+  padding: 0;
+  width: calc(100%);
+  height:160px;
+}
+
+.photos ul li.image a {
+  display: inline-block;
+  float: left;
+  height: 140px;
+  width: 200px;
+}
+
+.photos ul li.image p.SculptuurSummary {
+  /*float: left;*/
+  /*height: 161px;*/
+  /*left: 220px;*/
+  /*margin-left: 10px;*/
+  /*padding-top: 10px;*/
+  /*position: relative;*/
+  text-align: justify;
+  padding-left:220px;
+  padding-top:10px;
+  /*top: -166px;*/
+  width: 960px;
+}
+
+.photos ul li .pHolder {
+  color: WHITE;
+  float: left;
+  position: absolute;
+  text-align: center;
+  text-transform: uppercase;
+  width: 100%;
+  top: calc(45%);
+  font-weight: bolder;
+  font-size: 35px;
+  opacity: 0;
+}
+
+
+.photos ul li.image img {
+  position: relative;
+  object-fit: cover;
+  /*max-width:calc(100%);*/
+  /*width: calc(20%);*/
+  width: 200px;
+  height: 140px;
+  transition: .75s all;
+  float: left;
+
+  /*-webkit-background-size: cover;*/
+  /*-moz-background-size: cover;*/
+  /*-o-background-size: cover;*/
+  /*background-size: cover;*/
+  /*background-repeat: no-repeat;*/
+  /*background-position: 50% 50%;*/
+  overflow: hidden;
+}

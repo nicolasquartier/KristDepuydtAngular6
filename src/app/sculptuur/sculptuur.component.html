@@ -1,12 +1,5 @@
 <section id="photos" class="photos">
   <div class="container">
-
-    <div>
-      <div class="beeld">
-
-      </div>
-    </div>
-
     <ul>
       <li class="image" *ngFor="let photoset of sculptuurPhotosets">
         <img [src]="photoset.photos[0].src" width="110px" height="95px" (click)="open(photoset.photos, 0)">
