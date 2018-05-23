@@ -32,6 +32,10 @@ import { ContactComponent } from './contact/contact.component';
     LightboxModule,
     RouterModule.forRoot([
       {
+        path: 'about',
+        component: AboutComponent
+      },
+      {
         path: 'keramiek',
         component: KeramiekComponent
       },
