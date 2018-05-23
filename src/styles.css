@@ -10,6 +10,7 @@ body{
   font-family: 'simplifica', 'calibri', 'Arial', serif;
   background-color: #fefefe;
   color: #474747;
+  font-size: 14px;
 }
 
 body .container {
@@ -18,7 +19,34 @@ body .container {
   max-width: 960px;
 }
 
+section {
+  max-width: 960px;
+  margin: 0 auto;
+  font-family: "calibri";
+}
+
 a {
   text-decoration: none;
   color: #474747;
+}
+
+a.active, a.active:hover, a.inactive, a.inactive:hover {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:focus {
+  text-decoration: none;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
 }

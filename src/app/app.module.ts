@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {LightboxModule} from 'ngx-lightbox';
 
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
@@ -17,7 +18,8 @@ import {GlobalsService} from './globals.service';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    LightboxModule
   ],
   providers: [FlickrServiceService, GlobalsService],
   bootstrap: [AppComponent]
