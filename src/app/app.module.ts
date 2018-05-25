@@ -14,17 +14,21 @@ import { ProjectenComponent } from './projecten/projecten.component';
 import { AboutComponent } from './about/about.component';
 import { ExpositiesComponent } from './exposities/exposities.component';
 import { ContactComponent } from './contact/contact.component';
+import { LoginComponent } from './login/login.component';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent,
     SculptuurComponent,
     KeramiekComponent,
     ProjectenComponent,
     AboutComponent,
     ExpositiesComponent,
-    ContactComponent
+    ContactComponent,
+    MenuComponent,
+    LoginComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
