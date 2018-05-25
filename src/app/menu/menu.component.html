@@ -1,7 +1,7 @@
 <nav>
   <div class="container">
     <ul class="menu">
-      <li class="active"><a routerLink="/sculptuur">Sculptuur</a></li>
+      <li ngClass="{{activePage == 'sculptuur' ? 'active' : ''}}"><a routerLink="/sculptuur">Sculptuur</a></li>
       <li><a routerLink="/keramiek">Keramiek</a></li>
       <li><a routerLink="/projecten">Projecten</a></li>
       <li><a routerLink="/about">over</a></li>

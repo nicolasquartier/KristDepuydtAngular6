@@ -33,6 +33,8 @@ export class SculptuurComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.globals.activePage = 'sculptuur';
+    console.log(this.globals.activePage);
     this.flickrService.getPhotoSets()
       .subscribe(response => {
         const globalPhotosets = response.photosets.photoset;
@@ -95,7 +97,6 @@ export class SculptuurComponent implements OnInit {
   }
 
   open(photos: Array<IAlbum>, index: number): void {
-    console.log(photos);
     this._subscription = this._lightboxEvent.lightboxEvent$.subscribe((event: IEvent) => this._onReceivedEvent(event));
     // override the default config
     this._lightbox.open(photos, index, { wrapAround: true, showImageNumberLabel: true });
@@ -103,7 +104,6 @@ export class SculptuurComponent implements OnInit {
 
   private _onReceivedEvent(event: IEvent): void {
     if (event.id === LIGHTBOX_EVENT.CLOSE) {
-      console.log('close lightbox');
       this._subscription.unsubscribe();
     }
   }

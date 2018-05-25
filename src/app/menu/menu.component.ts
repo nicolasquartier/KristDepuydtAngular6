@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {GlobalsService} from '../globals.service';
 
 @Component({
   selector: 'app-menu',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
+  activePage = '';
 
-  constructor() { }
+  constructor(private globals: GlobalsService) { }
 
   ngOnInit() {
+    this.activePage = this.globals.activePage;
+    console.log('ap: ' + this.globals.activePage);
   }
-
 }
