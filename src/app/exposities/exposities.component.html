@@ -1,3 +1,26 @@
-<p>
-  exposities works!
-</p>
+<section id="exposities" class="exposities">
+  <div class="container">
+    <div class="test" *ngFor="let expositiePerYear of expositiesPerYear">
+      <h1>{{expositiePerYear.year}}</h1>
+      <ul>
+        <!--<li *ngFor="expositie of exposities" ngClass="$index == expositiePerYear.exposities.length - 1 ? 'last' : ''">-->
+        <li *ngFor="let expositie of expositiePerYear.exposities; let liIndex = index" ngClass="{{liIndex == expositiePerYear.exposities.length - 1 ? 'last' : ''}}">
+          <p class="title">{{expositie.name}}</p>
+          <p class="location" [hidden]="expositie.description == ''">- {{expositie.description}}</p>
+          <div *ngIf="expositie.hasPhotos == true" style="display: inline-block;">
+            <p class="date">
+              <a (click)="open(expositie.photo, 0)">(Foto's)</a>
+            </p>
+            <div class="extraBeelden">
+              <ul>
+                <li class="beeld" *ngFor="let photo of expositie.photo; let i = index">
+                  <img [src]="photo.src" (click)="open(expositie.photo, i)" alt="{{expositie.name}}">
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
