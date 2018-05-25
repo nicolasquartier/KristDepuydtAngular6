@@ -36,6 +36,14 @@ import { AdminComponent } from './admin/admin.component';
     LightboxModule,
     RouterModule.forRoot([
       {
+        path: 'login',
+        component: LoginComponent
+      },
+      {
+        path: 'admin',
+        component: AdminComponent
+      },
+      {
         path: 'projecten',
         component: ProjectenComponent
       },
