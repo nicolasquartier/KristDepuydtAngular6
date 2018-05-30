@@ -16,6 +16,7 @@ import { ExpositiesComponent } from './exposities/exposities.component';
 import { ContactComponent } from './contact/contact.component';
 import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
+import {AuthGuard} from './auth.guard';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { AdminComponent } from './admin/admin.component';
       },
       {
         path: 'admin',
-        component: AdminComponent
+        component: AdminComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'projecten',
@@ -73,7 +75,7 @@ import { AdminComponent } from './admin/admin.component';
       }
     ])
   ],
-  providers: [FlickrServiceService, GlobalsService],
+  providers: [FlickrServiceService, GlobalsService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
