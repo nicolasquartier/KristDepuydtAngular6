@@ -11,6 +11,10 @@ interface IsLoggedIn {
   status: boolean;
 }
 
+interface LogoutStatus {
+  success: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,5 +28,9 @@ export class UserService {
 
   isLoggedIn(): Observable<IsLoggedIn> {
     return this.http.get<IsLoggedIn>('/api/IsloggedIn.php');
+  }
+
+  logout() {
+    return this.http.get<LogoutStatus>('/api/logout.php');
   }
 }

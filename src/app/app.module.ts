@@ -18,6 +18,7 @@ import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import {AuthGuard} from './auth.guard';
 import {UserService} from './user.service';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import {UserService} from './user.service';
     ContactComponent,
     MenuComponent,
     LoginComponent,
-    AdminComponent
+    AdminComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
@@ -73,6 +75,10 @@ import {UserService} from './user.service';
       {
         path: '',
         component: SculptuurComponent
+      },
+      {
+        path: 'logout',
+        component: LogoutComponent
       }
     ])
   ],
