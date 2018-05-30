@@ -20,6 +20,12 @@ export class LoginComponent implements OnInit {
     const password = target.querySelector('#password').value;
 
     console.log(username, password);
+    this.authService.getUserDetails(username, password)
+      .subscribe(data => {
+        if (data.success) {
+          console.log(data.success);
+        }
+      });
   }
 
 }
