@@ -17,6 +17,7 @@ import { ContactComponent } from './contact/contact.component';
 import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import {AuthGuard} from './auth.guard';
+import {UserService} from './user.service';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,7 @@ import {AuthGuard} from './auth.guard';
       }
     ])
   ],
-  providers: [FlickrServiceService, GlobalsService, AuthGuard],
+  providers: [FlickrServiceService, GlobalsService, AuthGuard, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
