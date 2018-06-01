@@ -1,0 +1,54 @@
+<app-menu></app-menu>
+<section id="contact" class="contact" ng-controller="contactCtrl">
+  <form>
+    <p>
+      <img src="../../assets/images/AdminPanel/icon_grid_1x_edit.png" alt="edit" class="imgContactDetails edit"
+           id="btnEditContactName" (click)="edit($event)">
+      <img src="../../assets/images/AdminPanel/icon_grid_1x_save.png" alt="edit" class="imgContactDetails save"
+           id="btnSaveContactName" (click)="save($event)">
+      <input type="text" id="txtContactName" name="txtContactName" class="txtContactDetails" placeholder="Naam"
+             value="{{contactDetails.name}}">
+      <span id="spanContactName" class="contactDetailsText"><b>{{contactDetails.name}}</b></span>
+    </p>
+
+    <p>
+      <img src="../../assets/images/AdminPanel/icon_grid_1x_edit.png" alt="edit" class="imgContactDetails edit"
+           id="btnEditContactAddress" (click)="edit($event)">
+      <img src="../../assets/images/AdminPanel/icon_grid_1x_save.png" alt="edit" class="imgContactDetails save"
+           id="btnSaveContactAddress" (click)="save($event)">
+      <input type="text" id="txtContactAddress" name="txtContactAddress" class="txtContactDetails" placeholder="Adres"
+             value="{{contactDetails.address}}">
+      <span id="spanContactAddress" class="contactDetailsText">{{contactDetails.address}}</span>
+    </p>
+
+    <p>
+      <img src="../../assets/images/AdminPanel/icon_grid_1x_edit.png" alt="edit" class="imgContactDetails edit"
+           id="btnEditContactPhone" (click)="edit($event)">
+      <img src="../../assets/images/AdminPanel/icon_grid_1x_save.png" alt="edit" class="imgContactDetails save"
+           id="btnSaveContactPhone" (click)="save($event)">
+      <input type="text" id="txtContactPhone" name="txtContactPhone" class="txtContactDetails" placeholder="Telefoon"
+             value="{{contactDetails.phone}}">
+      <span id="spanContactPhone" class="contactDetailsText">{{contactDetails.phone}}</span>
+    </p>
+
+    <p>
+      <img src="../../assets/images/AdminPanel/icon_grid_1x_edit.png" alt="edit" class="imgContactDetails edit"
+           id="btnEditContactMobilePhone" (click)="edit($event)">
+      <img src="../../assets/images/AdminPanel/icon_grid_1x_save.png" alt="edit" class="imgContactDetails save"
+           id="btnSaveContactMobilePhone" (click)="save($event)">
+      <input type="text" id="txtContactMobilePhone" name="txtContactMobilePhone" class="txtContactDetails" placeholder="GSM"
+             value="{{contactDetails.mobilePhone}}">
+      <span id="spanContactMobilePhone" class="contactDetailsText">{{contactDetails.mobilePhone}}</span>
+    </p>
+
+    <p>
+      <img src="../../assets/images/AdminPanel/icon_grid_1x_edit.png" alt="edit" class="imgContactDetails edit"
+           id="btnEditContactEmail" (click)="edit($event)">
+      <img src="../../assets/images/AdminPanel/icon_grid_1x_save.png" alt="edit" class="imgContactDetails save"
+           id="btnSaveContactEmail" (click)="save($event)">
+      <input type="text" id="txtContactEmail" name="txtContactEmail" class="txtContactDetails" placeholder="E-mail"
+             value="{{contactDetails.email}}">
+      <span id="spanContactEmail" class="contactDetailsText">{{contactDetails.email}}</span>
+    </p>
+  </form>
+</section>

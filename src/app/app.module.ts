@@ -19,6 +19,7 @@ import { AdminComponent } from './admin/admin.component';
 import {AuthGuard} from './auth.guard';
 import {UserService} from './user.service';
 import { LogoutComponent } from './logout/logout.component';
+import { ContactBeherenComponent } from './contact-beheren/contact-beheren.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { LogoutComponent } from './logout/logout.component';
     MenuComponent,
     LoginComponent,
     AdminComponent,
-    LogoutComponent
+    LogoutComponent,
+    ContactBeherenComponent
   ],
   imports: [
     BrowserModule,
@@ -42,11 +44,6 @@ import { LogoutComponent } from './logout/logout.component';
       {
         path: 'login',
         component: LoginComponent
-      },
-      {
-        path: 'admin',
-        component: AdminComponent,
-        canActivate: [AuthGuard]
       },
       {
         path: 'projecten',
@@ -73,12 +70,22 @@ import { LogoutComponent } from './logout/logout.component';
         component: SculptuurComponent
       },
       {
+        path: 'logout',
+        component: LogoutComponent
+      },
+      {
         path: '',
         component: SculptuurComponent
       },
       {
-        path: 'logout',
-        component: LogoutComponent
+        path: 'admin',
+        component: AdminComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'contactBeheren',
+        component: ContactBeherenComponent,
+        canActivate: [AuthGuard]
       }
     ])
   ],

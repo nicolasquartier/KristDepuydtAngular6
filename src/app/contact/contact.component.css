@@ -1,0 +1,35 @@
+.contact {
+  width: 100%;
+  position: relative;
+  font-family: "calibri";
+  font-size: 15px;
+  height: 200px;
+  padding-left: 10px;
+  top: -15px;
+}
+
+.contact h1 {
+  font-family: "simplifica";
+  text-transform: uppercase;
+  font-weight: bolder;
+}
+
+.contact .facebookLink {
+  margin-left: -8px;
+  margin-top: -5px;
+}
+
+.contact .facebookLink a {
+  background: rgba(0, 0, 0, 0) url("../../assets/images/facebook.png") no-repeat scroll left center;
+  background-size: 45px;
+  display: block;
+  height: 100px;
+  margin: 0 auto;
+  text-indent: -9999px;
+  height: 40px;
+}
+
+.contact .facebookLink a:hover {
+  background: url("../../assets/images/facebookHover.png") no-repeat scroll left center rgba(0, 0, 0, 0);
+  background-size: 45px;
+}
