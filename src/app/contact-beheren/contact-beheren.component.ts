@@ -27,7 +27,7 @@ export class ContactBeherenComponent implements OnInit {
   constructor(private http: HttpClient) {
   }
 
-  ngOnInit() {
+  reloadContactDetails() {
     this.http.post<ContactData>('/api/getContactFromDB.php', {})
       .subscribe(data => {
         this.contactDetails.name = data.name;
@@ -38,6 +38,10 @@ export class ContactBeherenComponent implements OnInit {
       }, (error1 => {
         console.log('error from DB: ' + error1);
       }));
+  }
+
+  ngOnInit() {
+    this.reloadContactDetails();
 
     const spanTexts = document.querySelectorAll('.contactDetailsText');
     for (let i = 0; i < spanTexts.length; i++) {
@@ -81,6 +85,28 @@ export class ContactBeherenComponent implements OnInit {
 
     this.showText(target);
     this.showEditButtonAfterSave(target);
+    const contactName = (<HTMLInputElement>document.querySelector('#txtContactName')).value;
+    const contactAddress = (<HTMLInputElement>document.querySelector('#txtContactAddress')).value;
+    const contactPhone = (<HTMLInputElement>document.querySelector('#txtContactPhone')).value;
+    const contactMobilePhone = (<HTMLInputElement>document.querySelector('#txtContactMobilePhone')).value;
+    const contactEmail = (<HTMLInputElement>document.querySelector('#txtContactEmail')).value;
+
+    const updatedValue = '{\n' +
+      '  "name": "' + contactName + '",\n' +
+      '  "address": "' + contactAddress + '",\n' +
+      '  "phone": "' + contactPhone + '",\n' +
+      '  "mobilePhone": "' + contactMobilePhone + '",\n' +
+      '  "email":"' + contactEmail + '"\n' +
+      '}\n';
+
+    this.http.post('/api/updateContactFromDB.php', {updatedValue})
+      .subscribe(data => {
+        console.log(data);
+      }, error1 => {
+        console.log(error1);
+      });
+
+    this.reloadContactDetails();
   }
 
   private setAllTextDisabled() {
