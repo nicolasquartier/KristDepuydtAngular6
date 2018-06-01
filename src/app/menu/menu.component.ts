@@ -9,7 +9,7 @@ import {AuthService} from '../auth.service';
 })
 export class MenuComponent implements OnInit {
   activePage = '';
-  isLoggedIn = false;
+  showAdmin = '';
 
   constructor(private globals: GlobalsService,
               private auth: AuthService) { }
@@ -17,9 +17,12 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.activePage = this.globals.activePage;
     console.log('ap: ' + this.globals.activePage);
+    this.showAdmin = this.auth.isLoggedIn ? 'inline' : 'none';
+    console.log('showadmin: ' + this.showAdmin);
   }
 
   getLoggedInStatus() {
+    this.showAdmin = this.auth.isLoggedIn ? 'inline' : 'none';
     if (this.auth.isLoggedIn) {
       return 'inline';
     } else {
