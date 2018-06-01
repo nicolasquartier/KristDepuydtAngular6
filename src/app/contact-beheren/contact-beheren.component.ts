@@ -28,14 +28,16 @@ export class ContactBeherenComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.get<ContactData>('../assets/data/contact.json')
+    this.http.post<ContactData>('/api/getContactFromDB.php', {})
       .subscribe(data => {
         this.contactDetails.name = data.name;
         this.contactDetails.address = data.address;
         this.contactDetails.phone = data.phone;
         this.contactDetails.mobilePhone = data.mobilePhone;
         this.contactDetails.email = data.email;
-      });
+      }, (error1 => {
+        console.log('error from DB: ' + error1);
+      }));
 
     const spanTexts = document.querySelectorAll('.contactDetailsText');
     for (let i = 0; i < spanTexts.length; i++) {

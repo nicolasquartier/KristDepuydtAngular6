@@ -18,19 +18,6 @@ interface ExpositieWithPhotos {
   photo: Array<IAlbum>;
 }
 
-
-// interface Exposities {
-//   exposities: Array<Expositie>;
-//   length: number;
-// }
-//
-// interface Expositie {
-//   year: string;
-//   name: string;
-//   description: string;
-//   hasPhotos: boolean;
-// }
-
 @Component({
   selector: 'app-exposities',
   templateUrl: './exposities.component.html',

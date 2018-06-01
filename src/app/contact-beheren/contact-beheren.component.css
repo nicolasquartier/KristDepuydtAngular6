@@ -1,3 +1,13 @@
+.contact {
+  width: 100%;
+  position: relative;
+  font-family: "calibri";
+  font-size: 15px;
+  height: 200px;
+  padding-left: 10px;
+  top: -15px;
+}
+
 #contact .contactDetailsText {
   display: inline;
 }
@@ -10,9 +20,16 @@
   line-height: 25px;
 }
 
+#contact p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .imgContactDetails {
   max-width: 25px;
   cursor: pointer;
+  position: relative;
+  top:5px;
 }
 
 .edit {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {IAlbum} from 'ngx-lightbox';
+import {e} from '@angular/core/src/render3';
 
 interface Exposities {
   exposities: Array<Expositie>;
@@ -22,6 +23,6 @@ export class ExpositiesService {
   constructor(private http: HttpClient) { }
 
   getExposities() {
-    return this.http.get<Exposities>('../assets/data/exposities.json');
+    return this.http.post<Exposities>('/api/getExpositiesFromDB.php', {});
   }
 }
