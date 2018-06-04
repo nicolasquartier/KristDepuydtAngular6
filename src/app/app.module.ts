@@ -20,6 +20,7 @@ import {AuthGuard} from './auth.guard';
 import {UserService} from './user.service';
 import { LogoutComponent } from './logout/logout.component';
 import { ContactBeherenComponent } from './contact-beheren/contact-beheren.component';
+import { ExpositiesBeherenComponent } from './exposities-beheren/exposities-beheren.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ContactBeherenComponent } from './contact-beheren/contact-beheren.compo
     LoginComponent,
     AdminComponent,
     LogoutComponent,
-    ContactBeherenComponent
+    ContactBeherenComponent,
+    ExpositiesBeherenComponent
   ],
   imports: [
     BrowserModule,
