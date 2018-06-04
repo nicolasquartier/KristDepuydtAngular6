@@ -12,6 +12,7 @@ $outp = "[";
 while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
   if ($outp != "[") {$outp .= ",";}
   $outp .= '{"year":"'  . $rs["year"] . '",';
+  $outp .= '"id":"'. $rs["id"]     . '",';
   $outp .= '"name":"'   . $rs["name"]        . '",';
   $outp .= '"description":"'. $rs["description"]     . '",';
   $outp .= '"hasPhotos":"'. $rs["hasPhotos"]     . '"}';

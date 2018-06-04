@@ -12,6 +12,7 @@ interface ExpositiesPerYear {
 
 interface ExpositieWithPhotos {
   year: string;
+  id: number;
   name: string;
   description: string;
   hasPhotos: boolean;

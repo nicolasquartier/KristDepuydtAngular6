@@ -10,6 +10,7 @@ interface ExpositiesPerYear {
 
 interface ExpositieWithPhotos {
   year: string;
+  id: number;
   name: string;
   description: string;
   hasPhotos: boolean;
@@ -31,8 +32,7 @@ export class ExpositiesBeherenComponent implements OnInit {
               private expositiesService: ExpositiesService) {
   }
 
-  ngOnInit() {
-
+  reloadExposities() {
     this.expositiesService.getExposities()
       .subscribe(exposities => {
 
@@ -43,6 +43,7 @@ export class ExpositiesBeherenComponent implements OnInit {
         for (let i = 0; i < exposities.length; i++) {
           const expositie = {
             year: exposities[i].year,
+            id: exposities[i].id,
             name: exposities[i].name,
             description: exposities[i].description,
             hasPhotos: exposities[i].hasPhotos,
@@ -90,4 +91,155 @@ export class ExpositiesBeherenComponent implements OnInit {
 
   }
 
+  ngOnInit() {
+    this.reloadExposities();
+
+    const btnEdits = document.querySelectorAll('.edit');
+    for (let i = 0; i < btnEdits.length; i++) {
+      const btnEdit = btnEdits[i];
+      btnEdit.setAttribute('style', 'display: inline');
+    }
+
+    const spanTexts = document.querySelectorAll('.spanTitle');
+    for (let i = 0; i < spanTexts.length; i++) {
+      const spanText = spanTexts[i];
+      spanText.setAttribute('style', 'display: inline');
+    }
+
+    const inpuTexts = document.querySelectorAll('.spanLocation');
+    for (let i = 0; i < inpuTexts.length; i++) {
+      const inputText = inpuTexts[i];
+      inputText.setAttribute('style', 'display: inline');
+    }
+
+    const btnSaves = document.querySelectorAll('.save');
+    for (let i = 0; i < btnSaves.length; i++) {
+      const btnSave = btnSaves[i];
+      btnSave.setAttribute('style', 'display: none');
+    }
+
+    const txtTitles = document.querySelectorAll('.txtTitle');
+    for (let i = 0; i < txtTitles.length; i++) {
+      const txtTitle = txtTitles[i];
+      txtTitle.setAttribute('style', 'display: none');
+    }
+
+    const txtLocations = document.querySelectorAll('.txtLocation');
+    for (let i = 0; i < txtLocations.length; i++) {
+      const txtLocation = txtLocations[i];
+      txtLocation.setAttribute('style', 'display: none');
+    }
+  }
+
+  edit(event) {
+    event.preventDefault();
+    const target = event.target;
+    const name = this.getNameOfElement(target);
+    console.log('edit: ' + name);
+
+    this.save(event);
+    this.setAllBtnEditActive();
+    this.setAllInputTextDisabled();
+    this.toggleCurrentText(target);
+    this.toggleCurrentBtn(target);
+  }
+
+  save(event) {
+    event.preventDefault();
+    const target = event.target;
+    const name = this.getNameOfElement(target);
+    console.log('save: ' + name);
+  }
+
+  private getNameOfElement(target: any) {
+    const fullElementName = target.id;
+
+    // get name of element
+    const kindOfBtn = fullElementName.indexOf('btnEdit') > -1 ? 'btnEdit' : 'btnSave';
+    const parts = fullElementName.split(kindOfBtn);
+    return parts[parts.length - 1];
+  }
+
+  private setAllBtnEditActive() {
+    // show span
+    const btnEdits = document.querySelectorAll('.edit');
+    for (let i = 0; i < btnEdits.length; i++) {
+      const btnEdit = btnEdits[i];
+      btnEdit.setAttribute('style', 'display: inline');
+    }
+
+    // disable input texts
+    const btnSaves = document.querySelectorAll('.save');
+    for (let i = 0; i < btnSaves.length; i++) {
+      const btnSave = btnSaves[i];
+      btnSave.setAttribute('style', 'display: none');
+    }
+  }
+
+  private setAllInputTextDisabled() {
+    // show span
+    const spanTitleTexts = document.querySelectorAll('.spanTitle');
+    for (let i = 0; i < spanTitleTexts.length; i++) {
+      const spanText = spanTitleTexts[i];
+      spanText.setAttribute('style', 'display: inline');
+    }
+
+    const spanLocationTexts = document.querySelectorAll('.spanLocation');
+    for (let i = 0; i < spanLocationTexts.length; i++) {
+      const inpuText = spanLocationTexts[i];
+      inpuText.setAttribute('style', 'display: inline');
+    }
+
+    const inputTitleTexts = document.querySelectorAll('.txtTitle');
+    for (let i = 0; i < inputTitleTexts.length; i++) {
+      const inpuText = inputTitleTexts[i];
+      inpuText.setAttribute('style', 'display: none');
+    }
+
+    const inputLocationTexts = document.querySelectorAll('.txtLocation');
+    for (let i = 0; i < inputLocationTexts.length; i++) {
+      const inpuText = inputLocationTexts[i];
+      inpuText.setAttribute('style', 'display: none');
+    }
+  }
+
+  private toggleCurrentText(target: any) {
+    const id = this.getNameOfElement(target);
+    console.log('#txtLocation' + id);
+
+    // toggle span
+    const spanText = document.querySelector('#spanTitle' + id);
+    const styleSpanText = spanText.getAttribute('style') === 'display: inline' ? 'none' : 'inline';
+    spanText.setAttribute('style', 'display: ' + styleSpanText);
+
+    // toggle input
+    const txtInput = document.querySelector('#txtTitle' + id);
+    const styleTxtInput = txtInput.getAttribute('style') === 'display: inline' ? 'none' : 'inline';
+    txtInput.setAttribute('style', 'display: ' + styleTxtInput);
+
+    // toggle span
+    const spanLocation = document.querySelector('#spanLocation' + id);
+    const styleSpanLocation = spanLocation.getAttribute('style') === 'display: inline' ? 'none' : 'inline';
+    spanLocation.setAttribute('style', 'display: ' + styleSpanLocation);
+
+    // toggle input
+    const txtLocation = document.querySelector('#txtLocation' + id);
+    console.log(txtLocation);
+    const styleTxtLocation = txtLocation.getAttribute('style') === 'display: inline' ? 'none' : 'inline';
+    txtLocation.setAttribute('style', 'display: ' + styleTxtLocation);
+  }
+
+  private toggleCurrentBtn(target: any) {
+    const id = this.getNameOfElement(target);
+
+    // toggle span
+    const btnEdit = document.querySelector('#btnEdit' + id);
+    const stylebtnEdit = btnEdit.getAttribute('style') === 'display: inline' ? 'none' : 'inline';
+    btnEdit.setAttribute('style', 'display: ' + stylebtnEdit);
+
+    // toggle input
+    const btnSave = document.querySelector('#btnSave' + id);
+    const stylebtnSave = btnSave.getAttribute('style') === 'display: inline' ? 'none' : 'inline';
+    btnSave.setAttribute('style', 'display: ' + stylebtnSave);
+  }
 }

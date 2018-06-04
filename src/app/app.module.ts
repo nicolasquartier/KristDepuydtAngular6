@@ -88,6 +88,11 @@ import { ExpositiesBeherenComponent } from './exposities-beheren/exposities-behe
         path: 'contactBeheren',
         component: ContactBeherenComponent,
         canActivate: [AuthGuard]
+      },
+      {
+        path: 'expositiesBeheren',
+        component: ExpositiesBeherenComponent,
+        canActivate: [AuthGuard]
       }
     ])
   ],

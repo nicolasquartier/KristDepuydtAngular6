@@ -6,8 +6,16 @@
       <ul>
         <!--<li *ngFor="expositie of exposities" ngClass="$index == expositiePerYear.exposities.length - 1 ? 'last' : ''">-->
         <li *ngFor="let expositie of expositiePerYear.exposities; let liIndex = index" ngClass="{{liIndex == expositiePerYear.exposities.length - 1 ? 'last' : ''}}">
-          <p class="title">{{expositie.name}}</p>
-          <p class="location" [hidden]="expositie.description == ''">- {{expositie.description}}</p>
+          <img src="../../assets/images/AdminPanel/icon_grid_1x_edit.png" alt="edit" class="imgContactDetails edit"
+               id="btnEdit{{expositie.id}}" (click)="edit($event)">
+          <img src="../../assets/images/AdminPanel/icon_grid_1x_save.png" alt="edit" class="imgContactDetails save"
+               id="btnSave{{expositie.id}}" (click)="save($event)">
+          <span id="spanTitle{{expositie.id}}" class="spanTitle">{{expositie.name}}</span>
+          <input type="text" id="txtTitle{{expositie.id}}" name="txtTitle{{expositie.id}}" class="txtTitle" placeholder="Titel"
+                 value="{{expositie.name}}">
+          - <span id="spanLocation{{expositie.id}}" class="spanLocation" [hidden]="expositie.description == ''" >{{expositie.description}}</span>
+          <input type="text" id="txtLocation{{expositie.id}}" name="txtLocation{{expositie.id}}" class="txtLocation" placeholder="Locatie"
+                 value="{{expositie.description}}">
           <div *ngIf="expositie.hasPhotos == true" style="display: inline-block;">
             <p class="date">
               <a (click)="open(expositie.photo, 0)">(Foto's)</a>
