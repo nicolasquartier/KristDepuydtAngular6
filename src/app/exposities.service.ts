@@ -25,4 +25,8 @@ export class ExpositiesService {
   getExposities() {
     return this.http.post<Exposities>('/api/getExpositiesFromDB.php', {});
   }
+
+  editExpositie(id: number, title: string, location: string) {
+    return this.http.post('/api/editExpositie.php', {id: id, title: title, location: location});
+  }
 }

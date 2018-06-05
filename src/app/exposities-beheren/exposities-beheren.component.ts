@@ -33,6 +33,7 @@ export class ExpositiesBeherenComponent implements OnInit {
   }
 
   reloadExposities() {
+    console.log('reload');
     this.expositiesService.getExposities()
       .subscribe(exposities => {
 
@@ -86,7 +87,6 @@ export class ExpositiesBeherenComponent implements OnInit {
           }
         }
         this.expositiesPerYear.push({year: currentYear, exposities: expositiesPerYearTemp});
-        // console.log(this.expositiesPerYear);
       });
 
   }
@@ -131,24 +131,31 @@ export class ExpositiesBeherenComponent implements OnInit {
     }
   }
 
-  edit(event) {
+  edit(event, year: number ) {
     event.preventDefault();
     const target = event.target;
-    const name = this.getNameOfElement(target);
-    console.log('edit: ' + name);
 
-    this.save(event);
+    this.save(event, year);
     this.setAllBtnEditActive();
     this.setAllInputTextDisabled();
     this.toggleCurrentText(target);
     this.toggleCurrentBtn(target);
   }
 
-  save(event) {
+  save(event, year: number) {
     event.preventDefault();
     const target = event.target;
-    const name = this.getNameOfElement(target);
-    console.log('save: ' + name);
+    console.log(target);
+    const id = this.getNameOfElement(target);
+    console.log('save: ' + id);
+
+    this.showText(target);
+    this.showEditButtonAfterSave(target);
+
+    this.editExpositieInDB(id);
+
+    this.expositiesPerYear = [];
+    this.reloadExposities();
   }
 
   private getNameOfElement(target: any) {
@@ -241,5 +248,51 @@ export class ExpositiesBeherenComponent implements OnInit {
     const btnSave = document.querySelector('#btnSave' + id);
     const stylebtnSave = btnSave.getAttribute('style') === 'display: inline' ? 'none' : 'inline';
     btnSave.setAttribute('style', 'display: ' + stylebtnSave);
+  }
+
+  private showText (target) {
+    const name = this.getNameOfElement(target);
+
+    // toggle span
+    const spanTextTitle = document.querySelector('#spanTitle' + name);
+    spanTextTitle.setAttribute('style', 'display: inline');
+
+    // toggle input
+    const txtInputTitle = document.querySelector('#txtTitle' + name);
+    txtInputTitle.setAttribute('style', 'display: none');
+
+    // toggle span
+    const spanTextLocation = document.querySelector('#spanLocation' + name);
+    spanTextLocation.setAttribute('style', 'display: inline');
+
+    // toggle input
+    const txtInputLocation = document.querySelector('#txtLocation' + name);
+    txtInputLocation.setAttribute('style', 'display: none');
+  }
+
+  private showEditButtonAfterSave(target) {
+    const name = this.getNameOfElement(target);
+
+    // toggle btnEdit
+    const btnEdit = document.querySelector('#btnEdit' + name);
+    btnEdit.setAttribute('style', 'display: inline');
+
+    // toggle btnSave
+    const btnSave = document.querySelector('#btnSave' + name);
+    btnSave.setAttribute('style', 'display: none');
+  }
+
+
+
+  private editExpositieInDB(id) {
+    const txtUpdatedTitle = (<HTMLInputElement>document.querySelector('#txtTitle' + id)).value;
+    const txtUpdatedLocation = (<HTMLInputElement>document.querySelector('#txtLocation' + id)).value;
+    console.log(txtUpdatedTitle);
+    console.log(txtUpdatedLocation);
+
+    this.expositiesService.editExpositie(id, txtUpdatedTitle, txtUpdatedLocation)
+      .subscribe(response => {
+        console.log(response);
+      });
   }
 }

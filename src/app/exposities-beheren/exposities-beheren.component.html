@@ -5,13 +5,13 @@
       <h1>{{expositiePerYear.year}}</h1>
       <ul>
         <!--<li *ngFor="expositie of exposities" ngClass="$index == expositiePerYear.exposities.length - 1 ? 'last' : ''">-->
-        <li *ngFor="let expositie of expositiePerYear.exposities; let liIndex = index" ngClass="{{liIndex == expositiePerYear.exposities.length - 1 ? 'last' : ''}}">
+        <li *ngFor="let expositie of expositiePerYear.exposities; let liIndex = index;" ngClass="{{liIndex == expositiePerYear.exposities.length - 1 ? 'last' : ''}}">
           <img src="../../assets/images/AdminPanel/icon_grid_1x_edit.png" alt="edit" class="imgContactDetails edit"
-               id="btnEdit{{expositie.id}}" (click)="edit($event)">
+               id="btnEdit{{expositie.id}}" (click)="edit($event, expositie.year)">
           <img src="../../assets/images/AdminPanel/icon_grid_1x_save.png" alt="edit" class="imgContactDetails save"
-               id="btnSave{{expositie.id}}" (click)="save($event)">
+               id="btnSave{{expositie.id}}" (click)="save($event, expositie.year)">
           <span id="spanTitle{{expositie.id}}" class="spanTitle">{{expositie.name}}</span>
-          <input type="text" id="txtTitle{{expositie.id}}" name="txtTitle{{expositie.id}}" class="txtTitle" placeholder="Titel"
+          <input #liIndex type="text" id="txtTitle{{expositie.id}}" name="txtTitle{{expositie.id}}" class="txtTitle" placeholder="Titel"
                  value="{{expositie.name}}">
           - <span id="spanLocation{{expositie.id}}" class="spanLocation" [hidden]="expositie.description == ''" >{{expositie.description}}</span>
           <input type="text" id="txtLocation{{expositie.id}}" name="txtLocation{{expositie.id}}" class="txtLocation" placeholder="Locatie"
