@@ -34,6 +34,7 @@ export class ExpositiesBeherenComponent implements OnInit {
 
   reloadExposities() {
     console.log('reload');
+    // this.expositiesPerYear = [];
     this.expositiesService.getExposities()
       .subscribe(exposities => {
 
@@ -89,11 +90,6 @@ export class ExpositiesBeherenComponent implements OnInit {
         this.expositiesPerYear.push({year: currentYear, exposities: expositiesPerYearTemp});
       });
 
-  }
-
-  ngOnInit() {
-    this.reloadExposities();
-
     const btnEdits = document.querySelectorAll('.edit');
     for (let i = 0; i < btnEdits.length; i++) {
       const btnEdit = btnEdits[i];
@@ -129,6 +125,11 @@ export class ExpositiesBeherenComponent implements OnInit {
       const txtLocation = txtLocations[i];
       txtLocation.setAttribute('style', 'display: none');
     }
+
+  }
+
+  ngOnInit() {
+    this.reloadExposities();
   }
 
   edit(event, year: number ) {
@@ -154,7 +155,7 @@ export class ExpositiesBeherenComponent implements OnInit {
 
     this.editExpositieInDB(id);
 
-    this.expositiesPerYear = [];
+    // this.expositiesPerYear = [];
     this.reloadExposities();
   }
 
@@ -281,8 +282,6 @@ export class ExpositiesBeherenComponent implements OnInit {
     const btnSave = document.querySelector('#btnSave' + name);
     btnSave.setAttribute('style', 'display: none');
   }
-
-
 
   private editExpositieInDB(id) {
     const txtUpdatedTitle = (<HTMLInputElement>document.querySelector('#txtTitle' + id)).value;
