@@ -27,6 +27,7 @@ interface String {
 interface PhotoSetByIds {
   photoset: PhotoSetById;
 }
+
 interface PhotoSetById {
   id: string;
   owner: string;
@@ -54,12 +55,22 @@ interface Photo {
   title: string;
 }
 
+interface HmacSignResult {
+  result: string;
+}
+
+interface EncodedUrlResult {
+  encodedUrl: string;
+}
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class FlickrServiceService {
   photoSets = [];
+  nonce = '';
+  timestamp = '';
 
   constructor(private http: HttpClient, private globals: GlobalsService) {
     console.log('constructor flickrService');
@@ -71,5 +82,63 @@ export class FlickrServiceService {
 
   getPhotos(photosetId: any) {
     return this.http.get<PhotoSetByIds>('https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=' + this.globals.apiKey + '&photoset_id=' + photosetId + '&user_id=' + this.globals.userId + '&format=json&nojsoncallback=1');
+  }
+
+  getEncodedUrl(url: string) {
+    return this.http.post<EncodedUrlResult>('/api/urlencode.php', {url});
+  }
+
+  getBaseString() {
+    this.nonce = this.genNonce();
+    this.timestamp = new Date().getTime().toString();
+    const basestring = 'oauth_callback=http%3A%2F%2Flocalhost' +
+      '&oauth_consumer_key=' + this.globals.apiKey +
+      '&oauth_nonce=' + this.nonce +
+      '&oauth_signature_method=HMAC-SHA1' +
+      '&oauth_timestamp=' + this.timestamp  +
+      '&oauth_version=1.0';
+    return this.getEncodedUrl(basestring);
+  }
+
+  getOAuthToken() {
+    this.getBaseString()
+      .subscribe(baseString => {
+        const encodedBasestring =  'GET&' + this.globals.requestTokenBaseUrl + '&' + baseString.encodedUrl;
+        console.log('encoded baseString');
+        console.log(encodedBasestring);
+        return this.http.post<HmacSignResult>('/api/hmacsign.php', {encodedBasestring})
+          .subscribe(data2 => {
+            console.log('signature: ' + data2.result);
+            console.log(baseString);
+
+            this.http.get('https://www.flickr.com/services/oauth/request_token' +
+              '?oauth_callback=http%3A%2F%2Flocalhost' +
+              '&oauth_consumer_key=' + this.globals.apiKey +
+              '&oauth_nonce=' + this.nonce +
+              '&oauth_signature_method=HMAC-SHA1' +
+              '&oauth_timestamp=' + this.timestamp  +
+              '&oauth_version=1.0' +
+              '&oauth_signature=' + data2.result)
+              .subscribe(data1 => {
+                console.log('oauth token: ');
+                console.log(data1);
+              }, (error1 => {
+                console.log('error1: ');
+                console.log(error1);
+              }));
+          }, (error2 => {
+            console.log('error2');
+            console.log(error2);
+          }));
+      });
+  }
+
+  genNonce() {
+    // const charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._~';
+    const charset = '0123456789';
+    const result = [];
+    window.crypto.getRandomValues(new Uint8Array(8)).forEach(c =>
+      result.push(charset[c % charset.length]));
+    return result.join('');
   }
 }

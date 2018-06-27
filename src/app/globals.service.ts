@@ -4,10 +4,11 @@ import {Injectable} from '@angular/core';
   providedIn: 'root'
 })
 export class GlobalsService {
-  apiKey = '9ea2d6569a63be3a09b76b405b4a4631';
+  apiKey = '6337acd481870286e3d1087590ae665f';
   userId = '153009594%40N02';
   pages = ['sculptuur', 'keramiek', 'projecten', 'over', 'exposities', 'contact'];
   activePage = '';
+  requestTokenBaseUrl = 'https%3A%2F%2Fwww.flickr.com%2Fservices%2Foauth%2Frequest_token';
 
   constructor() {
   }
