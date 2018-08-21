@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {GlobalsService} from './globals.service';
 
 interface Response {
@@ -95,7 +95,7 @@ export class FlickrServiceService {
       '&oauth_consumer_key=' + this.globals.apiKey +
       '&oauth_nonce=' + this.nonce +
       '&oauth_signature_method=HMAC-SHA1' +
-      '&oauth_timestamp=' + this.timestamp  +
+      '&oauth_timestamp=' + this.timestamp +
       '&oauth_version=1.0';
     return this.getEncodedUrl(basestring);
   }
@@ -103,29 +103,55 @@ export class FlickrServiceService {
   getOAuthToken() {
     this.getBaseString()
       .subscribe(baseString => {
-        const encodedBasestring =  'GET&' + this.globals.requestTokenBaseUrl + '&' + baseString.encodedUrl;
-        console.log('encoded baseString');
-        console.log(encodedBasestring);
+        const encodedBasestring = 'GET&' + this.globals.requestTokenBaseUrl + '&' + baseString.encodedUrl;
+        // console.log('encoded baseString');
+        // console.log(encodedBasestring);
         return this.http.post<HmacSignResult>('/api/hmacsign.php', {encodedBasestring})
           .subscribe(data2 => {
             console.log('signature: ' + data2.result);
-            console.log(baseString);
+            // console.log(baseString);
 
-            this.http.get('https://www.flickr.com/services/oauth/request_token' +
-              '?oauth_callback=http%3A%2F%2Flocalhost' +
+            let url = 'https://www.flickr.com/services/oauth/request_token' +
+              '?oauth_nonce=' + this.nonce +
+              '&oauth_timestamp=' + this.timestamp +
               '&oauth_consumer_key=' + this.globals.apiKey +
-              '&oauth_nonce=' + this.nonce +
               '&oauth_signature_method=HMAC-SHA1' +
-              '&oauth_timestamp=' + this.timestamp  +
               '&oauth_version=1.0' +
-              '&oauth_signature=' + data2.result)
+              '&oauth_signature=' + data2.result +
+              '&oauth_callback=http%3A%2F%2Flocalhost';
+
+            let headers = new HttpHeaders({
+              'Accept': 'application/json',
+            });
+            let options = {headers: headers};
+
+            console.log('url:');
+            console.log(url);
+
+            this.http.post('/api/proxy.php', {url}, options)
               .subscribe(data1 => {
-                console.log('oauth token: ');
-                console.log(data1);
-              }, (error1 => {
-                console.log('error1: ');
-                console.log(error1);
-              }));
+              console.log('oauth token: ');
+              console.log(data1);
+            }, (error1 => {
+              console.log('error1: ');
+              console.log(error1);
+            }));
+
+            // this.http.get('https://www.flickr.com/services/oauth/request_token' +
+            //   '?oauth_callback=http%3A%2F%2Flocalhost' +
+            //   '&oauth_consumer_key=' + this.globals.apiKey +
+            //   '&oauth_nonce=' + this.nonce +
+            //   '&oauth_signature_method=HMAC-SHA1' +
+            //   '&oauth_timestamp=' + this.timestamp +
+            //   '&oauth_version=1.0' +
+            //   '&oauth_signature=' + data2.result)
+            //   .subscribe(data1 => {
+            //     console.log('oauth token: ');
+            //     console.log(data1);
+            //   }, (error1 => {
+            //     console.log('error1: ');
+            //     console.log(error1);
+            //   }));
           }, (error2 => {
             console.log('error2');
             console.log(error2);
