@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {GlobalsService} from './globals.service';
+import * as Rx from 'rxjs';
 
 interface Response {
   photosets: PhotoSets;
@@ -72,6 +73,14 @@ export class FlickrServiceService {
   nonce = '';
   timestamp = '';
 
+  mynewnonce = 0;
+
+  getNonceObservable = Rx.Observable.create((observer) => {
+    this.mynewnonce = Math.random();
+    observer.next(this.mynewnonce);
+    observer.complete();
+  });
+
   constructor(private http: HttpClient, private globals: GlobalsService) {
     console.log('constructor flickrService');
   }
@@ -101,6 +110,10 @@ export class FlickrServiceService {
   }
 
   getOAuthToken() {
+    console.log('mynewNonceViaObservable:');
+    this.getNonceObservable.subscribe();
+    console.log(this.mynewnonce);
+
     this.getBaseString()
       .subscribe(baseString => {
         const encodedBasestring = 'GET&' + this.globals.requestTokenBaseUrl + '&' + baseString.encodedUrl;
@@ -130,12 +143,12 @@ export class FlickrServiceService {
 
             this.http.post('/api/proxy.php', {url}, options)
               .subscribe(data1 => {
-              console.log('oauth token: ');
-              console.log(data1);
-            }, (error1 => {
-              console.log('error1: ');
-              console.log(error1);
-            }));
+                console.log('oauth token: ');
+                console.log(data1);
+              }, (error1 => {
+                console.log('error1: ');
+                console.log(error1);
+              }));
 
             // this.http.get('https://www.flickr.com/services/oauth/request_token' +
             //   '?oauth_callback=http%3A%2F%2Flocalhost' +
@@ -167,4 +180,5 @@ export class FlickrServiceService {
       result.push(charset[c % charset.length]));
     return result.join('');
   }
+
 }
