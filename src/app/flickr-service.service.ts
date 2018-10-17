@@ -102,6 +102,25 @@ export class FlickrServiceService {
     return this.http.post<EncodedUrlResult>('/api/urlencode.php', {url});
   }
 
+  getProxyResult(url: string, options: {headers?: HttpHeaders}) {
+    return this.http.post<ProxyResult>('/api/proxy.php', {url}, options)
+      .pipe(map(val => {
+          if (val.result === undefined) {
+            throw val;
+          }
+          return val;
+        }),
+        retryWhen(errors => {
+          return errors.pipe(
+            // log error message
+            tap(val => console.log(`Value ${val} was too high!`)),
+            // restart in 5 seconds
+            delayWhen(() => timer( 1000))
+          );
+        })
+      );
+  }
+
   getBaseString() {
     // this.nonce = this.genNonce();
     this.getNonceObservable.subscribe();
@@ -144,22 +163,7 @@ export class FlickrServiceService {
             console.log('url:');
             console.log(url);
 
-            this.http.post<ProxyResult>('/api/proxy.php', {url}, options)
-              .pipe(map(val => {
-                  if (val.result === undefined) {
-                    throw val;
-                  }
-                  return val;
-                }),
-                retryWhen(errors => {
-                  return errors.pipe(
-                    // log error message
-                    tap(val => console.log(`Value ${val} was too high!`)),
-                    // restart in 5 seconds
-                    delayWhen(() => timer( 1000))
-                  );
-                })
-              )
+            this.getProxyResult(url, options)
               .subscribe(data1 => {
                 console.log('oauth token: ');
                 console.log(data1);
@@ -168,22 +172,6 @@ export class FlickrServiceService {
                 console.log('error1: ');
                 console.log(error1);
               }));
-
-            // this.http.get('https://www.flickr.com/services/oauth/request_token' +
-            //   '?oauth_callback=http%3A%2F%2Flocalhost' +
-            //   '&oauth_consumer_key=' + this.globals.apiKey +
-            //   '&oauth_nonce=' + this.nonce +
-            //   '&oauth_signature_method=HMAC-SHA1' +
-            //   '&oauth_timestamp=' + this.timestamp +
-            //   '&oauth_version=1.0' +
-            //   '&oauth_signature=' + data2.result)
-            //   .subscribe(data1 => {
-            //     console.log('oauth token: ');
-            //     console.log(data1);
-            //   }, (error1 => {
-            //     console.log('error1: ');
-            //     console.log(error1);
-            //   }));
           }, (error2 => {
             console.log('error2');
             console.log(error2);
