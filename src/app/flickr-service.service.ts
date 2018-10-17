@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {GlobalsService} from './globals.service';
 import * as Rx from 'rxjs';
+import {timer} from 'rxjs';
+import {delayWhen, map, retryWhen, tap} from 'rxjs/operators';
 
 interface Response {
   photosets: PhotoSets;
@@ -64,6 +66,10 @@ interface EncodedUrlResult {
   encodedUrl: string;
 }
 
+interface ProxyResult {
+  result: string;
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -82,7 +88,6 @@ export class FlickrServiceService {
   });
 
   constructor(private http: HttpClient, private globals: GlobalsService) {
-    console.log('constructor flickrService');
   }
 
   getPhotoSets() {
@@ -98,11 +103,12 @@ export class FlickrServiceService {
   }
 
   getBaseString() {
-    this.nonce = this.genNonce();
+    // this.nonce = this.genNonce();
+    this.getNonceObservable.subscribe();
     this.timestamp = new Date().getTime().toString();
     const basestring = 'oauth_callback=http%3A%2F%2Flocalhost' +
       '&oauth_consumer_key=' + this.globals.apiKey +
-      '&oauth_nonce=' + this.nonce +
+      '&oauth_nonce=' + this.mynewnonce +
       '&oauth_signature_method=HMAC-SHA1' +
       '&oauth_timestamp=' + this.timestamp +
       '&oauth_version=1.0';
@@ -110,11 +116,8 @@ export class FlickrServiceService {
   }
 
   getOAuthToken() {
-    console.log('mynewNonceViaObservable:');
-    this.getNonceObservable.subscribe();
-    console.log(this.mynewnonce);
-
-    this.getBaseString()
+    // this.getNonceObservable.subscribe();
+    return this.getBaseString()
       .subscribe(baseString => {
         const encodedBasestring = 'GET&' + this.globals.requestTokenBaseUrl + '&' + baseString.encodedUrl;
         // console.log('encoded baseString');
@@ -125,7 +128,7 @@ export class FlickrServiceService {
             // console.log(baseString);
 
             let url = 'https://www.flickr.com/services/oauth/request_token' +
-              '?oauth_nonce=' + this.nonce +
+              '?oauth_nonce=' + this.mynewnonce +
               '&oauth_timestamp=' + this.timestamp +
               '&oauth_consumer_key=' + this.globals.apiKey +
               '&oauth_signature_method=HMAC-SHA1' +
@@ -141,10 +144,26 @@ export class FlickrServiceService {
             console.log('url:');
             console.log(url);
 
-            this.http.post('/api/proxy.php', {url}, options)
+            this.http.post<ProxyResult>('/api/proxy.php', {url}, options)
+              .pipe(map(val => {
+                  if (val.result === undefined) {
+                    throw val;
+                  }
+                  return val;
+                }),
+                retryWhen(errors => {
+                  return errors.pipe(
+                    // log error message
+                    tap(val => console.log(`Value ${val} was too high!`)),
+                    // restart in 5 seconds
+                    delayWhen(() => timer( 1000))
+                  );
+                })
+              )
               .subscribe(data1 => {
                 console.log('oauth token: ');
                 console.log(data1);
+                return data1;
               }, (error1 => {
                 console.log('error1: ');
                 console.log(error1);
@@ -172,13 +191,13 @@ export class FlickrServiceService {
       });
   }
 
-  genNonce() {
-    // const charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._~';
-    const charset = '0123456789';
-    const result = [];
-    window.crypto.getRandomValues(new Uint8Array(8)).forEach(c =>
-      result.push(charset[c % charset.length]));
-    return result.join('');
-  }
+  // genNonce() {
+  //   // const charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._~';
+  //   const charset = '0123456789';
+  //   const result = [];
+  //   window.crypto.getRandomValues(new Uint8Array(8)).forEach(c =>
+  //     result.push(charset[c % charset.length]));
+  //   return result.join('');
+  // }
 
 }
