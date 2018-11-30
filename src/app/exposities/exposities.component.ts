@@ -108,8 +108,21 @@ export class ExpositiesComponent implements OnInit {
             }
             this.expositiesPerYear.push({year: currentYear, exposities: expositiesPerYearTemp});
             // console.log(this.expositiesPerYear);
+            this.sortExpositiesFromNewToOld();
           });
       });
+  }
+
+  sortExpositiesFromNewToOld() {
+    this.expositiesPerYear.sort((a: any, b: any) => {
+      if (a.year < b.year) {
+        return 1;
+      }
+      if (a.year > b.year) {
+        return -1;
+      }
+      return 0;
+    });
   }
 
   open(photos: Array<IAlbum>, index: number): void {
