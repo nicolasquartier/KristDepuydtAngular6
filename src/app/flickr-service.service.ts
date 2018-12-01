@@ -190,7 +190,19 @@ export class FlickrServiceService {
                 this.errorRequesToken = false;
                 console.log('requesToken.result');
                 console.log(requesToken.result);
+
                 this.requesToken = requesToken.result;
+                const oauth_token = this.requesToken.substring(requesToken.result.indexOf('oauth_token='), requesToken.result.indexOf('&oauth_token_secret='));
+
+
+                console.log('oauth_token');
+                console.log(oauth_token);
+
+                const authorizatuinUrl = 'https://www.flickr.com/services/oauth/authorize?' + oauth_token;
+
+                console.log('authorizatuinUrl');
+                console.log(authorizatuinUrl);
+
               }, error1 => {
                 this.errorRequesToken = true;
                 console.log('error1');
