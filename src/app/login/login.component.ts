@@ -23,13 +23,10 @@ export class LoginComponent implements OnInit {
 
     this.authService.getUserDetails(username, password)
       .subscribe(data => {
-        console.log('data retrieved from getUserdetails() ' + data);
         if (data.success) {
-          console.log(data.success);
           this.authService.setLoggedIn(true);
           this.router.navigate(['admin']);
         }
       });
   }
-
 }
