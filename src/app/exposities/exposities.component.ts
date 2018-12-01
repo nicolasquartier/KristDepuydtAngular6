@@ -71,13 +71,12 @@ export class ExpositiesComponent implements OnInit {
                 photo: Array<IAlbum>()
               };
 
-              if (expositie.hasPhotos === true) {
+              if (expositie.hasPhotos === '1') {
                 for (let l = 0; l < this.photosetsTemp.length; l++) {
                   const id = this.photosetsTemp[l].id;
                   const name = this.photosetsTemp[l].name;
 
                   if (expositie.name.toUpperCase() === name.toUpperCase()) {
-
                     this.flickrService.getPhotos(id)
                       .subscribe(photosFromPhotoset => {
 
