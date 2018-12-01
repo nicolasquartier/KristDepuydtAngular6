@@ -112,7 +112,6 @@ export class FlickrServiceService {
       '&oauth_version=1.0';
   }
 
-
   getEncodedUrl(url: string) {
     return this.http.post<EncodedUrlResult>('/api/urlencode.php', {url})
       .pipe(map(response => {
@@ -185,14 +184,9 @@ export class FlickrServiceService {
       )
       .subscribe(tmpEncodedUrl => {
         this.encodedUrl = 'GET&' + this.globals.requestTokenBaseUrl + '&' + tmpEncodedUrl.encodedUrl;
-        console.log('encodedUrl: ');
-        console.log(this.encodedUrl);
         return this.getHmacSign(this.encodedUrl)
           .subscribe(hmacSignResponse => {
             this.hmacSignResponse = hmacSignResponse.result;
-            console.log('this.hmacSignResponse:   ');
-            console.log(this.hmacSignResponse);
-
             let url = 'https://www.flickr.com/services/oauth/request_token' +
               '?oauth_nonce=' + this.mynewnonce +
               '&oauth_timestamp=' + this.timestamp +
@@ -209,9 +203,6 @@ export class FlickrServiceService {
               // ,observe: 'response'
             };
 
-            console.log('url:');
-            console.log(url);
-
             this.getProxyResult(url, options)
               .subscribe(requesToken => {
                 this.errorRequesToken = false;
@@ -223,6 +214,7 @@ export class FlickrServiceService {
                 this.errorRequesToken = true;
                 console.log('error1');
                 console.log(error1);
+                // retry
 
               });
           });
