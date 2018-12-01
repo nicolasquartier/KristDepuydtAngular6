@@ -164,6 +164,7 @@ export class FlickrServiceService {
   }
 
   getOAuthToken() {
+    this.errorRequesToken = false;
     const baseUrl = this.getBaseString();
     return this.getEncodedUrl(baseUrl)
       .pipe(map(value => {
@@ -206,7 +207,6 @@ export class FlickrServiceService {
             this.getProxyResult(url, options)
               .subscribe(requesToken => {
                 this.errorRequesToken = false;
-                console.log('requesttoken received: ' + this.errorRequesToken);
                 console.log('requesToken.result');
                 console.log(requesToken.result);
                 this.requesToken = requesToken.result;
@@ -215,7 +215,7 @@ export class FlickrServiceService {
                 console.log('error1');
                 console.log(error1);
                 // retry
-
+                this.getOAuthToken();
               });
           });
       });
