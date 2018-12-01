@@ -81,6 +81,8 @@ export class FlickrServiceService {
   encodedUrl: string;
   hmacSignResponse: string;
   mynewnonce = 0;
+  errorRequesToken = false;
+  requesToken: any;
 
   getNonceObservable = Rx.Observable.create((observer) => {
     this.mynewnonce = Math.random();
@@ -137,40 +139,59 @@ export class FlickrServiceService {
   }
 
   getProxyResult(url: string, options: { headers?: HttpHeaders }) {
-    return this.http.post<HttpResponse<ProxyResult>>('/api/proxy.php', {url}, options)
-      .pipe(map(httpResponse => {
-          if (httpResponse.status !== 200) {
-            throw httpResponse;
-          }
-          if (httpResponse.body === undefined || httpResponse.body === null) {
-            throw httpResponse;
-          }
-          if (httpResponse.body.result === undefined || httpResponse.body.result === null) {
-            throw  httpResponse;
-          }
-          return httpResponse.body;
-        }),
-        retryWhen(errors => {
-          return errors.pipe(
-            // log error message
-            tap(val => console.log(val)),
-            // restart in 5 seconds
-            delayWhen(() => timer(500))
-          );
-        })
-      );
+    return this.http.post<ProxyResult>('/api/proxy.php', {url}, options);
+    // .pipe(map(httpResponse => {
+    //     if (httpResponse.status !== 200) {
+    //       throw httpResponse;
+    //     }
+    //     if (httpResponse.body === undefined || httpResponse.body === null) {
+    //       throw httpResponse;
+    //     }
+    //     if (httpResponse.body.result === undefined || httpResponse.body.result === null) {
+    //       throw  httpResponse;
+    //     }
+    //     this.requestTokenReceived = true;
+    //     return httpResponse.body;
+    //   }),
+    //   retryWhen(errors => {
+    //     return errors.pipe(
+    //       map(value => this.requestTokenReceived = false),
+    //       // log error message
+    //       tap(val => console.log(val)),
+    //       delayWhen(() => timer(500))
+    //     );
+    //   })
+    // );
   }
 
   getOAuthToken() {
-    // this.getNonceObservable.subscribe();
-
     const baseUrl = this.getBaseString();
-    this.getEncodedUrl(baseUrl)
+    return this.getEncodedUrl(baseUrl)
+      .pipe(map(value => {
+          if (this.errorRequesToken === true) {
+            throw value;
+          }
+          return value;
+        }),
+        retryWhen(errors => {
+          return errors.pipe(
+            tap(errorVal => {
+              console.log('error:   ');
+              console.log(errorVal);
+            }),
+            delayWhen(() => timer(5000))
+          );
+        })
+      )
       .subscribe(tmpEncodedUrl => {
-        this.encodedUrl = tmpEncodedUrl.encodedUrl;
-        this.getHmacSign(this.encodedUrl)
+        this.encodedUrl = 'GET&' + this.globals.requestTokenBaseUrl + '&' + tmpEncodedUrl.encodedUrl;
+        console.log('encodedUrl: ');
+        console.log(this.encodedUrl);
+        return this.getHmacSign(this.encodedUrl)
           .subscribe(hmacSignResponse => {
             this.hmacSignResponse = hmacSignResponse.result;
+            console.log('this.hmacSignResponse:   ');
+            console.log(this.hmacSignResponse);
 
             let url = 'https://www.flickr.com/services/oauth/request_token' +
               '?oauth_nonce=' + this.mynewnonce +
@@ -184,21 +205,31 @@ export class FlickrServiceService {
             let options = {
               headers: new HttpHeaders({
                 'Accept': 'application/json',
-              }),
-              observe: 'response'
+              })
+              // ,observe: 'response'
             };
 
             console.log('url:');
             console.log(url);
 
             this.getProxyResult(url, options)
-              .subscribe(proxyResponse => {
-                console.log('proxyResponse.result');
-                console.log(proxyResponse.result);
+              .subscribe(requesToken => {
+                this.errorRequesToken = false;
+                console.log('requesttoken received: ' + this.errorRequesToken);
+                console.log('requesToken.result');
+                console.log(requesToken.result);
+                this.requesToken = requesToken.result;
+              }, error1 => {
+                this.errorRequesToken = true;
+                console.log('error1');
+                console.log(error1);
+
               });
           });
       });
 
+
+    //BEFORE REFACTOR
     // return this.getBaseString()
     //   .subscribe(baseString => {
     //     const encodedBasestring = 'GET&' + this.globals.requestTokenBaseUrl + '&' + baseString.encodedUrl;

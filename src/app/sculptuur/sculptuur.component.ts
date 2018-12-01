@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {FlickrServiceService} from '../flickr-service.service';
 import {GlobalsService} from '../globals.service';
 import {IAlbum, IEvent, Lightbox, LIGHTBOX_EVENT, LightboxConfig, LightboxEvent} from 'ngx-lightbox';
 import {Subscription} from 'rxjs';
-
+import {delay} from 'rxjs/operators';
 
 
 interface PhotoSet {
@@ -32,11 +32,21 @@ export class SculptuurComponent implements OnInit {
               private _lighboxConfig: LightboxConfig) {
   }
 
+  async delay(ms: number) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve();
+      }, ms);
+    });
+  }
+
   ngOnInit() {
     this.globals.activePage = 'sculptuur';
-    console.log(this.globals.activePage);
-    const url = this.flickrService.getBaseString();
+    // const url = this.flickrService.getBaseString();
     const responseOauth = this.flickrService.getOAuthToken();
+    console.log('resp from flickr request token: ');
+    console.log(this.flickrService.requesToken);
+
     this.flickrService.getPhotoSets()
       .subscribe(response => {
         const globalPhotosets = response.photosets.photoset;
@@ -101,7 +111,7 @@ export class SculptuurComponent implements OnInit {
   open(photos: Array<IAlbum>, index: number): void {
     this._subscription = this._lightboxEvent.lightboxEvent$.subscribe((event: IEvent) => this._onReceivedEvent(event));
     // override the default config
-    this._lightbox.open(photos, index, { wrapAround: true, showImageNumberLabel: true });
+    this._lightbox.open(photos, index, {wrapAround: true, showImageNumberLabel: true});
   }
 
   private _onReceivedEvent(event: IEvent): void {
