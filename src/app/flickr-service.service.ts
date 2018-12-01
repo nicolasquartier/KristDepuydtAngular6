@@ -139,28 +139,6 @@ export class FlickrServiceService {
 
   getProxyResult(url: string, options: { headers?: HttpHeaders }) {
     return this.http.post<ProxyResult>('/api/proxy.php', {url}, options);
-    // .pipe(map(httpResponse => {
-    //     if (httpResponse.status !== 200) {
-    //       throw httpResponse;
-    //     }
-    //     if (httpResponse.body === undefined || httpResponse.body === null) {
-    //       throw httpResponse;
-    //     }
-    //     if (httpResponse.body.result === undefined || httpResponse.body.result === null) {
-    //       throw  httpResponse;
-    //     }
-    //     this.requestTokenReceived = true;
-    //     return httpResponse.body;
-    //   }),
-    //   retryWhen(errors => {
-    //     return errors.pipe(
-    //       map(value => this.requestTokenReceived = false),
-    //       // log error message
-    //       tap(val => console.log(val)),
-    //       delayWhen(() => timer(500))
-    //     );
-    //   })
-    // );
   }
 
   getOAuthToken() {
@@ -183,6 +161,9 @@ export class FlickrServiceService {
           );
         })
       )
+      .pipe(map(requestToken => {
+        return requestToken;
+      }))
       .subscribe(tmpEncodedUrl => {
         this.encodedUrl = 'GET&' + this.globals.requestTokenBaseUrl + '&' + tmpEncodedUrl.encodedUrl;
         return this.getHmacSign(this.encodedUrl)
@@ -219,59 +200,5 @@ export class FlickrServiceService {
               });
           });
       });
-
-
-    //BEFORE REFACTOR
-    // return this.getBaseString()
-    //   .subscribe(baseString => {
-    //     const encodedBasestring = 'GET&' + this.globals.requestTokenBaseUrl + '&' + baseString.encodedUrl;
-    //     // console.log('encoded baseString');
-    //     // console.log(encodedBasestring);
-    //     return this.http.post<HmacSignResult>('/api/hmacsign.php', {encodedBasestring})
-    //       .subscribe(data2 => {
-    //         console.log('signature: ' + data2.result);
-    //         // console.log(baseString);
-    //
-    //         let url = 'https://www.flickr.com/services/oauth/request_token' +
-    //           '?oauth_nonce=' + this.mynewnonce +
-    //           '&oauth_timestamp=' + this.timestamp +
-    //           '&oauth_consumer_key=' + this.globals.apiKey +
-    //           '&oauth_signature_method=HMAC-SHA1' +
-    //           '&oauth_version=1.0' +
-    //           '&oauth_signature=' + data2.result +
-    //           '&oauth_callback=http%3A%2F%2Flocalhost';
-    //
-    //         let headers = new HttpHeaders({
-    //           'Accept': 'application/json',
-    //         });
-    //         let options = {headers: headers};
-    //
-    //         console.log('url:');
-    //         console.log(url);
-    //
-    //         this.getProxyResult(url, options)
-    //           .subscribe(data1 => {
-    //             console.log('oauth token: ');
-    //             console.log(data1);
-    //             return data1;
-    //           }, (error1 => {
-    //             console.log('error1: ');
-    //             console.log(error1);
-    //           }));
-    //       }, (error2 => {
-    //         console.log('error2');
-    //         console.log(error2);
-    //       }));
-    //   });
   }
-
-  // genNonce() {
-  //   // const charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._~';
-  //   const charset = '0123456789';
-  //   const result = [];
-  //   window.crypto.getRandomValues(new Uint8Array(8)).forEach(c =>
-  //     result.push(charset[c % charset.length]));
-  //   return result.join('');
-  // }
-
 }
