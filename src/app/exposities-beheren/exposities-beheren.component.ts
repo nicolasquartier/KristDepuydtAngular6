@@ -88,6 +88,7 @@ export class ExpositiesBeherenComponent implements OnInit {
           }
         }
         this.expositiesPerYear.push({year: currentYear, exposities: expositiesPerYearTemp});
+        this.sortExpositiesFromNewToOld();
       });
 
     const btnEdits = document.querySelectorAll('.edit');
@@ -126,6 +127,18 @@ export class ExpositiesBeherenComponent implements OnInit {
       txtLocation.setAttribute('style', 'display: none');
     }
 
+  }
+
+  sortExpositiesFromNewToOld() {
+    this.expositiesPerYear.sort((a: any, b: any) => {
+      if (a.year < b.year) {
+        return 1;
+      }
+      if (a.year > b.year) {
+        return -1;
+      }
+      return 0;
+    });
   }
 
   ngOnInit() {
