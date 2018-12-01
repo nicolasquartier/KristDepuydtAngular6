@@ -17,7 +17,6 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.activePage = this.globals.activePage;
     this.showAdmin = this.auth.isLoggedIn ? 'inline' : 'none';
-    console.log('showadmin: ' + this.showAdmin);
   }
 
   getLoggedInStatus() {

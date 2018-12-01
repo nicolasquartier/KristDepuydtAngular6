@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {GlobalsService} from './globals.service';
 import * as Rx from 'rxjs';
 import {timer} from 'rxjs';
@@ -100,17 +100,14 @@ export class FlickrServiceService {
   }
 
   getBaseString() {
-    // this.nonce = this.genNonce();
     this.getNonceObservable.subscribe();
     this.timestamp = new Date().getTime().toString();
-    const basestring = 'oauth_callback=http%3A%2F%2Flocalhost' +
+    return 'oauth_callback=http%3A%2F%2Flocalhost' +
       '&oauth_consumer_key=' + this.globals.apiKey +
       '&oauth_nonce=' + this.mynewnonce +
       '&oauth_signature_method=HMAC-SHA1' +
       '&oauth_timestamp=' + this.timestamp +
       '&oauth_version=1.0';
-    return basestring;
-    // return this.getEncodedUrl(basestring);
   }
 
 
