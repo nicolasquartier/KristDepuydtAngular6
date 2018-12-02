@@ -94,6 +94,7 @@ export class FlickrServiceService {
   constructor(private http: HttpClient,
               private globals: GlobalsService) {
     console.log('this is the requestOauthSecret: ');
+    this.globals.hmacSigningSecret = localStorage.getItem('hmacSigningSecret');
     console.log(this.globals.hmacSigningSecret);
   }
 
@@ -140,9 +141,8 @@ export class FlickrServiceService {
       }));
   }
 
-  getHmacSign(encodedRequestTokenUrl: string) {
+  getHmacSign(encodedRequestTokenUrl: string, secret?: string) {
     console.log('secret used to hmac-sign request:');
-    const secret = this.globals.hmacSigningSecret;
     console.log(secret);
     return this.http.post<HmacSignResult>('/api/hmacsign.php', {encodedRequestTokenUrl, secret})
       .pipe(map(response => {
@@ -218,6 +218,7 @@ export class FlickrServiceService {
                 console.log(oauth_token);
                 console.log('oauth_secret');
                 this.globals.hmacSigningSecret = oauth_secret.substring(oauth_secret.indexOf('=') + 1, oauth_secret.length);
+                localStorage.setItem('hmacSigningSecret', this.globals.hmacSigningSecret);
                 console.log(this.globals.hmacSigningSecret);
 
                 const authorizatuinUrl = 'https://www.flickr.com/services/oauth/authorize?' + oauth_token;
@@ -267,7 +268,7 @@ export class FlickrServiceService {
         console.log('accesstoken encodedUrl');
         console.log(this.encodedUrl);
 
-        return this.getHmacSign(this.encodedUrl)
+        return this.getHmacSign(this.encodedUrl, this.globals.hmacSigningSecret)
           .subscribe(hmacSignResponse => {
             this.hmacSignResponse = hmacSignResponse.result;
             const url = 'https://www.flickr.com/services/oauth/access_token' +
