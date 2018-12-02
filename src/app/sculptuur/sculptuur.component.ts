@@ -42,10 +42,6 @@ export class SculptuurComponent implements OnInit {
 
   ngOnInit() {
     this.globals.activePage = 'sculptuur';
-    // const url = this.flickrService.getBaseString();
-    const responseOauth = this.flickrService.getOAuthToken();
-    console.log('resp from flickr request token: ');
-    console.log(this.flickrService.requesToken);
 
     this.flickrService.getPhotoSets()
       .subscribe(response => {

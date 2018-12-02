@@ -4,6 +4,7 @@ import {GlobalsService} from './globals.service';
 import * as Rx from 'rxjs';
 import {timer} from 'rxjs';
 import {delayWhen, map, retryWhen, tap} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 interface Response {
   photosets: PhotoSets;
@@ -90,7 +91,9 @@ export class FlickrServiceService {
     observer.complete();
   });
 
-  constructor(private http: HttpClient, private globals: GlobalsService) {
+  constructor(private http: HttpClient,
+              private globals: GlobalsService,
+              private router: Router) {
   }
 
   getPhotoSets() {
@@ -104,7 +107,7 @@ export class FlickrServiceService {
   getBaseString() {
     this.getNonceObservable.subscribe();
     this.timestamp = new Date().getTime().toString();
-    return 'oauth_callback=http%3A%2F%2Flocalhost' +
+    return 'oauth_callback=http%3A%2F%2Flocalhost%3A4200%2Fadmin' +
       '&oauth_consumer_key=' + this.globals.apiKey +
       '&oauth_nonce=' + this.mynewnonce +
       '&oauth_signature_method=HMAC-SHA1' +
@@ -176,7 +179,7 @@ export class FlickrServiceService {
               '&oauth_signature_method=HMAC-SHA1' +
               '&oauth_version=1.0' +
               '&oauth_signature=' + this.hmacSignResponse +
-              '&oauth_callback=http%3A%2F%2Flocalhost';
+              '&oauth_callback=http%3A%2F%2Flocalhost%3A4200%2Fadmin';
 
             let options = {
               headers: new HttpHeaders({
@@ -202,6 +205,8 @@ export class FlickrServiceService {
 
                 console.log('authorizatuinUrl');
                 console.log(authorizatuinUrl);
+
+                window.open(authorizatuinUrl, '_self');
 
               }, error1 => {
                 this.errorRequesToken = true;

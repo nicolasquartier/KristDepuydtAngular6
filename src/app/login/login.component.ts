@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../auth.service';
 import {Router} from '@angular/router';
+import {FlickrServiceService} from '../flickr-service.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,9 @@ import {Router} from '@angular/router';
 export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthService,
-              private router: Router) { }
+              private router: Router,
+              private flickrService: FlickrServiceService) {
+  }
 
   ngOnInit() {
   }
@@ -25,7 +28,10 @@ export class LoginComponent implements OnInit {
       .subscribe(data => {
         if (data.success) {
           this.authService.setLoggedIn(true);
-          this.router.navigate(['admin']);
+
+          const responseOauth = this.flickrService.getOAuthToken();
+          console.log('resp from flickr request token: ');
+          console.log(this.flickrService.requesToken);
         }
       });
   }
