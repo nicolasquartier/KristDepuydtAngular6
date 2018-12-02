@@ -83,6 +83,7 @@ export class FlickrServiceService {
   mynewnonce = 0;
   errorRequesToken = false;
   requesToken: any;
+  accessToken: any;
   errorAccessToken = false;
 
   getNonceObservable = Rx.Observable.create((observer) => {
@@ -226,7 +227,7 @@ export class FlickrServiceService {
                 console.log('authorizatuinUrl');
                 console.log(authorizatuinUrl);
 
-                // window.open(authorizatuinUrl, '_self');
+                window.open(authorizatuinUrl, '_self');
 
               }, error1 => {
                 this.errorRequesToken = true;
@@ -284,6 +285,7 @@ export class FlickrServiceService {
             console.log('accesstoken get url');
             console.log(url);
 
+
             const options = {
               headers: new HttpHeaders({
                 'Accept': 'application/json',
@@ -295,13 +297,27 @@ export class FlickrServiceService {
                 this.errorAccessToken = false;
                 console.log('accessToken.result');
                 console.log(accessToken.result);
+                this.accessToken = accessToken.result;
+
+                // fullname=Rudi%20Quartier&oauth_token=72157691952958304-1b231636a5d33b06&oauth_token_secret=f1814d8cf34911a7&user_nsid=146453494%40N06&username=rudiquartier
+                const oauth_token = this.accessToken.substring(accessToken.result.indexOf('oauth_token='), accessToken.result.indexOf('&oauth_token_secret='));
+                const oauth_token_secret = this.accessToken.substring(accessToken.result.indexOf('oauth_token_secret='), accessToken.result.indexOf('&user_nsid'));
+                this.globals.hmacSigningSecret = oauth_token_secret.substring(oauth_token_secret.indexOf('=') + 1, oauth_token_secret.length);
+                this.globals.oauthToken = oauth_token.substring(oauth_token.indexOf('=') + 1, oauth_token.length)
+                localStorage.setItem('hmacSigningSecret', this.globals.hmacSigningSecret);
+                localStorage.setItem('oauth_token', this.globals.oauthToken);
+
+                console.log('oauth_token:');
+                console.log(this.globals.oauthToken);
+                console.log('oauth_token_secret: ');
+                console.log(this.globals.hmacSigningSecret);
 
               }, errorAccessToken => {
                 this.errorAccessToken = true;
                 console.log('error fetching accessToken');
                 console.log(errorAccessToken);
                 // retry
-                // this.getOAuthAccessToken(oauthToken, oauthVerifier);
+                this.getOAuthAccessToken(oauthToken, oauthVerifier);
               });
           });
       });
