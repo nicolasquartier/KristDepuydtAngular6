@@ -9,7 +9,6 @@ export class GlobalsService {
   pages = ['sculptuur', 'keramiek', 'projecten', 'over', 'exposities', 'contact'];
   activePage = '';
   requestTokenBaseUrl = 'https%3A%2F%2Fwww.flickr.com%2Fservices%2Foauth%2Frequest_token';
-
-  constructor() {
-  }
+  accessTokenBaseUrl = 'https%3A%2F%2Fwww.flickr.com%2Fservices%2Foauth%2Faccess_token';
+  hmacSigningSecret = '';
 }

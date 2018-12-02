@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
         if (data.success) {
           this.authService.setLoggedIn(true);
 
-          const responseOauth = this.flickrService.getOAuthToken();
+          const responseOauth = this.flickrService.getOAuthRequestToken();
           console.log('resp from flickr request token: ');
           console.log(this.flickrService.requesToken);
         }
