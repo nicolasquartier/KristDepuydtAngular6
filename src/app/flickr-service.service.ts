@@ -157,8 +157,12 @@ export class FlickrServiceService {
         }));
   }
 
-  getProxyResult(url: string, options: { headers?: HttpHeaders }) {
-    return this.http.post<ProxyResult>('/api/proxy.php', {url}, options);
+  getObjectResultViaProxy(url: string, options: { headers?: HttpHeaders }) {
+    return this.http.post<ProxyResult>('/api/proxy_object_result.php', {url}, options);
+  }
+
+  getResultViaProxy(url: string, options: { headers?: HttpHeaders }) {
+    return this.http.post<ProxyResult>('/api/proxy_result.php', {url}, options);
   }
 
   getOAuthRequestToken() {
@@ -205,7 +209,7 @@ export class FlickrServiceService {
               // ,observe: 'response'
             };
 
-            this.getProxyResult(url, options)
+            this.getObjectResultViaProxy(url, options)
               .subscribe(requesToken => {
                 this.errorRequesToken = false;
                 console.log('requesToken.result');
@@ -292,7 +296,7 @@ export class FlickrServiceService {
               })
             };
 
-            this.getProxyResult(url, options)
+            this.getObjectResultViaProxy(url, options)
               .subscribe(accessToken => {
                 this.errorAccessToken = false;
                 console.log('accessToken.result');
@@ -303,7 +307,7 @@ export class FlickrServiceService {
                 const oauth_token = this.accessToken.substring(accessToken.result.indexOf('oauth_token='), accessToken.result.indexOf('&oauth_token_secret='));
                 const oauth_token_secret = this.accessToken.substring(accessToken.result.indexOf('oauth_token_secret='), accessToken.result.indexOf('&user_nsid'));
                 this.globals.hmacSigningSecret = oauth_token_secret.substring(oauth_token_secret.indexOf('=') + 1, oauth_token_secret.length);
-                this.globals.oauthToken = oauth_token.substring(oauth_token.indexOf('=') + 1, oauth_token.length)
+                this.globals.oauthToken = oauth_token.substring(oauth_token.indexOf('=') + 1, oauth_token.length);
                 localStorage.setItem('hmacSigningSecret', this.globals.hmacSigningSecret);
                 localStorage.setItem('oauth_token', this.globals.oauthToken);
 
@@ -312,6 +316,8 @@ export class FlickrServiceService {
                 console.log('oauth_token_secret: ');
                 console.log(this.globals.hmacSigningSecret);
 
+                this.getTestLogin();
+
               }, errorAccessToken => {
                 this.errorAccessToken = true;
                 console.log('error fetching accessToken');
@@ -319,6 +325,81 @@ export class FlickrServiceService {
                 // retry
                 this.getOAuthAccessToken(oauthToken, oauthVerifier);
               });
+          });
+      });
+  }
+
+  private getTestLogin() {
+
+    //https://api.flickr.com/services/rest
+    // ?nojsoncallback=1 &oauth_nonce=84354935
+    // &format=json
+    // &oauth_consumer_key=653e7a6ecc1d528c516cc8f92cf98611
+    // &oauth_timestamp=1305583871
+    // &oauth_signature_method=HMAC-SHA1
+    // &oauth_version=1.0
+    // &oauth_token=72157626318069415-087bfc7b5816092c
+    // &oauth_signature=dh3pEH0Xk1qILr82HyhOsxRv1XA%3D
+    // &method=flickr.test.login
+
+    console.log('test login');
+
+    this.getNonceObservable.subscribe();
+    this.timestamp = new Date().getTime().toString();
+    const baseUrlForTestLogin =
+      'format=json' +
+      '&method=flickr.test.login' +
+      '&nojsoncallback=1' +
+      '&oauth_consumer_key=' + this.globals.apiKey +
+      '&oauth_nonce=' + this.mynewnonce +
+      '&oauth_signature_method=HMAC-SHA1' +
+      '&oauth_timestamp=' + this.timestamp +
+      '&oauth_token=' + this.globals.oauthToken +
+      '&oauth_version=1.0';
+
+    this.getEncodedUrl(baseUrlForTestLogin)
+      .subscribe(tmpTestLoginEncodedUrl => {
+        this.encodedUrl = 'GET&' + this.globals.basicRestRequestUrl + '&' + tmpTestLoginEncodedUrl.encodedUrl;
+
+        console.log('request testLogin encodedUrl');
+        console.log(this.encodedUrl);
+
+        return this.getHmacSign(this.encodedUrl, this.globals.hmacSigningSecret)
+          .subscribe(hmacSignResponse => {
+            this.hmacSignResponse = hmacSignResponse.result;
+            const url = 'https://api.flickr.com/services/rest' +
+              '?nojsoncallback=1' +
+              '&oauth_nonce=' + this.mynewnonce +
+              '&format=json' +
+              '&oauth_consumer_key=' + this.globals.apiKey +
+              '&oauth_timestamp=' + this.timestamp +
+              '&oauth_signature_method=HMAC-SHA1' +
+              '&oauth_version=1.0' +
+              '&oauth_token=' + this.globals.oauthToken +
+              '&oauth_signature=' + this.hmacSignResponse +
+              '&method=flickr.test.login';
+
+            console.log('request testLogin url');
+            console.log(url);
+
+            const options = {
+              headers: new HttpHeaders({
+                'Accept': 'application/json+charset=UTF-8',
+              })
+            };
+
+            this.getResultViaProxy(url, options)
+              .subscribe(resultTestLogin => {
+                console.log('resultTestLogin');
+                console.log(resultTestLogin);
+
+              }, errorTestLogin => {
+                console.log('errorTestLogin');
+                console.log(errorTestLogin);
+                // retry
+                this.getTestLogin();
+              });
+
           });
       });
   }
