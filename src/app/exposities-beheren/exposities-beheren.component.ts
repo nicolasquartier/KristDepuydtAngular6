@@ -23,6 +23,7 @@ interface ExpositieWithPhotos {
   styleUrls: ['./exposities-beheren.component.css']
 })
 export class ExpositiesBeherenComponent implements OnInit {
+  reloading = false;
   photos: Array<IAlbum> = [];
   photosetsTemp = [];
   pageTitle = 'Exposities';
@@ -34,7 +35,8 @@ export class ExpositiesBeherenComponent implements OnInit {
 
   reloadExposities() {
     console.log('reload');
-    // this.expositiesPerYear = [];
+    this.reloading = true;
+    this.expositiesPerYear = [];
     this.expositiesService.getExposities()
       .subscribe(exposities => {
 
@@ -78,6 +80,7 @@ export class ExpositiesBeherenComponent implements OnInit {
 
           if (currentYear !== expositie.year) {
             if (expositiesPerYearTemp.length > 0) {
+              console.log('add ' + currentYear);
               this.expositiesPerYear.push({year: currentYear, exposities: expositiesPerYearTemp});
               expositiesPerYearTemp = [];
             }
@@ -87,8 +90,10 @@ export class ExpositiesBeherenComponent implements OnInit {
             expositiesPerYearTemp.push(expositie);
           }
         }
+        console.log('add ' + currentYear);
         this.expositiesPerYear.push({year: currentYear, exposities: expositiesPerYearTemp});
         this.sortExpositiesFromNewToOld();
+        this.reloading = false;
       });
 
     const btnEdits = document.querySelectorAll('.edit');
@@ -145,15 +150,24 @@ export class ExpositiesBeherenComponent implements OnInit {
     this.reloadExposities();
   }
 
-  edit(event, year: number ) {
+  async edit(event, year: number) {
     event.preventDefault();
     const target = event.target;
 
+    this.reloading = true;
     this.save(event, year);
+    while (this.reloading) {
+      console.log('still reloading');
+      await this.delay(500);
+    }
     this.setAllBtnEditActive();
     this.setAllInputTextDisabled();
     this.toggleCurrentText(target);
     this.toggleCurrentBtn(target);
+  }
+
+  async delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   save(event, year: number) {
@@ -264,7 +278,7 @@ export class ExpositiesBeherenComponent implements OnInit {
     btnSave.setAttribute('style', 'display: ' + stylebtnSave);
   }
 
-  private showText (target) {
+  private showText(target) {
     const name = this.getNameOfElement(target);
 
     // toggle span
