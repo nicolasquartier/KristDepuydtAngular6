@@ -10,6 +10,7 @@ export class GlobalsService {
   activePage = '';
   requestTokenBaseUrl = 'https%3A%2F%2Fwww.flickr.com%2Fservices%2Foauth%2Frequest_token';
   accessTokenBaseUrl = 'https%3A%2F%2Fwww.flickr.com%2Fservices%2Foauth%2Faccess_token';
+  basicRestRequestUrl = 'https%3A%2F%2Fapi.flickr.com%2Fservices%2Frest';
   hmacSigningSecret = '';
   oauthToken = '';
 }
