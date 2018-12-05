@@ -95,6 +95,10 @@ import { SculptuurBeherenComponent } from './sculptuur-beheren/sculptuur-beheren
         path: 'expositiesBeheren',
         component: ExpositiesBeherenComponent,
         canActivate: [AuthGuard]
+      },
+      {
+        path: 'sculptuurBeheren',
+        component: SculptuurBeherenComponent
       }
     ])
   ],
