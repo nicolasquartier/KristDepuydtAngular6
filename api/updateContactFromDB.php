@@ -11,9 +11,9 @@ if (isset($_POST) && !empty($_POST)) {
   $result = $conn->query("UPDATE contactdetails SET json = '" . $updatedValue . "'");
 
   if ($result === TRUE) {
-    echo "contactDetails updated successfully";
+    echo '"contactDetails updated successfully"';
   } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo '"Error: " . $sql . "<br>" . $conn->error';
   }
 
   $conn->close();
