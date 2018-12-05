@@ -12,13 +12,12 @@ if (isset($_POST) && !empty($_POST)) {
 
   $str = "UPDATE exposities SET name = '" . $txtUpdatedTitle . "', description = '" . $txtUpdatedLocation . "' where id = '" . $id . "'";
   $result = $conn->query($str);
+  $conn->close();
 
   if ($result === TRUE) {
-    echo "expositieDetails updated successfully";
+    echo('"expositieDetails updated successfully"');
   } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo("Error: " . $result . "<br>" . $conn->error);
   }
-
-  $conn->close();
 }
 ?>

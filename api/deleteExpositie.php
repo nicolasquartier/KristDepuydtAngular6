@@ -10,13 +10,12 @@ if (isset($_POST) && !empty($_POST)) {
 
   $str = "DELETE FROM exposities where id = '" . $id . "'";
   $result = $conn->query($str);
+  $conn->close();
 
   if ($result === TRUE) {
-    echo('Expositie deleted');
+    echo('"Expositie deleted"');
   } else {
-    echo('Error: ' . $result . '<br>' . $conn->error);
+    echo('"Error: " . $result . "<br>" . $conn->error');
   }
-
-  $conn->close();
 }
 ?>
