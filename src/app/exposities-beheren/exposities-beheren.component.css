@@ -1,3 +1,21 @@
+#secondaryMenu {
+  position: relative;
+  top: -35px;
+  left: 20px;
+  font-size: 15px;
+  margin-bottom: 0px;
+}
+
+#secondaryMenu a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.container {
+  position: relative;
+  top: -30px;
+}
+
 .exposities {
   /*width: 945px;*/
   width: 100%;
@@ -11,7 +29,7 @@
   margin-bottom: 10px;
   margin-top: 30px;
   font-size: 36px;
-  float:left;
+  float: left;
 }
 
 .exposities ul {
@@ -62,7 +80,7 @@
 }
 
 .expositiesPerYear {
-  float:left;
+  float: left;
 }
 
 .pAddToYear {
@@ -79,7 +97,7 @@
 
 
 .addToYear {
-  float:left;
+  float: left;
   display: inline;
   position: relative;
   top: 20px;
@@ -89,19 +107,19 @@
 .AddNewToYear {
   display: none;
   overflow: hidden;
-  float:left;
+  float: left;
 }
 
 .addNew {
   display: inline;
-  float:left;
+  float: left;
   position: relative;
   top: -1px;
 }
 
 .txtNewTitle, .txtNewLocation {
   display: inline;
-  margin-left:2px;
+  margin-left: 2px;
 }
 
 .edit {

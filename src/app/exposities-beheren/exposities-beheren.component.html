@@ -1,5 +1,8 @@
 <app-menu></app-menu>
 <section id="exposities" class="exposities">
+  <p id="secondaryMenu">
+    <a href="/admin">Admin</a> > <a href="/expositiesBeheren">Exposities Beheren</a>
+  </p>
   <div class="container">
     <div class="expositiesPerYear" *ngFor="let expositiePerYear of expositiesPerYear">
       <h1>{{expositiePerYear.year}}</h1>
@@ -10,8 +13,10 @@
       <div id="AddNewToYear{{expositiePerYear.year}}" class="AddNewToYear">
         <img src="../../assets/images/AdminPanel/icon_grid_1x_save.png" alt="edit" class="imgContactDetails addNew"
              id="btnSave" (click)="saveNew($event, expositiePerYear.year)">
-        <input type="text" id="txtNewTitle{{expositiePerYear.year}}" name="txtTitle" class="txtNewTitle" placeholder="Titel" value="New Name">
-        <input type="text" id="txtNewLocation{{expositiePerYear.year}}" name="txtLocation" class="txtNewLocation" placeholder="Locatie"
+        <input type="text" id="txtNewTitle{{expositiePerYear.year}}" name="txtTitle" class="txtNewTitle"
+               placeholder="Titel" value="New Name">
+        <input type="text" id="txtNewLocation{{expositiePerYear.year}}" name="txtLocation" class="txtNewLocation"
+               placeholder="Locatie"
                value="description - location">
       </div>
       <ul>
