@@ -1,3 +1,44 @@
+#secondaryMenu {
+  position: relative;
+  top: -35px;
+  left: 20px;
+  font-size: 15px;
+  margin-bottom: 0px;
+  font-family: "simplifica";
+}
+
+#secondaryMenu a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.container {
+  position: relative;
+  top: -30px;
+}
+
+#pAddNewSculptuur {
+  font-family: "simplifica";
+  font-size: 20px;
+  margin-bottom: 35px;
+  text-align: center;
+  padding-bottom: 30px;
+  height: 60px;
+  line-height: 60px;
+}
+
+#pAddNewSculptuur:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  background-color: rgba(229, 248, 255, 0.52);
+}
+
+.imgIcon{
+  max-width: 55px;
+  cursor: pointer;
+  position: relative;
+  top: 17px;
+}
 
 .photos {
 

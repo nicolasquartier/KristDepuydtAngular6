@@ -112,4 +112,8 @@ export class SculptuurBeherenComponent implements OnInit {
       this._subscription.unsubscribe();
     }
   }
+
+  addNewSculptuur($event) {
+    console.log('you\'ll be adding a new sculptuur');
+  }
 }

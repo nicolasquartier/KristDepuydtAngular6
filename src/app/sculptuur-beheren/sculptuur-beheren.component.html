@@ -1,6 +1,14 @@
 <app-menu></app-menu>
 <section id="photos" class="photos">
+  <p id="secondaryMenu">
+    > <a href="/admin">Admin</a> > <a href="/sculptuurBeheren">Sculptuur Beheren</a>
+  </p>
   <div class="container">
+    <p id="pAddNewSculptuur" (click)="addNewSculptuur($event)">
+      <img src="../../assets/images/AdminPanel/icon_grid_1x_add_to_open_folder.png" alt="edit" class="imgIcon addNewSculptuur"
+           id="btnAddToYear" >
+      VOEG TOE
+    </p>
     <ul>
       <li class="image" *ngFor="let photoset of sculptuurPhotosets">
         <img [src]="photoset.photos[0].src" width="110px" height="95px" (click)="open(photoset.photos, 0)">
