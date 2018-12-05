@@ -6,6 +6,8 @@
       <ul>
         <!--<li *ngFor="expositie of exposities" ngClass="$index == expositiePerYear.exposities.length - 1 ? 'last' : ''">-->
         <li *ngFor="let expositie of expositiePerYear.exposities; let liIndex = index;" ngClass="{{liIndex == expositiePerYear.exposities.length - 1 ? 'last' : ''}}">
+          <img src="../../assets/images/AdminPanel/icon_grid_1x_trash_can.png" alt="edit" class="imgContactDetails delete"
+               id="btnDelete{{expositie.id}}" (click)="doDelete($event, expositie.id, expositie.name)">
           <img src="../../assets/images/AdminPanel/icon_grid_1x_edit.png" alt="edit" class="imgContactDetails edit"
                id="btnEdit{{expositie.id}}" (click)="edit($event, expositie.year)">
           <img src="../../assets/images/AdminPanel/icon_grid_1x_save.png" alt="edit" class="imgContactDetails save"

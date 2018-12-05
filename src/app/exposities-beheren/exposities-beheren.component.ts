@@ -80,7 +80,6 @@ export class ExpositiesBeherenComponent implements OnInit {
 
           if (currentYear !== expositie.year) {
             if (expositiesPerYearTemp.length > 0) {
-              console.log('add ' + currentYear);
               this.expositiesPerYear.push({year: currentYear, exposities: expositiesPerYearTemp});
               expositiesPerYearTemp = [];
             }
@@ -90,7 +89,6 @@ export class ExpositiesBeherenComponent implements OnInit {
             expositiesPerYearTemp.push(expositie);
           }
         }
-        console.log('add ' + currentYear);
         this.expositiesPerYear.push({year: currentYear, exposities: expositiesPerYearTemp});
         this.sortExpositiesFromNewToOld();
         this.reloading = false;
@@ -173,9 +171,7 @@ export class ExpositiesBeherenComponent implements OnInit {
   save(event, year: number) {
     event.preventDefault();
     const target = event.target;
-    console.log(target);
     const id = this.getNameOfElement(target);
-    console.log('save: ' + id);
 
     this.showText(target);
     this.showEditButtonAfterSave(target);
@@ -240,7 +236,6 @@ export class ExpositiesBeherenComponent implements OnInit {
 
   private toggleCurrentText(target: any) {
     const id = this.getNameOfElement(target);
-    console.log('#txtLocation' + id);
 
     // toggle span
     const spanText = document.querySelector('#spanTitle' + id);
@@ -259,7 +254,6 @@ export class ExpositiesBeherenComponent implements OnInit {
 
     // toggle input
     const txtLocation = document.querySelector('#txtLocation' + id);
-    console.log(txtLocation);
     const styleTxtLocation = txtLocation.getAttribute('style') === 'display: inline' ? 'none' : 'inline';
     txtLocation.setAttribute('style', 'display: ' + styleTxtLocation);
   }
@@ -320,5 +314,22 @@ export class ExpositiesBeherenComponent implements OnInit {
       .subscribe(response => {
         console.log(response);
       });
+  }
+
+  doDelete(event, id: number, expositieName: string) {
+    event.preventDefault();
+    if (confirm('Ben je zeker dat je \"' + expositieName + '\" wil verwijderen?')) {
+      console.log('OK, delete');
+      const target = event.target;
+      console.log(target);
+      console.log('delete ' + id);
+      this.expositiesService.deleteExpositie(id)
+        .subscribe(response => {
+          console.log(response);
+        });
+      this.reloadExposities();
+    } else {
+      console.log('delete cancel');
+    }
   }
 }

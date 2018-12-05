@@ -29,4 +29,8 @@ export class ExpositiesService {
   editExpositie(id: number, title: string, location: string) {
     return this.http.post('/api/editExpositie.php', {id: id, title: title, location: location});
   }
+
+  deleteExpositie(id: number) {
+    return this.http.post<string>('/api/deleteExpositie.php', {id: id});
+  }
 }
