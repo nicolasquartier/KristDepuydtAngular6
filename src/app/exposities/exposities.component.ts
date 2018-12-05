@@ -17,6 +17,7 @@ interface ExpositieWithPhotos {
   description: string;
   hasPhotos: boolean;
   photo: Array<IAlbum>;
+  insdate: string;
 }
 
 @Component({
@@ -68,7 +69,8 @@ export class ExpositiesComponent implements OnInit {
                 name: exposities[i].name,
                 description: exposities[i].description,
                 hasPhotos: exposities[i].hasPhotos,
-                photo: Array<IAlbum>()
+                photo: Array<IAlbum>(),
+                insdate: exposities[i].insdate
               };
 
               if (expositie.hasPhotos === '1') {
@@ -113,6 +115,18 @@ export class ExpositiesComponent implements OnInit {
   }
 
   sortExpositiesFromNewToOld() {
+    for (const tmpExpositiesPerYear of this.expositiesPerYear) {
+      tmpExpositiesPerYear.exposities.sort((x: any, y: any) => {
+        if (new Date(x.insdate) < new Date(y.insdate)) {
+          return 1;
+        }
+        if (new Date(x.insdate) > new Date(y.insdate)) {
+          return -1;
+        }
+        return 0;
+      });
+    }
+
     this.expositiesPerYear.sort((a: any, b: any) => {
       if (a.year < b.year) {
         return 1;

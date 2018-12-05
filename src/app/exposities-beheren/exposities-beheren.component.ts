@@ -15,6 +15,7 @@ interface ExpositieWithPhotos {
   description: string;
   hasPhotos: boolean;
   photo: Array<IAlbum>;
+  insdate: string;
 }
 
 @Component({
@@ -51,9 +52,9 @@ export class ExpositiesBeherenComponent implements OnInit {
             name: exposities[i].name,
             description: exposities[i].description,
             hasPhotos: exposities[i].hasPhotos,
-            photo: Array<IAlbum>()
+            photo: Array<IAlbum>(),
+            insdate: exposities[i].insdate
           };
-
           if (expositie.hasPhotos === true) {
             for (let l = 0; l < this.photosetsTemp.length; l++) {
               const id = this.photosetsTemp[l].id;
@@ -133,6 +134,18 @@ export class ExpositiesBeherenComponent implements OnInit {
   }
 
   sortExpositiesFromNewToOld() {
+    for (const tmpExpositiesPerYear of this.expositiesPerYear) {
+      tmpExpositiesPerYear.exposities.sort((x: any, y: any) => {
+        if (new Date(x.insdate) < new Date(y.insdate)) {
+          return 1;
+        }
+        if (new Date(x.insdate) > new Date(y.insdate)) {
+          return -1;
+        }
+        return 0;
+      });
+    }
+
     this.expositiesPerYear.sort((a: any, b: any) => {
       if (a.year < b.year) {
         return 1;
@@ -331,5 +344,26 @@ export class ExpositiesBeherenComponent implements OnInit {
     } else {
       console.log('delete cancel');
     }
+  }
+
+  doAdd($event, year: string) {
+    event.preventDefault();
+    const divInput = document.querySelector('#AddNewToYear' + year);
+    const btnAddInput = document.querySelector('#btnAddToYear' + year);
+    console.log(divInput);
+    divInput.setAttribute('style', 'display: inline');
+    btnAddInput.setAttribute('style', 'display: none');
+  }
+
+  saveNew($event, year: string) {
+    event.preventDefault();
+    const inputNewName = (<HTMLInputElement>document.querySelector('#txtNewTitle' + year)).value;
+    const inputNewDescription = (<HTMLInputElement>document.querySelector('#txtNewLocation' + year)).value;
+    console.log('add new to ' + year + '; name: ' + inputNewName + '; descr: ' + inputNewDescription);
+    this.expositiesService.insertExposities(year, inputNewName, inputNewDescription)
+      .subscribe(response => {
+        console.log(response);
+      });
+    this.reloadExposities();
   }
 }

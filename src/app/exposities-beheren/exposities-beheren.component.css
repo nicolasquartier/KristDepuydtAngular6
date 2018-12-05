@@ -11,17 +11,20 @@
   margin-bottom: 10px;
   margin-top: 30px;
   font-size: 36px;
+  float:left;
 }
 
 .exposities ul {
   width: 100%;
+  /*float: left;*/
+  /*position: relative;*/
 }
 
 .exposities ul li {
   float: left;
   list-style: none;
   width: 960px;
-  height:28px;
+  height: 28px;
 }
 
 .exposities ul li.last {
@@ -58,12 +61,47 @@
   text-decoration: underline;
 }
 
+.expositiesPerYear {
+  float:left;
+}
+
+.pAddToYear {
+  width: 960px;
+  height: 55px;
+}
 
 .imgContactDetails {
   max-width: 25px;
   cursor: pointer;
   position: relative;
-  top:5px;
+  top: 5px;
+}
+
+
+.addToYear {
+  float:left;
+  display: inline;
+  position: relative;
+  top: 20px;
+  left: 10px;
+}
+
+.AddNewToYear {
+  display: none;
+  overflow: hidden;
+  float:left;
+}
+
+.addNew {
+  display: inline;
+  float:left;
+  position: relative;
+  top: -1px;
+}
+
+.txtNewTitle, .txtNewLocation {
+  display: inline;
+  margin-left:2px;
 }
 
 .edit {
@@ -77,7 +115,7 @@
 .txtTitle {
   display: none;
   float: none;
-  margin-right:5px;
+  margin-right: 5px;
   width: 200px;
   height: 25px;
   line-height: 25px;
@@ -86,7 +124,7 @@
 .txtLocation {
   display: none;
   float: none;
-  margin-right:5px;
+  margin-right: 5px;
   width: 250px;
   height: 25px;
   line-height: 25px;

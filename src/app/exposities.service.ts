@@ -13,6 +13,7 @@ interface Expositie {
   name: string;
   description: string;
   hasPhotos: boolean;
+  insdate: string;
 }
 
 @Injectable({
@@ -32,5 +33,10 @@ export class ExpositiesService {
 
   deleteExpositie(id: number) {
     return this.http.post<string>('/api/deleteExpositie.php', {id: id});
+  }
+
+  insertExposities(year: string, title: string, location: string) {
+    return this.http.post<string>('/api/insertNewExpositie.php', {year: year, title: title, location: location});
+
   }
 }

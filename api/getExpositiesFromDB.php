@@ -15,7 +15,8 @@ while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
   $outp .= '"id":"'. $rs["id"]     . '",';
   $outp .= '"name":"'   . $rs["name"]        . '",';
   $outp .= '"description":"'. $rs["description"]     . '",';
-  $outp .= '"hasPhotos":"'. $rs["hasPhotos"]     . '"}';
+  $outp .= '"hasPhotos":"'. $rs["hasPhotos"]     . '",';
+  $outp .= '"insdate":"'. $rs["insdate"]     . '"}';
 }
 $outp .= "]";
 $conn->close();

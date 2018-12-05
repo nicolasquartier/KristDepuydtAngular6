@@ -1,22 +1,38 @@
 <app-menu></app-menu>
 <section id="exposities" class="exposities">
   <div class="container">
-    <div class="test" *ngFor="let expositiePerYear of expositiesPerYear">
+    <div class="expositiesPerYear" *ngFor="let expositiePerYear of expositiesPerYear">
       <h1>{{expositiePerYear.year}}</h1>
+      <p class="pAddToYear">
+        <img src="../../assets/images/AdminPanel/icon_grid_1x_add.png" alt="edit" class="imgContactDetails addToYear"
+             id="btnAddToYear{{expositiePerYear.year}}" (click)="doAdd($event, expositiePerYear.year)">
+      </p>
+      <div id="AddNewToYear{{expositiePerYear.year}}" class="AddNewToYear">
+        <img src="../../assets/images/AdminPanel/icon_grid_1x_save.png" alt="edit" class="imgContactDetails addNew"
+             id="btnSave" (click)="saveNew($event, expositiePerYear.year)">
+        <input type="text" id="txtNewTitle{{expositiePerYear.year}}" name="txtTitle" class="txtNewTitle" placeholder="Titel" value="New Name">
+        <input type="text" id="txtNewLocation{{expositiePerYear.year}}" name="txtLocation" class="txtNewLocation" placeholder="Locatie"
+               value="description - location">
+      </div>
       <ul>
         <!--<li *ngFor="expositie of exposities" ngClass="$index == expositiePerYear.exposities.length - 1 ? 'last' : ''">-->
-        <li *ngFor="let expositie of expositiePerYear.exposities; let liIndex = index;" ngClass="{{liIndex == expositiePerYear.exposities.length - 1 ? 'last' : ''}}">
-          <img src="../../assets/images/AdminPanel/icon_grid_1x_trash_can.png" alt="edit" class="imgContactDetails delete"
+        <li *ngFor="let expositie of expositiePerYear.exposities; let liIndex = index;"
+            ngClass="{{liIndex == expositiePerYear.exposities.length - 1 ? 'last' : ''}}">
+          <img src="../../assets/images/AdminPanel/icon_grid_1x_trash_can.png" alt="edit"
+               class="imgContactDetails delete"
                id="btnDelete{{expositie.id}}" (click)="doDelete($event, expositie.id, expositie.name)">
           <img src="../../assets/images/AdminPanel/icon_grid_1x_edit.png" alt="edit" class="imgContactDetails edit"
                id="btnEdit{{expositie.id}}" (click)="edit($event, expositie.year)">
           <img src="../../assets/images/AdminPanel/icon_grid_1x_save.png" alt="edit" class="imgContactDetails save"
                id="btnSave{{expositie.id}}" (click)="save($event, expositie.year)">
           <span id="spanTitle{{expositie.id}}" class="spanTitle">{{expositie.name}}</span>
-          <input #liIndex type="text" id="txtTitle{{expositie.id}}" name="txtTitle{{expositie.id}}" class="txtTitle" placeholder="Titel"
+          <input #liIndex type="text" id="txtTitle{{expositie.id}}" name="txtTitle{{expositie.id}}" class="txtTitle"
+                 placeholder="Titel"
                  value="{{expositie.name}}">
-          - <span id="spanLocation{{expositie.id}}" class="spanLocation" [hidden]="expositie.description == ''" >{{expositie.description}}</span>
-          <input type="text" id="txtLocation{{expositie.id}}" name="txtLocation{{expositie.id}}" class="txtLocation" placeholder="Locatie"
+          - <span id="spanLocation{{expositie.id}}" class="spanLocation"
+                  [hidden]="expositie.description == ''">{{expositie.description}}</span>
+          <input type="text" id="txtLocation{{expositie.id}}" name="txtLocation{{expositie.id}}" class="txtLocation"
+                 placeholder="Locatie"
                  value="{{expositie.description}}">
           <div *ngIf="expositie.hasPhotos == true" style="display: inline-block;">
             <p class="date">
