@@ -403,4 +403,26 @@ export class FlickrServiceService {
           });
       });
   }
+
+  createPhotoSet() {
+    // https://api.flickr.com/services/rest/
+    // ?
+    // method=flickr.photosets.create
+    // &
+    // api_key=b11db2a17a833d9b1ac4c504bef12f4e
+    // &
+    // title=Test --> required
+    // &
+    // description=TestDescription --> optional
+    // &
+    // primary_photo_id=44371913182 --> required
+    // &
+    // format=json
+    // &
+    // nojsoncallback=1
+    // &
+    // auth_token=72157702866986631-dc9aac8fcfbc54bc
+    // &
+    // api_sig=637cac99f2411e4f6e4ba69ca38b95e9
+  }
 }

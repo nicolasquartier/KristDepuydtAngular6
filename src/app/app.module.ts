@@ -21,6 +21,7 @@ import {UserService} from './user.service';
 import { LogoutComponent } from './logout/logout.component';
 import { ContactBeherenComponent } from './contact-beheren/contact-beheren.component';
 import { ExpositiesBeherenComponent } from './exposities-beheren/exposities-beheren.component';
+import { SculptuurBeherenComponent } from './sculptuur-beheren/sculptuur-beheren.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ExpositiesBeherenComponent } from './exposities-beheren/exposities-behe
     AdminComponent,
     LogoutComponent,
     ContactBeherenComponent,
-    ExpositiesBeherenComponent
+    ExpositiesBeherenComponent,
+    SculptuurBeherenComponent
   ],
   imports: [
     BrowserModule,
