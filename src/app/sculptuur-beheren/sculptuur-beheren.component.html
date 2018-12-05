@@ -1,3 +1,16 @@
-<p>
-  sculptuur-beheren works!
-</p>
+<app-menu></app-menu>
+<section id="photos" class="photos">
+  <div class="container">
+    <ul>
+      <li class="image" *ngFor="let photoset of sculptuurPhotosets">
+        <img [src]="photoset.photos[0].src" width="110px" height="95px" (click)="open(photoset.photos, 0)">
+        <p class="SculptuurSummary"><b>{{photoset.title}}</b> - {{photoset.description}}</p>
+        <div class="extraBeelden">
+          <div class="beeld" *ngFor="let photo of photoset.photos; let i = index">
+            <img [src]="photo.src" (click)="open(photoset.photos, i)"/>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
