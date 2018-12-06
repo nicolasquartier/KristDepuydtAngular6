@@ -97,6 +97,7 @@ export class FlickrServiceService {
     console.log('this is the requestOauthSecret: ');
     this.globals.hmacSigningSecret = localStorage.getItem('hmacSigningSecret');
     console.log(this.globals.hmacSigningSecret);
+    this.globals.oauthToken = localStorage.getItem('oauth_token');
   }
 
   getPhotoSets() {
@@ -226,7 +227,7 @@ export class FlickrServiceService {
                 localStorage.setItem('hmacSigningSecret', this.globals.hmacSigningSecret);
                 console.log(this.globals.hmacSigningSecret);
 
-                const authorizatuinUrl = 'https://www.flickr.com/services/oauth/authorize?' + oauth_token;
+                const authorizatuinUrl = 'https://www.flickr.com/services/oauth/authorize?' + oauth_token + '&perms=write';
 
                 console.log('authorizatuinUrl');
                 console.log(authorizatuinUrl);
@@ -424,5 +425,91 @@ export class FlickrServiceService {
     // auth_token=72157702866986631-dc9aac8fcfbc54bc
     // &
     // api_sig=637cac99f2411e4f6e4ba69ca38b95e9
+
+    this.getNonceObservable.subscribe();
+    this.timestamp = new Date().getTime().toString();
+    const baseUrl =
+      'description=TestDescription' +
+      '&format=json' +
+      '&method=flickr.photosets.create' +
+      '&nojsoncallback=1' +
+      '&oauth_consumer_key=' + this.globals.apiKey +
+      '&oauth_nonce=' + this.mynewnonce +
+      '&oauth_signature_method=HMAC-SHA1' +
+      '&oauth_timestamp=' + this.timestamp +
+      '&oauth_token=' + this.globals.oauthToken +
+      '&oauth_version=1.0' +
+      '&primary_photo_id=44371913182' +
+      '&title=Test';
+
+    this.getEncodedUrl(baseUrl)
+      .subscribe(tmpEncodedUrl => {
+        this.encodedUrl = 'GET&' + this.globals.basicRestRequestUrl + '&' + tmpEncodedUrl.encodedUrl;
+
+        console.log('request create photoset encodedUrl');
+        console.log(this.encodedUrl);
+
+        return this.getHmacSign(this.encodedUrl, this.globals.hmacSigningSecret)
+          .subscribe(hmacSignResponse => {
+            this.hmacSignResponse = hmacSignResponse.result;
+            const url = 'https://api.flickr.com/services/rest' +
+              '?method=flickr.photosets.create' +
+              '&title=Test' +
+              '&description=TestDescription' +
+              '&primary_photo_id=44371913182' +
+              '&format=json' +
+              '&nojsoncallback=1' +
+              '&oauth_token=' + this.globals.oauthToken +
+              '&oauth_nonce=' + this.mynewnonce +
+              '&oauth_consumer_key=' + this.globals.apiKey +
+              '&oauth_timestamp=' + this.timestamp +
+              '&oauth_signature_method=HMAC-SHA1' +
+              '&oauth_version=1.0' +
+              '&oauth_signature=' + this.hmacSignResponse;
+
+
+            // https://api.flickr.com/services/rest/
+            // ?
+            // method=flickr.photosets.create
+            // &
+            // api_key=b11db2a17a833d9b1ac4c504bef12f4e
+            // &
+            // title=Test --> required
+            // &
+            // description=TestDescription --> optional
+            // &
+            // primary_photo_id=44371913182 --> required
+            // &
+            // format=json
+            // &
+            // nojsoncallback=1
+            // &
+            // auth_token=72157702866986631-dc9aac8fcfbc54bc
+            // &
+            // api_sig=637cac99f2411e4f6e4ba69ca38b95e9
+
+            console.log('request create photoset encodedUrl');
+            console.log(url);
+
+            const options = {
+              headers: new HttpHeaders({
+                'Accept': 'application/json+charset=UTF-8',
+              })
+            };
+
+            this.getResultViaProxy(url, options)
+              .subscribe(resultTestLogin => {
+                console.log('result create photoset');
+                console.log(resultTestLogin);
+
+              }, errorTestLogin => {
+                console.log('error create photoset');
+                console.log(errorTestLogin);
+                // retry
+                this.createPhotoSet();
+              });
+
+          });
+      });
   }
 }

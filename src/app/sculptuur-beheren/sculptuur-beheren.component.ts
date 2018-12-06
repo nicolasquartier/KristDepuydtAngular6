@@ -115,5 +115,6 @@ export class SculptuurBeherenComponent implements OnInit {
 
   addNewSculptuur($event) {
     console.log('you\'ll be adding a new sculptuur');
+    this.flickrService.createPhotoSet();
   }
 }
