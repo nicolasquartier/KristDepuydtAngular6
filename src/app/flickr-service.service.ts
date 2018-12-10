@@ -406,26 +406,6 @@ export class FlickrServiceService {
   }
 
   createPhotoSet() {
-    // https://api.flickr.com/services/rest/
-    // ?
-    // method=flickr.photosets.create
-    // &
-    // api_key=b11db2a17a833d9b1ac4c504bef12f4e
-    // &
-    // title=Test --> required
-    // &
-    // description=TestDescription --> optional
-    // &
-    // primary_photo_id=44371913182 --> required
-    // &
-    // format=json
-    // &
-    // nojsoncallback=1
-    // &
-    // auth_token=72157702866986631-dc9aac8fcfbc54bc
-    // &
-    // api_sig=637cac99f2411e4f6e4ba69ca38b95e9
-
     this.getNonceObservable.subscribe();
     this.timestamp = new Date().getTime().toString();
     const baseUrl =
@@ -467,27 +447,6 @@ export class FlickrServiceService {
               '&oauth_version=1.0' +
               '&oauth_signature=' + this.hmacSignResponse;
 
-
-            // https://api.flickr.com/services/rest/
-            // ?
-            // method=flickr.photosets.create
-            // &
-            // api_key=b11db2a17a833d9b1ac4c504bef12f4e
-            // &
-            // title=Test --> required
-            // &
-            // description=TestDescription --> optional
-            // &
-            // primary_photo_id=44371913182 --> required
-            // &
-            // format=json
-            // &
-            // nojsoncallback=1
-            // &
-            // auth_token=72157702866986631-dc9aac8fcfbc54bc
-            // &
-            // api_sig=637cac99f2411e4f6e4ba69ca38b95e9
-
             console.log('request create photoset encodedUrl');
             console.log(url);
 
@@ -507,6 +466,67 @@ export class FlickrServiceService {
                 console.log(errorTestLogin);
                 // retry
                 this.createPhotoSet();
+              });
+
+          });
+      });
+  }
+
+  uploadPhoto() {
+    this.getNonceObservable.subscribe();
+    this.timestamp = new Date().getTime().toString();
+    const baseUrl =
+      'description=TestPhoto' +
+      '&title=testTitlePhoto' +
+      '&format=json' +
+      '&oauth_consumer_key=' + this.globals.apiKey +
+      '&oauth_nonce=' + this.mynewnonce +
+      '&oauth_signature_method=HMAC-SHA1' +
+      '&oauth_timestamp=' + this.timestamp +
+      '&oauth_token=' + this.globals.oauthToken +
+      '&oauth_version=1.0';
+    this.getEncodedUrl(baseUrl)
+      .subscribe(tmpEncodedUrl => {
+        this.encodedUrl = 'POST&' + this.globals.basicRestRequestUrl + '&' + tmpEncodedUrl.encodedUrl;
+
+        console.log('request upload photo encodedUrl');
+        console.log(this.encodedUrl);
+
+        return this.getHmacSign(this.encodedUrl, this.globals.hmacSigningSecret)
+          .subscribe(hmacSignResponse => {
+            this.hmacSignResponse = hmacSignResponse.result;
+            const url = 'https://up.flickr.com/services/upload/' +
+              '?description=TestPhoto' +
+              '&title=testTitlePhoto' +
+              '&format=json' +
+              '&oauth_consumer_key=' + this.globals.apiKey +
+              '&oauth_nonce=' + this.mynewnonce +
+              '&oauth_signature_method=HMAC-SHA1' +
+              '&oauth_timestamp=' + this.timestamp +
+              '&oauth_token=' + this.globals.oauthToken +
+              '&oauth_version=1.0' +
+              '&oauth_signature=' + this.hmacSignResponse;
+
+
+            console.log('request upload photo signed encoded url');
+            console.log(url);
+
+            const options = {
+              headers: new HttpHeaders({
+                'Accept': 'application/json+charset=UTF-8',
+                'Content-Type': 'multipart/form-data'
+              })
+            };
+
+            this.getResultViaProxy(url, options)
+              .subscribe(resultTestupload => {
+                console.log('result upload photo');
+                console.log(resultTestupload);
+
+              }, errorTestUpload => {
+                console.log('error upload photo');
+                console.log(errorTestUpload);
+                // retry
               });
 
           });

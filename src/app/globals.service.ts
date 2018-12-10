@@ -12,6 +12,7 @@ export class GlobalsService {
   accessTokenBaseUrl = 'https%3A%2F%2Fwww.flickr.com%2Fservices%2Foauth%2Faccess_token';
   basicRestRequestUrl = 'https%3A%2F%2Fapi.flickr.com%2Fservices%2Frest';
   CREATE_PHOTOSET_METHOD = 'flickr.photosets.create';
+  uploadRestUrl = 'https%3A%2F%2Fup.flickr.com%2Fservices%2Fupload%2F';
   hmacSigningSecret = '';
   oauthToken = '';
 }
