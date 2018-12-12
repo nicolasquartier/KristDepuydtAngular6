@@ -22,6 +22,8 @@ import { LogoutComponent } from './logout/logout.component';
 import { ContactBeherenComponent } from './contact-beheren/contact-beheren.component';
 import { ExpositiesBeherenComponent } from './exposities-beheren/exposities-beheren.component';
 import { SculptuurBeherenComponent } from './sculptuur-beheren/sculptuur-beheren.component';
+import {FileSelectDirective} from 'ng2-file-upload';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -38,12 +40,14 @@ import { SculptuurBeherenComponent } from './sculptuur-beheren/sculptuur-beheren
     LogoutComponent,
     ContactBeherenComponent,
     ExpositiesBeherenComponent,
-    SculptuurBeherenComponent
+    SculptuurBeherenComponent,
+    FileSelectDirective
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     LightboxModule,
+    FormsModule,
     RouterModule.forRoot([
       {
         path: 'login',

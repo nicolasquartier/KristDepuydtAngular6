@@ -472,22 +472,24 @@ export class FlickrServiceService {
       });
   }
 
-  uploadPhoto() {
+  uploadPhoto(file: File) {
     this.getNonceObservable.subscribe();
     this.timestamp = new Date().getTime().toString();
     const baseUrl =
       'description=TestPhoto' +
-      '&title=testTitlePhoto' +
       '&format=json' +
+      // '&nojsoncallback=1' +
       '&oauth_consumer_key=' + this.globals.apiKey +
       '&oauth_nonce=' + this.mynewnonce +
       '&oauth_signature_method=HMAC-SHA1' +
       '&oauth_timestamp=' + this.timestamp +
       '&oauth_token=' + this.globals.oauthToken +
-      '&oauth_version=1.0';
+      '&oauth_version=1.0' +
+      '&title=testTitlePhoto';
+
     this.getEncodedUrl(baseUrl)
       .subscribe(tmpEncodedUrl => {
-        this.encodedUrl = 'POST&' + this.globals.basicRestRequestUrl + '&' + tmpEncodedUrl.encodedUrl;
+        this.encodedUrl = 'POST&' + this.globals.uploadRestUrl + '&' + tmpEncodedUrl.encodedUrl;
 
         console.log('request upload photo encodedUrl');
         console.log(this.encodedUrl);
@@ -495,30 +497,48 @@ export class FlickrServiceService {
         return this.getHmacSign(this.encodedUrl, this.globals.hmacSigningSecret)
           .subscribe(hmacSignResponse => {
             this.hmacSignResponse = hmacSignResponse.result;
-            const url = 'https://up.flickr.com/services/upload/' +
-              '?description=TestPhoto' +
-              '&title=testTitlePhoto' +
-              '&format=json' +
-              '&oauth_consumer_key=' + this.globals.apiKey +
-              '&oauth_nonce=' + this.mynewnonce +
-              '&oauth_signature_method=HMAC-SHA1' +
-              '&oauth_timestamp=' + this.timestamp +
-              '&oauth_token=' + this.globals.oauthToken +
-              '&oauth_version=1.0' +
-              '&oauth_signature=' + this.hmacSignResponse;
+            console.log('oauth token', this.globals.oauthToken);
+            const url = 'https://api.flickr.com/services/upload';
+              // '?description=TestPhoto' +
+              // '?format=json' +
+              // '?oauth_consumer_key=' + this.globals.apiKey +
+              // '&oauth_nonce=' + this.mynewnonce +
+              // '&oauth_signature=' + this.hmacSignResponse +
+              // '&oauth_signature_method=HMAC-SHA1' +
+              // '&oauth_timestamp=' + this.timestamp +
+              // '&oauth_token=' + this.globals.oauthToken +
+              // '&oauth_version=1.0';
+              // '&title=testTitlePhoto';
 
 
-            console.log('request upload photo signed encoded url');
+              console.log('request upload photo signed encoded url');
             console.log(url);
 
             const options = {
               headers: new HttpHeaders({
-                'Accept': 'application/json+charset=UTF-8',
-                'Content-Type': 'multipart/form-data'
+                'Accept': 'application/json'
+                // 'Content-Type': 'multipart/form-data'
               })
             };
+            console.log('file');
+            console.log(file);
+            const formData: FormData = new FormData();
+            formData.append('photo', file, file.name);
+            // formData.append('Content-Type', 'image/jpeg');
+            formData.append('oauth_consumer_key', this.globals.apiKey);
+            formData.append('oauth_nonce', this.mynewnonce.toString());
+            formData.append('oauth_signature_method', 'HMAC-SHA1');
+            formData.append('oauth_timestamp', this.timestamp);
+            formData.append('oauth_token', this.globals.oauthToken);
+            formData.append('oauth_version', '1.0');
+            formData.append('oauth_signature', this.hmacSignResponse);
+            // formData.append('Content-Type', 'image/jpeg');
+            formData.append('title', 'testTitlePhoto');
+            formData.append('description', 'TestPhoto');
+            formData.append('format', 'json');
+            // formData.append('nojsoncallback', '1');
 
-            this.getResultViaProxy(url, options)
+            this.http.post(url, formData, options)
               .subscribe(resultTestupload => {
                 console.log('result upload photo');
                 console.log(resultTestupload);
@@ -528,6 +548,18 @@ export class FlickrServiceService {
                 console.log(errorTestUpload);
                 // retry
               });
+
+
+            // this.getResultViaProxy(url, options)
+            //   .subscribe(resultTestupload => {
+            //     console.log('result upload photo');
+            //     console.log(resultTestupload);
+            //
+            //   }, errorTestUpload => {
+            //     console.log('error upload photo');
+            //     console.log(errorTestUpload);
+            //     // retry
+            //   });
 
           });
       });

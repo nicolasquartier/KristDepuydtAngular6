@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {IAlbum, IEvent, Lightbox, LIGHTBOX_EVENT, LightboxConfig, LightboxEvent} from 'ngx-lightbox';
 import {Subscription} from 'rxjs';
 import {FlickrServiceService} from '../flickr-service.service';
 import {GlobalsService} from '../globals.service';
+import {FileUploader} from 'ng2-file-upload/ng2-file-upload';
+import {HttpClient} from '@angular/common/http';
 
 interface PhotoSet {
   id: string;
@@ -21,12 +23,14 @@ export class SculptuurBeherenComponent implements OnInit {
   sculptuurPhotosets: Array<PhotoSet> = [];
 
   private _subscription: Subscription;
+  public uploader: FileUploader = new FileUploader({url: '', itemAlias: 'photo'});
 
   constructor(private flickrService: FlickrServiceService,
               private globals: GlobalsService,
               private _lightbox: Lightbox,
               private _lightboxEvent: LightboxEvent,
-              private _lighboxConfig: LightboxConfig) {
+              private _lighboxConfig: LightboxConfig,
+              private http: HttpClient) {
   }
 
   async delay(ms: number) {
@@ -39,6 +43,14 @@ export class SculptuurBeherenComponent implements OnInit {
 
   ngOnInit() {
     this.globals.activePage = 'sculptuur';
+
+    this.uploader.onAfterAddingFile = (file) => {
+      file.withCredentials = false;
+    };
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      console.log('ImageUpload:uploaded:', item, status, response);
+      this.flickrService.uploadPhoto(item.file);
+    };
 
     this.flickrService.getPhotoSets()
       .subscribe(response => {
@@ -116,5 +128,11 @@ export class SculptuurBeherenComponent implements OnInit {
   addNewSculptuur($event) {
     console.log('you\'ll be adding a new sculptuur');
     this.flickrService.createPhotoSet();
+  }
+
+  uploadPhoto(files: FileList) {
+    console.log('start upload');
+    const fileToUpload = files.item(0);
+    this.flickrService.uploadPhoto(fileToUpload);
   }
 }
