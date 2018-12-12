@@ -130,9 +130,19 @@ export class SculptuurBeherenComponent implements OnInit {
     this.flickrService.createPhotoSet();
   }
 
-  uploadPhoto(files: FileList) {
+  async uploadPhoto(files: FileList) {
     console.log('start upload');
-    const fileToUpload = files.item(0);
-    this.flickrService.uploadPhoto(fileToUpload);
+    for (let i = 0; i < files.length; i++) {
+      const fileToUpload = files.item(i);
+      this.flickrService.uploadPhoto(fileToUpload);
+      while (this.flickrService.uploadingPhoto) {
+        console.log('still uploading');
+        await this.sleep(2000);
+      }
+    }
+  }
+
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }

@@ -85,6 +85,7 @@ export class FlickrServiceService {
   requesToken: any;
   accessToken: any;
   errorAccessToken = false;
+  uploadingPhoto = false;
 
   getNonceObservable = Rx.Observable.create((observer) => {
     this.mynewnonce = Math.random();
@@ -473,6 +474,7 @@ export class FlickrServiceService {
   }
 
   uploadPhoto(file: File) {
+    this.uploadingPhoto = true;
     this.getNonceObservable.subscribe();
     this.timestamp = new Date().getTime().toString();
     const baseUrl =
@@ -542,10 +544,12 @@ export class FlickrServiceService {
               .subscribe(resultTestupload => {
                 console.log('result upload photo');
                 console.log(resultTestupload);
+                this.uploadingPhoto = false;
 
               }, errorTestUpload => {
                 console.log('error upload photo');
                 console.log(errorTestUpload);
+                this.uploadingPhoto = false;
                 // retry
               });
 

@@ -5,7 +5,7 @@
   </p>
   <div class="container">
     <form>
-      <input id="myForm" type="file" name="file" (change)="uploadPhoto($event.target.files)">
+      <input id="myForm" type="file" name="file" (change)="uploadPhoto($event.target.files)" multiple>
     </form>
 
     <input type="file" name="photo" ng2FileSelect [uploader]="uploader" />
