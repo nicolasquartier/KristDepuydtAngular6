@@ -8,18 +8,6 @@
       <input id="myForm" type="file" name="file" (change)="uploadPhoto($event.target.files)" multiple>
     </form>
 
-    <input type="file" name="photo" ng2FileSelect [uploader]="uploader" />
-
-    <button type="button" class="btn btn-success btn-s"
-            (click)="uploader.uploadAll()"
-            [disabled]="!uploader.getNotUploadedItems().length" >
-      Upload an Image
-    </button>
-    <!--<button type="button" class="btn btn-success btn-s"-->
-            <!--(click)="uploadPhoto()"-->
-            <!--[disabled]="!uploader.getNotUploadedItems().length" >-->
-      <!--Upload an Image-->
-    <!--</button>-->
     <p id="pAddNewSculptuur" (click)="addNewSculptuur($event)">
       <img src="../../assets/images/AdminPanel/icon_grid_1x_add_to_open_folder.png" alt="edit" class="imgIcon addNewSculptuur"
            id="btnAddToYear" >
