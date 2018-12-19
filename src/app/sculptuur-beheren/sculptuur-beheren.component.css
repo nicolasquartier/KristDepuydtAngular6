@@ -177,7 +177,7 @@
 }
 
 #popupAddNewCollection dl {
-  width: 50%;
+  width: 60%;
   margin: auto;
 }
 
@@ -198,6 +198,10 @@
   height: 35px;
   line-height: 35px;
   margin-left: 10px;
+}
+
+#popupAddNewCollection dl dd input[type=file] {
+  width: 190px;
 }
 
 #popupAddNewCollection dl dd input[type=text] {
@@ -225,6 +229,12 @@
 
 #popupAddNewCollection dl dd input[type=submit]:active {
   background: #686868;
+}
+
+#popupAddNewCollection dl dd span {
+  display: none;
+  color: #a40200;
+  margin-left:10px;
 }
 
 #closePopupAddNewCollection{

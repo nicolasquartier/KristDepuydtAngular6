@@ -18,13 +18,19 @@
       <form>
         <dl>
           <dt>*Naam:</dt>
-          <dd><input type="text" id="newCollectionName" placeholder="Naam"/></dd>
+          <dd>
+            <input type="text" id="newCollectionName" placeholder="Naam" [(ngModel)]="txtnewCollectionName" [ngModelOptions]="{standalone: true}"/>
+            <span id="NameVerplicht">Naam is verplicht</span>
+          </dd>
           <dt>Omschrijving:</dt>
           <dd><input type="text" id="newCollectionDescription" placeholder="Omschrijving"/></dd>
           <dt>Fotos:</dt>
-          <dd><input id="selectPhotosToUpload" type="file" name="file" (change)="addPhotosToUpload($event.target.files)" multiple></dd>
+          <dd>
+            <input id="selectPhotosToUpload"type="file" name="file" (change)="addPhotosToUpload($event.target.files)" multiple>
+            <span id="PhotosVerplicht">Voeg ten minste één foto toe.</span>
+          </dd>
           <dt></dt>
-          <dd><input id="btnAddNewCollection" type="submit" value="VOEG TOE"/></dd>
+          <dd><input id="btnAddNewCollection" type="submit" (click)="addNewSculptuur($event)" value="VOEG TOE"/></dd>
         </dl>
       </form>
       <img id="closePopupAddNewCollection" (click)="closePopupAddNewCollection()" src="../../assets/images/AdminPanel/icon_grid_1x_delete_gray.png"/>

@@ -20,6 +20,7 @@ export class SculptuurBeherenComponent implements OnInit {
   photos: Array<IAlbum> = [];
   photosToUpload = [];
   sculptuurPhotosets: Array<PhotoSet> = [];
+  txtnewCollectionName = '';
 
   private _subscription: Subscription;
 
@@ -134,7 +135,26 @@ export class SculptuurBeherenComponent implements OnInit {
 
   addNewSculptuur($event) {
     console.log('you\'ll be adding a new sculptuur');
+    const photosVerplicht = document.getElementById('PhotosVerplicht');
+    const nameVerplicht = document.getElementById('NameVerplicht');
+    nameVerplicht.setAttribute('style', 'display: none');
+    photosVerplicht.setAttribute('style', 'display: none');
+
+    let proceed = true;
+    if (this.txtnewCollectionName === '' || this.txtnewCollectionName === null) {
+      proceed = false;
+      nameVerplicht.setAttribute('style', 'display: inline');
+    }
+
+    if (this.photosToUpload.length === 0) {
+      proceed = false;
+      photosVerplicht.setAttribute('style', 'display: inline');
+    }
+
+    if (proceed) {
+      console.log('proceed');
     // this.flickrService.createPhotoSet();
+    }
   }
 
   async addPhotosToUpload(files: FileList) {
@@ -149,7 +169,6 @@ export class SculptuurBeherenComponent implements OnInit {
       // }
     }
     console.log('Photos will be added', this.photosToUpload);
-    this.photosToUpload = [];
   }
 
   sleep(ms) {
