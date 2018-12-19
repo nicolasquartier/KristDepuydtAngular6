@@ -17,12 +17,12 @@
       <h1>VOEG EEN NIEUWE COLLECTIE TOE</h1>
       <form>
         <dl>
-          <dt>Naam:</dt>
+          <dt>*Naam:</dt>
           <dd><input type="text" id="newCollectionName" placeholder="Naam"/></dd>
           <dt>Omschrijving:</dt>
           <dd><input type="text" id="newCollectionDescription" placeholder="Omschrijving"/></dd>
           <dt>Fotos:</dt>
-          <dd><input id="myForm" type="file" name="file" (change)="uploadPhoto($event.target.files)" multiple></dd>
+          <dd><input id="selectPhotosToUpload" type="file" name="file" (change)="addPhotosToUpload($event.target.files)" multiple></dd>
           <dt></dt>
           <dd><input id="btnAddNewCollection" type="submit" value="VOEG TOE"/></dd>
         </dl>

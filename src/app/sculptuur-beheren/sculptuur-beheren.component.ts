@@ -18,6 +18,7 @@ interface PhotoSet {
 })
 export class SculptuurBeherenComponent implements OnInit {
   photos: Array<IAlbum> = [];
+  photosToUpload = [];
   sculptuurPhotosets: Array<PhotoSet> = [];
 
   private _subscription: Subscription;
@@ -118,6 +119,8 @@ export class SculptuurBeherenComponent implements OnInit {
     const popupAddNewCollection = document.getElementById('popupAddNewCollection');
     addNewCollectionOverlay.setAttribute('style', 'display: inline');
     popupAddNewCollection.setAttribute('style', 'display: inline');
+    this.photosToUpload = [];
+    document.getElementById('selectPhotosToUpload').value = '';
   }
 
   closePopupAddNewCollection() {
@@ -125,6 +128,8 @@ export class SculptuurBeherenComponent implements OnInit {
     const popupAddNewCollection = document.getElementById('popupAddNewCollection');
     addNewCollectionOverlay.setAttribute('style', 'display: none');
     popupAddNewCollection.setAttribute('style', 'display: none');
+    this.photosToUpload = [];
+    document.getElementById('selectPhotosToUpload').value = '';
   }
 
   addNewSculptuur($event) {
@@ -132,16 +137,19 @@ export class SculptuurBeherenComponent implements OnInit {
     // this.flickrService.createPhotoSet();
   }
 
-  async uploadPhoto(files: FileList) {
-    console.log('start upload');
-    // for (let i = 0; i < files.length; i++) {
-    //   const fileToUpload = files.item(i);
-    //   this.flickrService.uploadPhoto(fileToUpload);
-    //   while (this.flickrService.uploadingPhoto) {
-    //     console.log('still uploading');
-    //     await this.sleep(2000);
-    //   }
-    // }
+  async addPhotosToUpload(files: FileList) {
+    // console.log('Photos will be added');
+    for (let i = 0; i < files.length; i++) {
+      const fileToUpload = files.item(i);
+      this.photosToUpload.push(fileToUpload);
+      // this.flickrService.uploadPhoto(fileToUpload);
+      // while (this.flickrService.uploadingPhoto) {
+      //   console.log('still uploading');
+      //   await this.sleep(2000);
+      // }
+    }
+    console.log('Photos will be added', this.photosToUpload);
+    this.photosToUpload = [];
   }
 
   sleep(ms) {
