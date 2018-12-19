@@ -153,22 +153,31 @@ export class SculptuurBeherenComponent implements OnInit {
 
     if (proceed) {
       console.log('proceed');
+      this.uploadPhotos();
     // this.flickrService.createPhotoSet();
     }
   }
 
-  async addPhotosToUpload(files: FileList) {
+  addPhotosToUpload(files: FileList) {
     // console.log('Photos will be added');
     for (let i = 0; i < files.length; i++) {
       const fileToUpload = files.item(i);
       this.photosToUpload.push(fileToUpload);
-      // this.flickrService.uploadPhoto(fileToUpload);
-      // while (this.flickrService.uploadingPhoto) {
-      //   console.log('still uploading');
-      //   await this.sleep(2000);
-      // }
     }
     console.log('Photos will be added', this.photosToUpload);
+  }
+
+  async uploadPhotos() {
+    console.log('Start uploading photos');
+    for (let i = 0; i < this.photosToUpload.length; i++) {
+      const fileToUpload = this.photosToUpload[i];
+      this.flickrService.uploadPhoto(fileToUpload);
+      while (this.flickrService.uploadingPhoto) {
+        console.log('still uploading');
+        await this.sleep(2000);
+      }
+    }
+    console.log('done uploading photos');
   }
 
   sleep(ms) {

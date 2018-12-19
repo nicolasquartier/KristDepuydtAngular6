@@ -479,7 +479,7 @@ export class FlickrServiceService {
     this.timestamp = new Date().getTime().toString();
     const baseUrl =
       'description=TestPhoto' +
-      '&format=json' +
+      // '&format=json' +
       // '&nojsoncallback=1' +
       '&oauth_consumer_key=' + this.globals.apiKey +
       '&oauth_nonce=' + this.mynewnonce +
@@ -517,10 +517,8 @@ export class FlickrServiceService {
             console.log(url);
 
             const options = {
-              headers: new HttpHeaders({
-                'Accept': 'application/json'
-                // 'Content-Type': 'multipart/form-data'
-              })
+              headers: new HttpHeaders().set('Accept', 'text/xml; charset=utf-8'),
+              responseType: 'text'
             };
             console.log('file');
             console.log(file);
@@ -537,10 +535,13 @@ export class FlickrServiceService {
             // formData.append('Content-Type', 'image/jpeg');
             formData.append('title', 'testTitlePhoto');
             formData.append('description', 'TestPhoto');
-            formData.append('format', 'json');
+            // formData.append('format', 'json');
             // formData.append('nojsoncallback', '1');
 
-            this.http.post(url, formData, options)
+            this.http.post(url, formData, {
+              headers: new HttpHeaders().set('Accept', 'text/xml; charset=utf-8'),
+              responseType: 'text'
+            })
               .subscribe(resultTestupload => {
                 console.log('result upload photo');
                 console.log(resultTestupload);
