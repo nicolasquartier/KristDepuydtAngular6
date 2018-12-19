@@ -113,21 +113,35 @@ export class SculptuurBeherenComponent implements OnInit {
     }
   }
 
+  showPopupAddNewCollection() {
+    const addNewCollectionOverlay = document.getElementById('popupAddNewCollectionOverlay');
+    const popupAddNewCollection = document.getElementById('popupAddNewCollection');
+    addNewCollectionOverlay.setAttribute('style', 'display: inline');
+    popupAddNewCollection.setAttribute('style', 'display: inline');
+  }
+
+  closePopupAddNewCollection() {
+    const addNewCollectionOverlay = document.getElementById('popupAddNewCollectionOverlay');
+    const popupAddNewCollection = document.getElementById('popupAddNewCollection');
+    addNewCollectionOverlay.setAttribute('style', 'display: none');
+    popupAddNewCollection.setAttribute('style', 'display: none');
+  }
+
   addNewSculptuur($event) {
     console.log('you\'ll be adding a new sculptuur');
-    this.flickrService.createPhotoSet();
+    // this.flickrService.createPhotoSet();
   }
 
   async uploadPhoto(files: FileList) {
     console.log('start upload');
-    for (let i = 0; i < files.length; i++) {
-      const fileToUpload = files.item(i);
-      this.flickrService.uploadPhoto(fileToUpload);
-      while (this.flickrService.uploadingPhoto) {
-        console.log('still uploading');
-        await this.sleep(2000);
-      }
-    }
+    // for (let i = 0; i < files.length; i++) {
+    //   const fileToUpload = files.item(i);
+    //   this.flickrService.uploadPhoto(fileToUpload);
+    //   while (this.flickrService.uploadingPhoto) {
+    //     console.log('still uploading');
+    //     await this.sleep(2000);
+    //   }
+    // }
   }
 
   sleep(ms) {

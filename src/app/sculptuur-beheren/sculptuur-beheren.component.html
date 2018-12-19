@@ -3,19 +3,34 @@
   <p id="secondaryMenu">
     > <a href="/admin">Admin</a> > <a href="/sculptuurBeheren">Sculptuur Beheren</a>
   </p>
-  <div class="container">
-    <form>
-      <input id="myForm" type="file" name="file" (change)="uploadPhoto($event.target.files)" multiple>
-    </form>
 
-    <p id="pAddNewSculptuur" (click)="addNewSculptuur($event)">
+  <div class="container">
+    <p id="pAddNewSculptuur" (click)="showPopupAddNewCollection()">
       <img src="../../assets/images/AdminPanel/icon_grid_1x_add_to_open_folder.png" alt="edit"
            class="imgIcon addNewSculptuur"
            id="btnAddToYear">
       VOEG TOE
     </p>
 
-    <div class="ldBar" data-preset="stripe" data-stroke="red" data-value="99"></div>
+    <div id="popupAddNewCollectionOverlay" (click)="closePopupAddNewCollection()"></div>
+    <div id="popupAddNewCollection">
+      <h1>VOEG EEN NIEUWE COLLECTIE TOE</h1>
+      <form>
+        <dl>
+          <dt>Naam:</dt>
+          <dd><input type="text" id="newCollectionName" placeholder="Naam"/></dd>
+          <dt>Omschrijving:</dt>
+          <dd><input type="text" id="newCollectionDescription" placeholder="Omschrijving"/></dd>
+          <dt>Fotos:</dt>
+          <dd><input id="myForm" type="file" name="file" (change)="uploadPhoto($event.target.files)" multiple></dd>
+          <dt></dt>
+          <dd><input id="btnAddNewCollection" type="submit" value="VOEG TOE"/></dd>
+        </dl>
+      </form>
+      <img id="closePopupAddNewCollection" (click)="closePopupAddNewCollection()" src="../../assets/images/AdminPanel/icon_grid_1x_delete_gray.png"/>
+      <!--<div class="ldBar" data-preset="stripe" data-stroke="red" data-value="99"></div>-->
+    </div>
+
 
     <ul>
       <li class="image" *ngFor="let photoset of sculptuurPhotosets">
