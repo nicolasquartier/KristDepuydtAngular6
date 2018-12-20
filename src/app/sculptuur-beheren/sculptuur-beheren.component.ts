@@ -121,7 +121,7 @@ export class SculptuurBeherenComponent implements OnInit {
     addNewCollectionOverlay.setAttribute('style', 'display: inline');
     popupAddNewCollection.setAttribute('style', 'display: inline');
     this.photosToUpload = [];
-    document.getElementById('selectPhotosToUpload').value = '';
+    (<HTMLInputElement>document.getElementById('selectPhotosToUpload')).value = '';
   }
 
   closePopupAddNewCollection() {
@@ -130,7 +130,7 @@ export class SculptuurBeherenComponent implements OnInit {
     addNewCollectionOverlay.setAttribute('style', 'display: none');
     popupAddNewCollection.setAttribute('style', 'display: none');
     this.photosToUpload = [];
-    document.getElementById('selectPhotosToUpload').value = '';
+    (<HTMLInputElement>document.getElementById('selectPhotosToUpload')).value = '';
   }
 
   addNewSculptuur($event) {
