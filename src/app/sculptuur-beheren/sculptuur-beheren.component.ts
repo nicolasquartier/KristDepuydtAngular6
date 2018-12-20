@@ -21,6 +21,7 @@ export class SculptuurBeherenComponent implements OnInit {
   photosToUpload = [];
   sculptuurPhotosets: Array<PhotoSet> = [];
   txtnewCollectionName = '';
+  canClosePopupAddNewCollection = true;
 
   private _subscription: Subscription;
 
@@ -125,12 +126,14 @@ export class SculptuurBeherenComponent implements OnInit {
   }
 
   closePopupAddNewCollection() {
-    const addNewCollectionOverlay = document.getElementById('popupAddNewCollectionOverlay');
-    const popupAddNewCollection = document.getElementById('popupAddNewCollection');
-    addNewCollectionOverlay.setAttribute('style', 'display: none');
-    popupAddNewCollection.setAttribute('style', 'display: none');
-    this.photosToUpload = [];
-    (<HTMLInputElement>document.getElementById('selectPhotosToUpload')).value = '';
+    if (this.canClosePopupAddNewCollection) {
+      const addNewCollectionOverlay = document.getElementById('popupAddNewCollectionOverlay');
+      const popupAddNewCollection = document.getElementById('popupAddNewCollection');
+      addNewCollectionOverlay.setAttribute('style', 'display: none');
+      popupAddNewCollection.setAttribute('style', 'display: none');
+      this.photosToUpload = [];
+      (<HTMLInputElement>document.getElementById('selectPhotosToUpload')).value = '';
+    }
   }
 
   addNewSculptuur($event) {
@@ -152,9 +155,15 @@ export class SculptuurBeherenComponent implements OnInit {
     }
 
     if (proceed) {
+      this.canClosePopupAddNewCollection = false;
       console.log('proceed');
-      this.uploadPhotos();
-    // this.flickrService.createPhotoSet();
+      const addNewCollectionOverlay = document.getElementById('popupAddNewCollectionOverlay');
+      const ldBar = document.getElementById('ldBar');
+      addNewCollectionOverlay.style.zIndex = '12';
+      addNewCollectionOverlay.style.backgroundColor = '#fff';
+      ldBar.style.display = 'block';
+      // this.uploadPhotos();
+      // this.flickrService.createPhotoSet();
     }
   }
 

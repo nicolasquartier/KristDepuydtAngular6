@@ -19,24 +19,26 @@
         <dl>
           <dt>*Naam:</dt>
           <dd>
-            <input type="text" id="newCollectionName" placeholder="Naam" [(ngModel)]="txtnewCollectionName" [ngModelOptions]="{standalone: true}"/>
+            <input type="text" id="newCollectionName" placeholder="Naam" [(ngModel)]="txtnewCollectionName"
+                   [ngModelOptions]="{standalone: true}"/>
             <span id="NameVerplicht">Naam is verplicht</span>
           </dd>
           <dt>Omschrijving:</dt>
           <dd><input type="text" id="newCollectionDescription" placeholder="Omschrijving"/></dd>
           <dt>Fotos:</dt>
           <dd>
-            <input id="selectPhotosToUpload"type="file" name="file" (change)="addPhotosToUpload($event.target.files)" multiple>
+            <input id="selectPhotosToUpload" type="file" name="file" (change)="addPhotosToUpload($event.target.files)"
+                   multiple>
             <span id="PhotosVerplicht">Voeg ten minste één foto toe.</span>
           </dd>
           <dt></dt>
           <dd><input id="btnAddNewCollection" type="submit" (click)="addNewSculptuur($event)" value="VOEG TOE"/></dd>
         </dl>
       </form>
-      <img id="closePopupAddNewCollection" (click)="closePopupAddNewCollection()" src="../../assets/images/AdminPanel/icon_grid_1x_delete_gray.png"/>
-      <!--<div class="ldBar" data-preset="stripe" data-stroke="red" data-value="99"></div>-->
+      <img id="closePopupAddNewCollection" (click)="closePopupAddNewCollection()"
+           src="../../assets/images/AdminPanel/icon_grid_1x_delete_gray.png"/>
     </div>
-
+    <div id="ldBar" class="ldBar label-center" data-preset="circle" data-value="99" style="width:100%;height:200px"></div>
 
     <ul>
       <li class="image" *ngFor="let photoset of sculptuurPhotosets">
