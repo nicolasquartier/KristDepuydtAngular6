@@ -4,6 +4,8 @@ import {Subscription} from 'rxjs';
 import {FlickrServiceService} from '../flickr-service.service';
 import {GlobalsService} from '../globals.service';
 
+declare function ldBar(param1: string): void;
+
 interface PhotoSet {
   id: string;
   title: string;
@@ -157,12 +159,13 @@ export class SculptuurBeherenComponent implements OnInit {
     if (proceed) {
       this.canClosePopupAddNewCollection = false;
       console.log('proceed');
+      document.getElementById('closePopupAddNewCollection').style.display = 'none';
       const addNewCollectionOverlay = document.getElementById('popupAddNewCollectionOverlay');
-      const ldBar = document.getElementById('ldBar');
+      const ldBarById = document.getElementById('ldBar');
       addNewCollectionOverlay.style.zIndex = '12';
       addNewCollectionOverlay.style.backgroundColor = '#fff';
-      ldBar.style.display = 'block';
-      // this.uploadPhotos();
+      ldBarById.style.display = 'block';
+      this.uploadPhotos();
       // this.flickrService.createPhotoSet();
     }
   }
@@ -177,15 +180,20 @@ export class SculptuurBeherenComponent implements OnInit {
   }
 
   async uploadPhotos() {
+    this.flickrService.nrOfPhotosToUpload = this.photosToUpload.length;
     console.log('Start uploading photos');
+    const bar = new ldBar('#ldBar');
+    bar.set(0);
     for (let i = 0; i < this.photosToUpload.length; i++) {
       const fileToUpload = this.photosToUpload[i];
       this.flickrService.uploadPhoto(fileToUpload);
       while (this.flickrService.uploadingPhoto) {
         console.log('still uploading');
-        await this.sleep(2000);
+        await this.sleep(100);
       }
+      bar.set(Math.ceil((i / this.photosToUpload.length) * 100));
     }
+    bar.set(100);
     console.log('done uploading photos');
   }
 

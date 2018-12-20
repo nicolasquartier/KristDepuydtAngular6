@@ -86,6 +86,7 @@ export class FlickrServiceService {
   accessToken: any;
   errorAccessToken = false;
   uploadingPhoto = false;
+  nrOfPhotosToUpload = 0;
 
   getNonceObservable = Rx.Observable.create((observer) => {
     this.mynewnonce = Math.random();
