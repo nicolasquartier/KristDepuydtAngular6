@@ -70,6 +70,14 @@ interface ProxyResult {
   result: string;
 }
 
+interface ProxyObjectResult {
+  result: string;
+}
+
+interface CreatePhotoSetResponse {
+  photoset: PhotoSet;
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -86,8 +94,11 @@ export class FlickrServiceService {
   accessToken: any;
   errorAccessToken = false;
   uploadingPhoto = false;
+  uploadingAllPhotos = false;
   nrOfPhotosToUpload = 0;
   uploadedPhotoIds = [];
+  photoSetId = '';
+  photoSetCreated = false;
 
   getNonceObservable = Rx.Observable.create((observer) => {
     this.mynewnonce = Math.random();
@@ -162,11 +173,15 @@ export class FlickrServiceService {
   }
 
   getObjectResultViaProxy(url: string, options: { headers?: HttpHeaders }) {
-    return this.http.post<ProxyResult>('/api/proxy_object_result.php', {url}, options);
+    return this.http.post<ProxyObjectResult>('/api/proxy_object_result.php', {url}, options);
   }
 
   getResultViaProxy(url: string, options: { headers?: HttpHeaders }) {
     return this.http.post<ProxyResult>('/api/proxy_result.php', {url}, options);
+  }
+
+  createPhotoSetViaProxy(url: string, options: { headers?: HttpHeaders }) {
+    return this.http.post<CreatePhotoSetResponse>('/api/proxy_result.php', {url}, options);
   }
 
   getOAuthRequestToken() {
@@ -417,7 +432,7 @@ export class FlickrServiceService {
     const baseUrl =
       'description=' + description +
       '&format=json' +
-      '&method=flickr.photosets.create' +
+      '&method=' + this.globals.CREATE_PHOTOSET_METHOD +
       '&nojsoncallback=1' +
       '&oauth_consumer_key=' + this.globals.apiKey +
       '&oauth_nonce=' + nonce +
@@ -439,7 +454,7 @@ export class FlickrServiceService {
           .subscribe(hmacSignResponse => {
             this.hmacSignResponse = hmacSignResponse.result;
             const url = 'https://api.flickr.com/services/rest' +
-              '?method=flickr.photosets.create' +
+              '?method=' + this.globals.CREATE_PHOTOSET_METHOD +
               '&title=' + title +
               '&description=' + description +
               '&primary_photo_id=' + this.uploadedPhotoIds[0] +
@@ -462,10 +477,13 @@ export class FlickrServiceService {
               })
             };
 
-            this.getResultViaProxy(url, options)
-              .subscribe(resultTestLogin => {
+            this.createPhotoSetViaProxy(url, options)
+              .subscribe(resultCreatePhotoSet => {
                 console.log('result create photoset');
-                console.log(resultTestLogin);
+                console.log(resultCreatePhotoSet);
+                console.log(resultCreatePhotoSet.photoset.id);
+                this.photoSetId = resultCreatePhotoSet.photoset.id;
+                this.photoSetCreated = true;
 
               }, errorTestLogin => {
                 console.log('error create photoset');
@@ -476,6 +494,76 @@ export class FlickrServiceService {
 
           });
       });
+  }
+
+  addPhotosToPhotoSet() {
+    for (const uploadedPhotoId of this.uploadedPhotoIds) {
+      let nonce = '';
+      this.getNonceObservable.subscribe(newNonce => {
+        nonce = newNonce;
+      });
+      const timestampAddPhoto = new Date().getTime().toString();
+      const baseUrl =
+        'format=json' +
+        '&method=' + this.globals.ADD_PHOTO_TO_PHOTOSET_METHOD +
+        '&nojsoncallback=1' +
+        '&oauth_consumer_key=' + this.globals.apiKey +
+        '&oauth_nonce=' + nonce +
+        '&oauth_signature_method=HMAC-SHA1' +
+        '&oauth_timestamp=' + timestampAddPhoto +
+        '&oauth_token=' + this.globals.oauthToken +
+        '&oauth_version=1.0' +
+        '&photo_id=' + uploadedPhotoId +
+        '&photoset_id=' + this.photoSetId;
+
+      this.getEncodedUrl(baseUrl)
+        .subscribe(tmpEncodedUrl => {
+          this.encodedUrl = 'GET&' + this.globals.basicRestRequestUrl + '&' + tmpEncodedUrl.encodedUrl;
+
+          console.log('request add photo to photoset encodedUrl');
+          console.log(this.encodedUrl);
+
+          return this.getHmacSign(this.encodedUrl, this.globals.hmacSigningSecret)
+            .subscribe(hmacSignResponse => {
+              this.hmacSignResponse = hmacSignResponse.result;
+              const url = 'https://api.flickr.com/services/rest' +
+                '?method=' + this.globals.ADD_PHOTO_TO_PHOTOSET_METHOD +
+                '&photo_id=' + uploadedPhotoId +
+                '&photoset_id=' + this.photoSetId +
+                '&format=json' +
+                '&nojsoncallback=1' +
+                '&oauth_token=' + this.globals.oauthToken +
+                '&oauth_nonce=' + nonce +
+                '&oauth_consumer_key=' + this.globals.apiKey +
+                '&oauth_timestamp=' + timestampAddPhoto +
+                '&oauth_signature_method=HMAC-SHA1' +
+                '&oauth_version=1.0' +
+                '&oauth_signature=' + this.hmacSignResponse;
+
+              console.log('request add photo to photoset encodedUrl');
+              console.log(url);
+
+              const options = {
+                headers: new HttpHeaders({
+                  'Accept': 'application/json+charset=UTF-8',
+                })
+              };
+
+              this.getResultViaProxy(url, options)
+                .subscribe(resultaddPhotoToPhotoset => {
+                  console.log('result add photo to photoset');
+                  console.log(resultaddPhotoToPhotoset);
+
+                }, errorTestLogin => {
+                  console.log('result add photo to photoset');
+                  console.log(errorTestLogin);
+                  // retry
+                  this.addPhotosToPhotoSet();
+                });
+
+            });
+        });
+    }
   }
 
   uploadPhoto(file: File) {

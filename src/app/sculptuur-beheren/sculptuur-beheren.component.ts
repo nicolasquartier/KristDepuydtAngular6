@@ -167,7 +167,8 @@ export class SculptuurBeherenComponent implements OnInit {
       addNewCollectionOverlay.style.backgroundColor = '#fff';
       ldBarById.style.display = 'block';
       this.uploadPhotos();
-      this.flickrService.createPhotoSet(this.txtnewCollectionName, this.txtnewCollectionDescription);
+      this.createPhotoSet();
+      this.addPhotosToPhotoSet();
     }
   }
 
@@ -182,6 +183,7 @@ export class SculptuurBeherenComponent implements OnInit {
 
   async uploadPhotos() {
     this.flickrService.nrOfPhotosToUpload = this.photosToUpload.length;
+    this.flickrService.uploadingAllPhotos = true;
     console.log('Start uploading photos');
     const bar = new ldBar('#ldBar');
     bar.set(0);
@@ -196,6 +198,21 @@ export class SculptuurBeherenComponent implements OnInit {
     }
     bar.set(100);
     console.log('done uploading photos');
+    this.flickrService.uploadingAllPhotos = false;
+  }
+
+  async createPhotoSet() {
+    while (this.flickrService.uploadingAllPhotos) {
+      await this.sleep(100);
+    }
+    this.flickrService.createPhotoSet(this.txtnewCollectionName, this.txtnewCollectionDescription);
+  }
+
+  async addPhotosToPhotoSet() {
+    while (!this.flickrService.photoSetCreated) {
+      await this.sleep(100);
+    }
+    this.flickrService.addPhotosToPhotoSet();
   }
 
   sleep(ms) {
