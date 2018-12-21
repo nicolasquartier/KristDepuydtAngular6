@@ -19,12 +19,11 @@
         <dl>
           <dt>*Naam:</dt>
           <dd>
-            <input type="text" id="newCollectionName" placeholder="Naam" [(ngModel)]="txtnewCollectionName"
-                   [ngModelOptions]="{standalone: true}"/>
+            <input type="text" id="newCollectionName" placeholder="Naam" [(ngModel)]="txtnewCollectionName" [ngModelOptions]="{standalone: true}"/>
             <span id="NameVerplicht">Naam is verplicht</span>
           </dd>
           <dt>Omschrijving:</dt>
-          <dd><input type="text" id="newCollectionDescription" placeholder="Omschrijving"/></dd>
+          <dd><input type="text" id="newCollectionDescription" placeholder="Omschrijving" [(ngModel)]="txtnewCollectionDescription" [ngModelOptions]="{standalone: true}"/></dd>
           <dt>Fotos:</dt>
           <dd>
             <input id="selectPhotosToUpload" type="file" name="file" (change)="addPhotosToUpload($event.target.files)"

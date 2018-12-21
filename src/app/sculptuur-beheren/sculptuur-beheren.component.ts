@@ -23,6 +23,7 @@ export class SculptuurBeherenComponent implements OnInit {
   photosToUpload = [];
   sculptuurPhotosets: Array<PhotoSet> = [];
   txtnewCollectionName = '';
+  txtnewCollectionDescription = '';
   canClosePopupAddNewCollection = true;
 
   private _subscription: Subscription;
@@ -166,7 +167,7 @@ export class SculptuurBeherenComponent implements OnInit {
       addNewCollectionOverlay.style.backgroundColor = '#fff';
       ldBarById.style.display = 'block';
       this.uploadPhotos();
-      // this.flickrService.createPhotoSet();
+      this.flickrService.createPhotoSet(this.txtnewCollectionName, this.txtnewCollectionDescription);
     }
   }
 

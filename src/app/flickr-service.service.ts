@@ -87,6 +87,7 @@ export class FlickrServiceService {
   errorAccessToken = false;
   uploadingPhoto = false;
   nrOfPhotosToUpload = 0;
+  uploadedPhotoIds = [];
 
   getNonceObservable = Rx.Observable.create((observer) => {
     this.mynewnonce = Math.random();
@@ -407,22 +408,25 @@ export class FlickrServiceService {
       });
   }
 
-  createPhotoSet() {
-    this.getNonceObservable.subscribe();
-    this.timestamp = new Date().getTime().toString();
+  createPhotoSet(title: string, description: string) {
+    let nonce = '';
+    this.getNonceObservable.subscribe(newNonce => {
+      nonce = newNonce;
+    });
+    const timestamp = new Date().getTime().toString();
     const baseUrl =
-      'description=TestDescription' +
+      'description=' + description +
       '&format=json' +
       '&method=flickr.photosets.create' +
       '&nojsoncallback=1' +
       '&oauth_consumer_key=' + this.globals.apiKey +
-      '&oauth_nonce=' + this.mynewnonce +
+      '&oauth_nonce=' + nonce +
       '&oauth_signature_method=HMAC-SHA1' +
-      '&oauth_timestamp=' + this.timestamp +
+      '&oauth_timestamp=' + timestamp +
       '&oauth_token=' + this.globals.oauthToken +
       '&oauth_version=1.0' +
-      '&primary_photo_id=44371913182' +
-      '&title=Test';
+      '&primary_photo_id=' + this.uploadedPhotoIds[0] +
+      '&title=' + title;
 
     this.getEncodedUrl(baseUrl)
       .subscribe(tmpEncodedUrl => {
@@ -436,15 +440,15 @@ export class FlickrServiceService {
             this.hmacSignResponse = hmacSignResponse.result;
             const url = 'https://api.flickr.com/services/rest' +
               '?method=flickr.photosets.create' +
-              '&title=Test' +
-              '&description=TestDescription' +
-              '&primary_photo_id=44371913182' +
+              '&title=' + title +
+              '&description=' + description +
+              '&primary_photo_id=' + this.uploadedPhotoIds[0] +
               '&format=json' +
               '&nojsoncallback=1' +
               '&oauth_token=' + this.globals.oauthToken +
-              '&oauth_nonce=' + this.mynewnonce +
+              '&oauth_nonce=' + nonce +
               '&oauth_consumer_key=' + this.globals.apiKey +
-              '&oauth_timestamp=' + this.timestamp +
+              '&oauth_timestamp=' + timestamp +
               '&oauth_signature_method=HMAC-SHA1' +
               '&oauth_version=1.0' +
               '&oauth_signature=' + this.hmacSignResponse;
@@ -467,7 +471,7 @@ export class FlickrServiceService {
                 console.log('error create photoset');
                 console.log(errorTestLogin);
                 // retry
-                this.createPhotoSet();
+                this.createPhotoSet(title, description);
               });
 
           });
@@ -476,16 +480,19 @@ export class FlickrServiceService {
 
   uploadPhoto(file: File) {
     this.uploadingPhoto = true;
-    this.getNonceObservable.subscribe();
-    this.timestamp = new Date().getTime().toString();
+    let nonce = '';
+    this.getNonceObservable.subscribe(newNonce => {
+      nonce = newNonce;
+    });
+    const timestamp = new Date().getTime().toString();
     const baseUrl =
       'description=TestPhoto' +
       // '&format=json' +
       // '&nojsoncallback=1' +
       '&oauth_consumer_key=' + this.globals.apiKey +
-      '&oauth_nonce=' + this.mynewnonce +
+      '&oauth_nonce=' + nonce +
       '&oauth_signature_method=HMAC-SHA1' +
-      '&oauth_timestamp=' + this.timestamp +
+      '&oauth_timestamp=' + timestamp +
       '&oauth_token=' + this.globals.oauthToken +
       '&oauth_version=1.0' +
       '&title=testTitlePhoto';
@@ -502,19 +509,19 @@ export class FlickrServiceService {
             this.hmacSignResponse = hmacSignResponse.result;
             console.log('oauth token', this.globals.oauthToken);
             const url = 'https://api.flickr.com/services/upload';
-              // '?description=TestPhoto' +
-              // '?format=json' +
-              // '?oauth_consumer_key=' + this.globals.apiKey +
-              // '&oauth_nonce=' + this.mynewnonce +
-              // '&oauth_signature=' + this.hmacSignResponse +
-              // '&oauth_signature_method=HMAC-SHA1' +
-              // '&oauth_timestamp=' + this.timestamp +
-              // '&oauth_token=' + this.globals.oauthToken +
-              // '&oauth_version=1.0';
-              // '&title=testTitlePhoto';
+            // '?description=TestPhoto' +
+            // '?format=json' +
+            // '?oauth_consumer_key=' + this.globals.apiKey +
+            // '&oauth_nonce=' + nonce +
+            // '&oauth_signature=' + this.hmacSignResponse +
+            // '&oauth_signature_method=HMAC-SHA1' +
+            // '&oauth_timestamp=' + timestamp +
+            // '&oauth_token=' + this.globals.oauthToken +
+            // '&oauth_version=1.0';
+            // '&title=testTitlePhoto';
 
 
-              console.log('request upload photo signed encoded url');
+            console.log('request upload photo signed encoded url');
             console.log(url);
 
             const options = {
@@ -527,9 +534,9 @@ export class FlickrServiceService {
             formData.append('photo', file, file.name);
             // formData.append('Content-Type', 'image/jpeg');
             formData.append('oauth_consumer_key', this.globals.apiKey);
-            formData.append('oauth_nonce', this.mynewnonce.toString());
+            formData.append('oauth_nonce', nonce.toString());
             formData.append('oauth_signature_method', 'HMAC-SHA1');
-            formData.append('oauth_timestamp', this.timestamp);
+            formData.append('oauth_timestamp', timestamp);
             formData.append('oauth_token', this.globals.oauthToken);
             formData.append('oauth_version', '1.0');
             formData.append('oauth_signature', this.hmacSignResponse);
@@ -547,6 +554,11 @@ export class FlickrServiceService {
                 console.log('result upload photo');
                 console.log(resultTestupload);
                 this.uploadingPhoto = false;
+
+                const photoId = resultTestupload.substring(resultTestupload.indexOf('<photoid>') + 9, resultTestupload.indexOf('</photoid>'));
+                console.log('So photoId is:', photoId);
+                console.log(photoId);
+                this.uploadedPhotoIds.push(photoId);
 
               }, errorTestUpload => {
                 console.log('error upload photo');
