@@ -40,7 +40,7 @@
     <div id="ldBar" class="ldBar label-center" data-preset="circle" data-value="0" style="width:100%;height:200px"></div>
 
     <ul>
-      <li class="image" *ngFor="let photoset of sculptuurPhotosets">
+      <li class="image hvr-sweep-to-right" *ngFor="let photoset of sculptuurPhotosets">
         <img [src]="photoset.photos[0].src" width="110px" height="95px" (click)="open(photoset.photos, 0)">
         <p class="SculptuurSummary"><b>{{photoset.title}}</b> - {{photoset.description}}</p>
         <div class="extraBeelden">
