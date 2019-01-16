@@ -19,11 +19,13 @@
         <dl>
           <dt>*Naam:</dt>
           <dd>
-            <input type="text" id="newCollectionName" placeholder="Naam" [(ngModel)]="txtnewCollectionName" [ngModelOptions]="{standalone: true}"/>
+            <input type="text" id="newCollectionName" placeholder="Naam" [(ngModel)]="txtnewCollectionName"
+                   [ngModelOptions]="{standalone: true}"/>
             <span id="NameVerplicht">Naam is verplicht</span>
           </dd>
           <dt>Omschrijving:</dt>
-          <dd><input type="text" id="newCollectionDescription" placeholder="Omschrijving" [(ngModel)]="txtnewCollectionDescription" [ngModelOptions]="{standalone: true}"/></dd>
+          <dd><input type="text" id="newCollectionDescription" placeholder="Omschrijving"
+                     [(ngModel)]="txtnewCollectionDescription" [ngModelOptions]="{standalone: true}"/></dd>
           <dt>Fotos:</dt>
           <dd>
             <input id="selectPhotosToUpload" type="file" name="file" (change)="addPhotosToUpload($event.target.files)"
@@ -37,15 +39,23 @@
       <img id="closePopupAddNewCollection" (click)="closePopupAddNewCollection()"
            src="../../assets/images/AdminPanel/icon_grid_1x_delete_gray.png"/>
     </div>
-    <div id="ldBar" class="ldBar label-center" data-preset="circle" data-value="0" style="width:100%;height:200px"></div>
+    <div id="ldBar" class="ldBar label-center" data-preset="circle" data-value="0"
+         style="width:100%;height:200px"></div>
 
     <ul>
       <li class="image hvr-sweep-to-right" *ngFor="let photoset of sculptuurPhotosets">
-        <img [src]="photoset.photos[0].src" width="110px" height="95px" (click)="open(photoset.photos, 0)">
-        <p class="SculptuurSummary"><b>{{photoset.title}}</b> - {{photoset.description}}</p>
-        <div class="extraBeelden">
-          <div class="beeld" *ngFor="let photo of photoset.photos; let i = index">
-            <img [src]="photo.src" (click)="open(photoset.photos, i)"/>
+        <p>
+          <img class="editPhotosetIcon" src="../../assets/images/AdminPanel/icon_grid_1x_edit.png" (click)="showPopupEditCollection(photoset.id)"/>
+          <img class="deletePhotosetIcon" src="../../assets/images/AdminPanel/icon_grid_1x_trash_can_grey.png" (click)="showPopupEditCollection(photoset.id)"/>
+        </p>
+        <div class="photoSetDetails">
+          <img class="primaryPhotoFromPhotoSet" [src]="photoset.photos[0].src" width="110px" height="95px"
+               (click)="open(photoset.photos, 0)">
+          <p class="SculptuurSummary"><b>{{photoset.title}}</b> - {{photoset.description}}</p>
+          <div class="extraBeelden">
+            <div class="beeld" *ngFor="let photo of photoset.photos; let i = index">
+              <img [src]="photo.src" (click)="open(photoset.photos, i)"/>
+            </div>
           </div>
         </div>
       </li>

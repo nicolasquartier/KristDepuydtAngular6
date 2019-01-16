@@ -67,6 +67,43 @@
   width: 200px;
 }
 
+.photos ul li.image:hover .editPhotosetIcon, .photos ul li.image:hover .deletePhotosetIcon {
+  opacity: 1;
+  right:0px;
+}
+
+.photos ul li.image .editPhotosetIcon, .photos ul li.image .deletePhotosetIcon {
+  opacity: 0;
+  float:left;
+  right:50px;
+  position: relative;
+  top:30px;
+  max-width: 50px;
+  max-height: 50px;
+  -o-transition:right .2s ease-in, opacity 0.2s ease-in;
+  -ms-transition:right .2s ease-in, opacity 0.2s ease-in;
+  -moz-transition:right .2s ease-in, opacity 0.2s ease-in;
+  -webkit-transition:right .2s ease-in, opacity 0.2s ease-in;
+  transition:right .2s ease-in, opacity 0.2s ease-in;
+}
+
+.photos ul li.image .photoSetDetails {
+  position: relative;
+  right:50px;
+  -o-transition:right .2s ease-in;
+  -ms-transition:right .2s ease-in;
+  -moz-transition:right .2s ease-in;
+  -webkit-transition:right .2s ease-in;
+  transition:right .2s ease-in;
+}
+.photos ul li.image:hover .photoSetDetails {
+  right:0px;
+}
+
+.photos ul li.image .photoSetDetails .primaryPhotoFromPhotoSet {
+  margin-right:15px;
+}
+
 .photos ul li.image p.SculptuurSummary {
   /*float: left;*/
   /*height: 161px;*/

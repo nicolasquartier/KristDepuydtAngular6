@@ -5,6 +5,8 @@ import {Injectable} from '@angular/core';
 })
 export class GlobalsService {
   apiKey = '6337acd481870286e3d1087590ae665f';
+  // apiKey = '78cfdf349b9016acd631feba7e66a701';
+  // userId = '153009594%40N02';
   userId = '153009594%40N02';
   pages = ['sculptuur', 'keramiek', 'projecten', 'over', 'exposities', 'contact'];
   activePage = '';
