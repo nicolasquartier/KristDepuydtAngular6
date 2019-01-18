@@ -141,6 +141,14 @@ export class SculptuurBeherenComponent implements OnInit {
 
   editCollection($event) {
     console.log('you\'ll be editing a new sculptuur');
+    const editNameVerplicht = document.getElementById('editNameVerplicht');
+    editNameVerplicht.setAttribute('style', 'display: none');
+
+    let proceed = true;
+    if (this.txtEditCollectionName === '' || this.txtEditCollectionName === null) {
+      proceed = false;
+      editNameVerplicht.setAttribute('style', 'display: inline');
+    }
   }
 
   showPopupAddNewCollection() {
