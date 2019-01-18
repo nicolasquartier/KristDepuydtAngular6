@@ -670,4 +670,73 @@ export class FlickrServiceService {
           });
       });
   }
+
+  editPhotoSet(photosetId: string, title: string, description: string) {
+    let nonce = '';
+    this.getNonceObservable.subscribe(newNonce => {
+      nonce = newNonce;
+    });
+    const timestamp = new Date().getTime().toString();
+    const baseUrl =
+      'description=' + description +
+      '&format=json' +
+      '&method=' + this.globals.EDIT_PHOTOSET_METHOD +
+      '&nojsoncallback=1' +
+      '&oauth_consumer_key=' + this.globals.apiKey +
+      '&oauth_nonce=' + nonce +
+      '&oauth_signature_method=HMAC-SHA1' +
+      '&oauth_timestamp=' + timestamp +
+      '&oauth_token=' + this.globals.oauthToken +
+      '&oauth_version=1.0' +
+      '&photoset_id=' + photosetId +
+      '&title=' + title;
+
+    this.getEncodedUrl(baseUrl)
+      .subscribe(tmpEncodedUrl => {
+        this.encodedUrl = 'GET&' + this.globals.basicRestRequestUrl + '&' + tmpEncodedUrl.encodedUrl;
+
+        console.log('request edit photoset encodedUrl');
+        console.log(this.encodedUrl);
+
+        return this.getHmacSign(this.encodedUrl, this.globals.hmacSigningSecret)
+          .subscribe(hmacSignResponse => {
+            this.hmacSignResponse = hmacSignResponse.result;
+            const url = 'https://api.flickr.com/services/rest' +
+              '?method=' + this.globals.EDIT_PHOTOSET_METHOD +
+              '&title=' + title +
+              '&description=' + description +
+              '&photoset_id=' + photosetId +
+              '&format=json' +
+              '&nojsoncallback=1' +
+              '&oauth_token=' + this.globals.oauthToken +
+              '&oauth_nonce=' + nonce +
+              '&oauth_consumer_key=' + this.globals.apiKey +
+              '&oauth_timestamp=' + timestamp +
+              '&oauth_signature_method=HMAC-SHA1' +
+              '&oauth_version=1.0' +
+              '&oauth_signature=' + this.hmacSignResponse;
+
+            console.log('request edit photoset encodedUrl');
+            console.log(url);
+
+            const options = {
+              headers: new HttpHeaders({
+                'Accept': 'application/json+charset=UTF-8',
+              })
+            };
+
+            this.getObjectResultViaProxy(url, options)
+              .subscribe(resultCreatePhotoSet => {
+                console.log('result edit photoset');
+                console.log(resultCreatePhotoSet);
+              }, errorTestLogin => {
+                console.log('error edit photoset');
+                console.log(errorTestLogin);
+                // retry
+                this.editPhotoSet(photosetId, title, description);
+              });
+
+          });
+      });
+  }
 }

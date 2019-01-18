@@ -27,6 +27,7 @@ export class SculptuurBeherenComponent implements OnInit {
   canClosePopupAddNewCollection = true;
   txtEditCollectionName = '';
   txtEditCollectionDescription = '';
+  editPhotosetId = '';
 
   private _subscription: Subscription;
 
@@ -130,6 +131,7 @@ export class SculptuurBeherenComponent implements OnInit {
 
     this.txtEditCollectionName = title;
     this.txtEditCollectionDescription = description;
+    this.editPhotosetId = photoSetId;
   }
 
   showPopupDeleteCollection(photoSetId: string) {
@@ -153,7 +155,7 @@ export class SculptuurBeherenComponent implements OnInit {
     if (proceed) {
       console.log('proceed editing');
       document.getElementById('closePopupAddNewCollection').style.display = 'none';
-      this.editPhotoSet(this.txtEditCollectionName, this.txtEditCollectionDescription);
+      this.flickrService.editPhotoSet(this.editPhotosetId, this.txtEditCollectionName, this.txtEditCollectionDescription);
     }
   }
 
