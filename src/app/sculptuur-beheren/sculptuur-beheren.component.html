@@ -13,6 +13,32 @@
     </p>
 
     <div id="popupAddNewCollectionOverlay" (click)="closePopupAddNewCollection()"></div>
+    <div id="popupEditPhotoset">
+      <h1>WIJZIG EEN COLLECTIE</h1>
+      <form>
+        <dl>
+          <dt>*Naam:</dt>
+          <dd>
+            <input type="text" id="newCollectionName" placeholder="Naam" [(ngModel)]="txtnewCollectionName"
+                   [ngModelOptions]="{standalone: true}"/>
+            <span id="NameVerplicht">Naam is verplicht</span>
+          </dd>
+          <dt>Omschrijving:</dt>
+          <dd><input type="text" id="newCollectionDescription" placeholder="Omschrijving"
+                     [(ngModel)]="txtnewCollectionDescription" [ngModelOptions]="{standalone: true}"/></dd>
+          <dt>Fotos:</dt>
+          <dd>
+            <input id="selectPhotosToUpload" type="file" name="file" (change)="addPhotosToUpload($event.target.files)"
+                   multiple>
+            <span id="PhotosVerplicht">Voeg ten minste één foto toe.</span>
+          </dd>
+          <dt></dt>
+          <dd><input id="btnAddNewCollection" type="submit" (click)="addNewSculptuur($event)" value="VOEG TOE"/></dd>
+        </dl>
+      </form>
+      <img id="closePopupAddNewCollection" (click)="closePopupAddNewCollection()"
+           src="../../assets/images/AdminPanel/icon_grid_1x_delete_gray.png"/>
+    </div>
     <div id="popupAddNewCollection">
       <h1>VOEG EEN NIEUWE COLLECTIE TOE</h1>
       <form>
@@ -46,7 +72,7 @@
       <li class="image hvr-sweep-to-right" *ngFor="let photoset of sculptuurPhotosets">
         <p>
           <img class="editPhotosetIcon" src="../../assets/images/AdminPanel/icon_grid_1x_edit.png" (click)="showPopupEditCollection(photoset.id)"/>
-          <img class="deletePhotosetIcon" src="../../assets/images/AdminPanel/icon_grid_1x_trash_can_grey.png" (click)="showPopupEditCollection(photoset.id)"/>
+          <img class="deletePhotosetIcon" src="../../assets/images/AdminPanel/icon_grid_1x_trash_can_grey.png" (click)="showPopupDeleteCollection(photoset.id)"/>
         </p>
         <div class="photoSetDetails">
           <img class="primaryPhotoFromPhotoSet" [src]="photoset.photos[0].src" width="110px" height="95px"
