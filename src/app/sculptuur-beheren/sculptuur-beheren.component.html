@@ -24,8 +24,10 @@
             <span id="editNameVerplicht">Naam is verplicht</span>
           </dd>
           <dt>Omschrijving:</dt>
-          <dd><input type="text" id="editCollectionDescription" placeholder="Omschrijving"
-                     [(ngModel)]="txtEditCollectionDescription" [ngModelOptions]="{standalone: true}"/></dd>
+          <!--<dd><input type="text" id="editCollectionDescription" placeholder="Omschrijving"-->
+                     <!--[(ngModel)]="txtEditCollectionDescription" [ngModelOptions]="{standalone: true}"/></dd>-->
+          <dd id="ddWithTextArea"><textarea [rows]="6" [cols]="50"id="editCollectionDescription" placeholder="Omschrijving"
+                     [(ngModel)]="txtEditCollectionDescription" [ngModelOptions]="{standalone: true}"></textarea></dd>
           <dt></dt>
           <dd><input id="btnEditCollection" type="submit" (click)="editCollection($event)" value="Wijzig"/></dd>
         </dl>

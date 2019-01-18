@@ -18,7 +18,7 @@
 }
 
 #popupEditPhotoset dl {
-  width: 60%;
+  width: 70%;
   margin: auto;
 }
 
@@ -50,9 +50,23 @@
   border: 2px solid #ccc;
   -webkit-border-radius: 5px;
   border-radius: 5px;
+  width: 250px;
 }
 
-#popupEditPhotoset dl dd input[type=text]:focus {
+#popupEditPhotoset dl dd#ddWithTextArea {
+  height: 105px;
+}
+
+#popupEditPhotoset dl dd textarea {
+  padding: 5px;
+  border: 2px solid #ccc;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  width: 450px;
+  resize: none;
+}
+
+#popupEditPhotoset dl dd input[type=text]:focus, #popupEditPhotoset dl dd textarea:focus {
   border-color: #333;
 }
 
@@ -66,6 +80,11 @@
   cursor: pointer;
   -webkit-border-radius: 5px;
   border-radius: 5px;
+}
+
+#popupEditPhotoset dl dd input[type=submit]:hover {
+   background: #8C8C8C;
+  cursor: pointer;
 }
 
 #popupEditPhotoset dl dd input[type=submit]:active {

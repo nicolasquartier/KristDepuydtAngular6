@@ -264,6 +264,11 @@
   border-radius: 5px;
 }
 
+#popupAddNewCollection dl dd input[type=submit]:hover {
+  background: #8C8C8C;
+  cursor: pointer;
+}
+
 #popupAddNewCollection dl dd input[type=submit]:active {
   background: #686868;
 }
