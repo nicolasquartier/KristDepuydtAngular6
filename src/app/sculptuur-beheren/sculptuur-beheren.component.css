@@ -274,7 +274,7 @@
   margin-left:10px;
 }
 
-#closePopupAddNewCollection{
+#closePopupAddNewCollection, #closePopupEditCollection{
   position: absolute;
   top: 0px;
   right: 0px;
