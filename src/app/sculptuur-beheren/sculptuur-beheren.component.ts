@@ -135,6 +135,10 @@ export class SculptuurBeherenComponent implements OnInit {
 
   }
 
+  editCollection($event) {
+    console.log('you\'ll be editing a new sculptuur');
+  }
+
   showPopupAddNewCollection() {
     const addNewCollectionOverlay = document.getElementById('popupAddNewCollectionOverlay');
     const popupAddNewCollection = document.getElementById('popupAddNewCollection');
@@ -156,7 +160,6 @@ export class SculptuurBeherenComponent implements OnInit {
   }
 
   addNewSculptuur($event) {
-    console.log('you\'ll be adding a new sculptuur');
     const photosVerplicht = document.getElementById('PhotosVerplicht');
     const nameVerplicht = document.getElementById('NameVerplicht');
     nameVerplicht.setAttribute('style', 'display: none');

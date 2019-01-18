@@ -26,14 +26,8 @@
           <dt>Omschrijving:</dt>
           <dd><input type="text" id="newCollectionDescription" placeholder="Omschrijving"
                      [(ngModel)]="txtnewCollectionDescription" [ngModelOptions]="{standalone: true}"/></dd>
-          <dt>Fotos:</dt>
-          <dd>
-            <input id="selectPhotosToUpload" type="file" name="file" (change)="addPhotosToUpload($event.target.files)"
-                   multiple>
-            <span id="PhotosVerplicht">Voeg ten minste één foto toe.</span>
-          </dd>
           <dt></dt>
-          <dd><input id="btnAddNewCollection" type="submit" (click)="addNewSculptuur($event)" value="VOEG TOE"/></dd>
+          <dd><input id="btnEditCollection" type="submit" (click)="editCollection($event)" value="Wijzig"/></dd>
         </dl>
       </form>
       <img id="closePopupAddNewCollection" (click)="closePopupAddNewCollection()"
