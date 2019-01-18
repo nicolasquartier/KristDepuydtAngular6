@@ -1,0 +1,79 @@
+#popupEditPhotoset {
+  z-index: 11;
+  position: fixed;
+  background-color: white;
+  color: black;
+  margin: auto;
+  width: 60%;
+  padding: 20px;
+  display: none;
+}
+
+#popupEditPhotoset h1 {
+  font-family: 'simplifica', 'calibri', 'Arial', serif;
+  font-weight: bold;
+  color: #848484;
+  position: relative;
+  left: 50px;
+}
+
+#popupEditPhotoset dl {
+  width: 60%;
+  margin: auto;
+}
+
+#popupEditPhotoset dl dt {
+  float: left;
+  clear: left;
+  text-align: right;
+  width: 150px;
+  height: 35px;
+  line-height: 35px;
+  font-weight: bold;
+  color: #848484;
+
+}
+
+#popupEditPhotoset dl dd {
+  float: left;
+  height: 35px;
+  line-height: 35px;
+  margin-left: 10px;
+}
+
+#popupEditPhotoset dl dd input[type=file] {
+  width: 190px;
+}
+
+#popupEditPhotoset dl dd input[type=text] {
+  padding: 5px;
+  border: 2px solid #ccc;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+#popupEditPhotoset dl dd input[type=text]:focus {
+  border-color: #333;
+}
+
+#popupEditPhotoset dl dd input[type=submit] {
+  font-family: 'simplifica', 'calibri', 'Arial', serif;
+  font-weight: bold;
+  letter-spacing: 2px;
+  padding: 5px 15px;
+  background: #ccc;
+  border: 0 none;
+  cursor: pointer;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+#popupEditPhotoset dl dd input[type=submit]:active {
+  background: #686868;
+}
+
+#popupEditPhotoset dl dd span {
+  display: none;
+  color: #a40200;
+  margin-left:10px;
+}

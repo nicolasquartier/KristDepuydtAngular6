@@ -16,7 +16,7 @@ interface PhotoSet {
 @Component({
   selector: 'app-sculptuur-beheren',
   templateUrl: './sculptuur-beheren.component.html',
-  styleUrls: ['./sculptuur-beheren.component.css']
+  styleUrls: ['./sculptuur-beheren.component.css', './popupEditPhotoset.css']
 })
 export class SculptuurBeherenComponent implements OnInit {
   photos: Array<IAlbum> = [];
@@ -120,7 +120,16 @@ export class SculptuurBeherenComponent implements OnInit {
   }
 
   showPopupEditCollection(photoSetId: string) {
-    console.log('photoset clicked ', photoSetId);
+    console.log('edit photoset ', photoSetId);
+    const addNewCollectionOverlay = document.getElementById('popupAddNewCollectionOverlay');
+    addNewCollectionOverlay.setAttribute('style', 'display: inline');
+    const popupEditCollection = document.getElementById('popupEditPhotoset');
+    popupEditCollection.setAttribute('style', 'display: inline');
+
+  }
+
+  showPopupDeleteCollection(photoSetId: string) {
+    console.log('delete photoset ', photoSetId);
     const addNewCollectionOverlay = document.getElementById('popupAddNewCollectionOverlay');
     addNewCollectionOverlay.setAttribute('style', 'display: inline');
 
