@@ -152,8 +152,10 @@ export class SculptuurBeherenComponent implements OnInit {
     if (this.canClosePopupAddNewCollection) {
       const addNewCollectionOverlay = document.getElementById('popupAddNewCollectionOverlay');
       const popupAddNewCollection = document.getElementById('popupAddNewCollection');
+      const editCollectionOverlay = document.getElementById('popupEditPhotoset');
       addNewCollectionOverlay.setAttribute('style', 'display: none');
       popupAddNewCollection.setAttribute('style', 'display: none');
+      editCollectionOverlay.setAttribute('style', 'display: none');
       this.photosToUpload = [];
       (<HTMLInputElement>document.getElementById('selectPhotosToUpload')).value = '';
     }
