@@ -25,6 +25,8 @@ export class SculptuurBeherenComponent implements OnInit {
   txtnewCollectionName = '';
   txtnewCollectionDescription = '';
   canClosePopupAddNewCollection = true;
+  txtEditCollectionName = '';
+  txtEditCollectionDescription = '';
 
   private _subscription: Subscription;
 
@@ -119,13 +121,15 @@ export class SculptuurBeherenComponent implements OnInit {
     }
   }
 
-  showPopupEditCollection(photoSetId: string) {
+  showPopupEditCollection(photoSetId: string, title: string, description: string) {
     console.log('edit photoset ', photoSetId);
     const addNewCollectionOverlay = document.getElementById('popupAddNewCollectionOverlay');
     addNewCollectionOverlay.setAttribute('style', 'display: inline');
     const popupEditCollection = document.getElementById('popupEditPhotoset');
     popupEditCollection.setAttribute('style', 'display: inline');
 
+    this.txtEditCollectionName = title;
+    this.txtEditCollectionDescription = description;
   }
 
   showPopupDeleteCollection(photoSetId: string) {

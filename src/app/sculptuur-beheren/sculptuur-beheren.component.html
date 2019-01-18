@@ -19,18 +19,18 @@
         <dl>
           <dt>*Naam:</dt>
           <dd>
-            <input type="text" id="newCollectionName" placeholder="Naam" [(ngModel)]="txtnewCollectionName"
+            <input type="text" id="editCollectionName" placeholder="Naam" [(ngModel)]="txtEditCollectionName"
                    [ngModelOptions]="{standalone: true}"/>
-            <span id="NameVerplicht">Naam is verplicht</span>
+            <span id="editNameVerplicht">Naam is verplicht</span>
           </dd>
           <dt>Omschrijving:</dt>
-          <dd><input type="text" id="newCollectionDescription" placeholder="Omschrijving"
-                     [(ngModel)]="txtnewCollectionDescription" [ngModelOptions]="{standalone: true}"/></dd>
+          <dd><input type="text" id="editCollectionDescription" placeholder="Omschrijving"
+                     [(ngModel)]="txtEditCollectionDescription" [ngModelOptions]="{standalone: true}"/></dd>
           <dt></dt>
           <dd><input id="btnEditCollection" type="submit" (click)="editCollection($event)" value="Wijzig"/></dd>
         </dl>
       </form>
-      <img id="closePopupAddNewCollection" (click)="closePopupAddNewCollection()"
+      <img id="closePopupEditCollection" (click)="closePopupAddNewCollection()"
            src="../../assets/images/AdminPanel/icon_grid_1x_delete_gray.png"/>
     </div>
     <div id="popupAddNewCollection">
@@ -65,7 +65,7 @@
     <ul>
       <li class="image hvr-sweep-to-right" *ngFor="let photoset of sculptuurPhotosets">
         <p>
-          <img class="editPhotosetIcon" src="../../assets/images/AdminPanel/icon_grid_1x_edit.png" (click)="showPopupEditCollection(photoset.id)"/>
+          <img class="editPhotosetIcon" src="../../assets/images/AdminPanel/icon_grid_1x_edit.png" (click)="showPopupEditCollection(photoset.id, photoset.title, photoset.description)"/>
           <img class="deletePhotosetIcon" src="../../assets/images/AdminPanel/icon_grid_1x_trash_can_grey.png" (click)="showPopupDeleteCollection(photoset.id)"/>
         </p>
         <div class="photoSetDetails">
