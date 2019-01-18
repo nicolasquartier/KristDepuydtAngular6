@@ -149,6 +149,12 @@ export class SculptuurBeherenComponent implements OnInit {
       proceed = false;
       editNameVerplicht.setAttribute('style', 'display: inline');
     }
+
+    if (proceed) {
+      console.log('proceed editing');
+      document.getElementById('closePopupAddNewCollection').style.display = 'none';
+      this.editPhotoSet(this.txtEditCollectionName, this.txtEditCollectionDescription);
+    }
   }
 
   showPopupAddNewCollection() {
