@@ -74,7 +74,7 @@ interface ProxyObjectResult {
   result: string;
 }
 
-interface CreatePhotoSetResponse {
+interface PhotoSetResponse {
   photoset: PhotoSet;
 }
 
@@ -180,8 +180,8 @@ export class FlickrServiceService {
     return this.http.post<ProxyResult>('/api/proxy_result.php', {url}, options);
   }
 
-  createPhotoSetViaProxy(url: string, options: { headers?: HttpHeaders }) {
-    return this.http.post<CreatePhotoSetResponse>('/api/proxy_result.php', {url}, options);
+  executePOSTPhotoSetUrlViaProxy(url: string, options: { headers?: HttpHeaders }) {
+    return this.http.post<PhotoSetResponse>('/api/proxy_result.php', {url}, options);
   }
 
   getOAuthRequestToken() {
@@ -477,7 +477,7 @@ export class FlickrServiceService {
               })
             };
 
-            this.createPhotoSetViaProxy(url, options)
+            this.executePOSTPhotoSetUrlViaProxy(url, options)
               .subscribe(resultCreatePhotoSet => {
                 console.log('result create photoset');
                 console.log(resultCreatePhotoSet);
@@ -716,7 +716,7 @@ export class FlickrServiceService {
               '&oauth_version=1.0' +
               '&oauth_signature=' + this.hmacSignResponse;
 
-            console.log('request edit photoset encodedUrl');
+            console.log('request edit photoset url');
             console.log(url);
 
             const options = {
@@ -725,7 +725,7 @@ export class FlickrServiceService {
               })
             };
 
-            this.getObjectResultViaProxy(url, options)
+            this.executePOSTPhotoSetUrlViaProxy(url, options)
               .subscribe(resultCreatePhotoSet => {
                 console.log('result edit photoset');
                 console.log(resultCreatePhotoSet);
@@ -733,7 +733,7 @@ export class FlickrServiceService {
                 console.log('error edit photoset');
                 console.log(errorTestLogin);
                 // retry
-                this.editPhotoSet(photosetId, title, description);
+                // this.editPhotoSet(photosetId, title, description);
               });
 
           });
