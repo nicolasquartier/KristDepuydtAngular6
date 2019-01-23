@@ -4,10 +4,13 @@ import {Injectable} from '@angular/core';
   providedIn: 'root'
 })
 export class GlobalsService {
-  apiKey = '78cfdf349b9016acd631feba7e66a701';//nicolasquartier@msn.com
-  userId = '153009594%40N02';
-  // apiKey = '6337acd481870286e3d1087590ae665f';//rudiquartier@live.be@
-  // userId = '153009594%40N02';
+  userId = '153009594@N02';
+  // nicolasquartier@msn.com
+  apiKey = '78cfdf349b9016acd631feba7e66a701';
+
+  // rudiquartier@live.be
+  // apiKey = '6337acd481870286e3d1087590ae665f';
+
   pages = ['sculptuur', 'keramiek', 'projecten', 'over', 'exposities', 'contact'];
   activePage = '';
   requestTokenBaseUrl = 'https%3A%2F%2Fwww.flickr.com%2Fservices%2Foauth%2Frequest_token';
