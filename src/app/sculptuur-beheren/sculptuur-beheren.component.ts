@@ -48,7 +48,6 @@ export class SculptuurBeherenComponent implements OnInit {
 
   ngOnInit() {
     this.globals.activePage = 'sculptuur';
-
     this.flickrService.getPhotoSets()
       .subscribe(response => {
         const globalPhotosets = response.photosets.photoset;
@@ -154,8 +153,9 @@ export class SculptuurBeherenComponent implements OnInit {
 
     if (proceed) {
       console.log('proceed editing');
-      document.getElementById('closePopupAddNewCollection').style.display = 'none';
-      this.flickrService.editPhotoSet(this.editPhotosetId, this.txtEditCollectionName, this.txtEditCollectionDescription);
+      document.getElementById('closePopupEditCollection').style.display = 'none';
+      this.editPhotoSet();
+      this.closePopupCreateOrEditPhotoset();
     }
   }
 
@@ -168,7 +168,7 @@ export class SculptuurBeherenComponent implements OnInit {
     (<HTMLInputElement>document.getElementById('selectPhotosToUpload')).value = '';
   }
 
-  closePopupAddNewCollection() {
+  closePopupCreateOrEditPhotoset() {
     if (this.canClosePopupAddNewCollection) {
       const addNewCollectionOverlay = document.getElementById('popupAddNewCollectionOverlay');
       const popupAddNewCollection = document.getElementById('popupAddNewCollection');
@@ -254,6 +254,15 @@ export class SculptuurBeherenComponent implements OnInit {
       await this.sleep(100);
     }
     this.flickrService.addPhotosToPhotoSet();
+    this.flickrService.photoSetCreated = false;
+  }
+
+  async editPhotoSet() {
+    this.flickrService.editPhotoSet(this.editPhotosetId, this.txtEditCollectionName, this.txtEditCollectionDescription);
+    while (!this.flickrService.photoSetEdited) {
+      await this.sleep(100);
+    }
+    this.flickrService.photoSetEdited = false;
   }
 
   sleep(ms) {

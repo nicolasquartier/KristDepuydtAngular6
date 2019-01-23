@@ -99,6 +99,7 @@ export class FlickrServiceService {
   uploadedPhotoIds = [];
   photoSetId = '';
   photoSetCreated = false;
+  photoSetEdited = false;
 
   getNonceObservable = Rx.Observable.create((observer) => {
     this.mynewnonce = Math.random();
@@ -735,6 +736,7 @@ export class FlickrServiceService {
               .subscribe(resultCreatePhotoSet => {
                 console.log('result edit photoset');
                 console.log(resultCreatePhotoSet);
+                this.photoSetEdited = true;
               }, errorTestLogin => {
                 console.log('error edit photoset');
                 console.log(errorTestLogin);
