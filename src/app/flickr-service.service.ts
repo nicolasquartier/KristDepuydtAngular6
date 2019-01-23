@@ -693,6 +693,12 @@ export class FlickrServiceService {
 
     this.getEncodedUrl(baseUrl)
       .subscribe(tmpEncodedUrl => {
+
+        //to get our encoded url hmacsigned, we need to do first:
+        // 1. replace all + by %20
+        // 2. replace all %20 (encoded '+' )by %2520
+        // 3. replace all %28 (encoded '(' ) by %2528
+        // 4. replace all %29 (encoded ')' ) by %2529
         this.encodedUrl = 'GET&' + this.globals.basicRestRequestUrl + '&' + tmpEncodedUrl.encodedUrl.replace(/\+/g, '%20').replace(/%20/g, '%2520').replace(/%28/g, '%2528').replace(/%2F/g, '%252F').replace(/%29/g, '%2529');
 
         console.log('request edit photoset encodedUrl');
