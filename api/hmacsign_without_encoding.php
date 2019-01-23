@@ -6,7 +6,7 @@ $tokenSecret = isset($_POST['secret']) ? $_POST['secret'] : '';
 
 $result = hash_hmac("sha1",
   $_POST['encodedRequestTokenUrl'],
-  '1ee7d48c0615e6d0&' . $tokenSecret, true);
+  'b3fe6448f1c5f37b&' . $tokenSecret, true);
 echo('{
   "result": "' . $result . '"
 }');
