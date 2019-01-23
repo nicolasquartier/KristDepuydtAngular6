@@ -693,7 +693,7 @@ export class FlickrServiceService {
 
     this.getEncodedUrl(baseUrl)
       .subscribe(tmpEncodedUrl => {
-        this.encodedUrl = 'GET&' + this.globals.basicRestRequestUrl + '&' + tmpEncodedUrl.encodedUrl;
+        this.encodedUrl = 'GET&' + this.globals.basicRestRequestUrl + '&' + tmpEncodedUrl.encodedUrl.replace(/\+/g, '%20').replace(/%20/g, '%2520').replace(/%28/g, '%2528').replace(/%2F/g, '%252F').replace(/%29/g, '%2529');
 
         console.log('request edit photoset encodedUrl');
         console.log(this.encodedUrl);
