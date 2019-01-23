@@ -703,8 +703,8 @@ export class FlickrServiceService {
             this.hmacSignResponse = hmacSignResponse.result;
             const url = 'https://api.flickr.com/services/rest' +
               '?method=' + this.globals.EDIT_PHOTOSET_METHOD +
-              '&title=' + title +
-              '&description=' + description +
+              '&title=' + title.replace(/ /g, '+') +
+              '&description=' + description.replace(/ /g, '+') +
               '&photoset_id=' + photosetId +
               '&format=json' +
               '&nojsoncallback=1' +
