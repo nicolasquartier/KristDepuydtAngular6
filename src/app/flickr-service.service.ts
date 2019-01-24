@@ -741,7 +741,7 @@ export class FlickrServiceService {
                 console.log('error edit photoset');
                 console.log(errorTestLogin);
                 // retry
-                // this.editPhotoSet(photosetId, title, description);
+                this.editPhotoSet(photosetId, title, description);
               });
 
           });
