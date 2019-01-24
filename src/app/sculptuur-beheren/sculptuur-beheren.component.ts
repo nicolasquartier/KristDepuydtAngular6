@@ -3,6 +3,7 @@ import {IAlbum, IEvent, Lightbox, LIGHTBOX_EVENT, LightboxConfig, LightboxEvent}
 import {Subscription} from 'rxjs';
 import {FlickrServiceService} from '../flickr-service.service';
 import {GlobalsService} from '../globals.service';
+import {Router} from '@angular/router';
 
 declare function ldBar(param1: string): void;
 
@@ -35,7 +36,8 @@ export class SculptuurBeherenComponent implements OnInit {
               private globals: GlobalsService,
               private _lightbox: Lightbox,
               private _lightboxEvent: LightboxEvent,
-              private _lighboxConfig: LightboxConfig) {
+              private _lighboxConfig: LightboxConfig,
+              private router: Router) {
   }
 
   async delay(ms: number) {
@@ -47,6 +49,7 @@ export class SculptuurBeherenComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.sculptuurPhotosets = [];
     this.globals.activePage = 'sculptuur';
     this.flickrService.getPhotoSets()
       .subscribe(response => {
@@ -141,6 +144,7 @@ export class SculptuurBeherenComponent implements OnInit {
   }
 
   editCollection($event) {
+    event.preventDefault();
     console.log('you\'ll be editing a new sculptuur');
     const editNameVerplicht = document.getElementById('editNameVerplicht');
     editNameVerplicht.setAttribute('style', 'display: none');
@@ -155,7 +159,6 @@ export class SculptuurBeherenComponent implements OnInit {
       console.log('proceed editing');
       document.getElementById('closePopupEditCollection').style.display = 'none';
       this.editPhotoSet();
-      this.closePopupCreateOrEditPhotoset();
     }
   }
 
@@ -263,6 +266,8 @@ export class SculptuurBeherenComponent implements OnInit {
       await this.sleep(100);
     }
     this.flickrService.photoSetEdited = false;
+    this.closePopupCreateOrEditPhotoset();
+    this.ngOnInit();
   }
 
   sleep(ms) {
